@@ -1,0 +1,189 @@
+---
+import { getCollection } from 'astro:content';
+import Logotipo from './Logotipo.astro';
+import Icono from './Icono.astro';
+import MenuMovil from './MenuMovil.astro';
+import { empresa, telHref, waHref } from '../data/empresa';
+
+const servicios = (await getCollection('servicios')).sort(
+  (a, b) => a.data.orden - b.data.orden
+);
+
+const ruta = Astro.url.pathname;
+const activo = (href: string) =>
+  href === '/' ? ruta === '/' : ruta.startsWith(href);
+
+const enlaces = [
+  { href: '/servicios/', texto: 'Servicios' },
+  { href: '/nosotros/', texto: 'Nosotros' },
+  { href: '/contacto/', texto: 'Contacto' },
+];
+---
+
+<span data-centinela aria-hidden="true"></span>
+
+<header class="cabecera" data-cabecera>
+  <div class="container cabecera__fila">
+    <a href="/" class="cabecera__inicio" aria-label={`${empresa.nombre}, ir al inicio`}>
+      <Logotipo />
+    </a>
+
+    <nav class="cabecera__nav" aria-label="Navegación principal">
+      {
+        enlaces.map((e) => (
+          <a href={e.href} aria-current={activo(e.href) ? 'page' : undefined}>
+            {e.texto}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="cabecera__acciones">
+      <a class="cabecera__tel" href={telHref()}>
+        <Icono nombre="telefono" tamano={17} />
+        <span class="mono">{empresa.telefono.display}</span>
+      </a>
+
+      <a class="btn btn--primary cabecera__wa" href={waHref()} rel="noopener noreferrer">
+        <Icono nombre="whatsapp" tamano={17} />
+        WhatsApp
+      </a>
+
+      <a class="cabecera__llamar" href={telHref()} aria-label={`Llamar al ${empresa.telefono.display}`}>
+        <Icono nombre="telefono" tamano={20} />
+      </a>
+
+      <button type="button" class="cabecera__menu" data-abrir-menu aria-label="Abrir el menú">
+        <Icono nombre="menu" tamano={22} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<MenuMovil servicios={servicios.map((s) => ({ id: s.id, corto: s.data.corto }))} />
+
+<script>
+  // Compacta la cabecera cuando el centinela sale de vista.
+  const centinela = document.querySelector('[data-centinela]');
+  const cabecera = document.querySelector('[data-cabecera]');
+
+  if (centinela && cabecera) {
+    new IntersectionObserver(
+      ([entrada]) => cabecera.classList.toggle('is-fija', !entrada.isIntersecting)
+    ).observe(centinela);
+  }
+</script>
+
+<style>
+  .cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--paper);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  }
+
+  .cabecera.is-fija {
+    border-bottom-color: var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .cabecera__fila {
+    display: flex;
+    align-items: center;
+    gap: var(--s-5);
+    min-height: var(--header-h);
+  }
+
+  .cabecera__inicio {
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  .cabecera__nav {
+    display: flex;
+    gap: var(--s-5);
+  }
+
+  .cabecera__nav a {
+    position: relative;
+    padding-block: 0.25rem;
+    font-size: var(--fs-small);
+    font-weight: 550;
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: color var(--t-fast);
+  }
+
+  .cabecera__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transition: right var(--t-fast);
+  }
+
+  .cabecera__nav a:hover,
+  .cabecera__nav a[aria-current='page'] {
+    color: var(--ink);
+  }
+
+  .cabecera__nav a:hover::after,
+  .cabecera__nav a[aria-current='page']::after {
+    right: 0;
+  }
+
+  .cabecera__acciones {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .cabecera__tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.25rem;
+    font-size: var(--fs-small);
+    text-decoration: none;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .cabecera__tel:hover {
+    text-decoration: underline;
+  }
+
+  /* Solo en movil: llamar e ir al menu */
+  .cabecera__llamar,
+  .cabecera__menu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--control);
+    border-radius: var(--r-sm);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  @media (max-width: 61.99rem) {
+    .cabecera__nav,
+    .cabecera__tel,
+    .cabecera__wa {
+      display: none;
+    }
+
+    .cabecera__llamar,
+    .cabecera__menu {
+      display: inline-flex;
+    }
+  }
+</style>

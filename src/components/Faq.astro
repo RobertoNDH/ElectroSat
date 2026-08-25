@@ -1,0 +1,88 @@
+---
+/**
+ * Acordeon con <details>. Cero JavaScript: el navegador ya sabe abrir y cerrar,
+ * anunciarlo a un lector de pantalla y responder al teclado.
+ */
+interface Props {
+  items: readonly { p: string; r: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((item) => (
+      <details class="faq__item" name="faq">
+        <summary class="faq__pregunta">
+          <span>{item.p}</span>
+          <span class="faq__signo" aria-hidden="true" />
+        </summary>
+        <p class="faq__respuesta">{item.r}</p>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    border-top: var(--hairline);
+  }
+
+  .faq__item {
+    border-bottom: var(--hairline);
+  }
+
+  .faq__pregunta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-block: 1.375rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    font-stretch: 102%;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__pregunta::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__pregunta:hover {
+    color: var(--ink-2);
+  }
+
+  .faq__signo {
+    position: relative;
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .faq__signo::before,
+  .faq__signo::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform var(--t-fast);
+  }
+
+  .faq__signo::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__item[open] .faq__signo::after {
+    transform: rotate(0deg);
+  }
+
+  .faq__respuesta {
+    max-width: 62ch;
+    padding-bottom: 1.5rem;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+</style>

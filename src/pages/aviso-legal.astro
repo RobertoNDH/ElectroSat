@@ -1,0 +1,117 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { empresa, direccionUnaLinea } from '../data/empresa';
+
+const sitio = Astro.site!;
+---
+
+<Legal
+  titulo="Aviso legal"
+  tituloSeo="Aviso legal | ElectroSat TV"
+  descripcion="Datos identificativos del titular de este sitio web y condiciones de uso, conforme a la Ley 34/2002 de servicios de la sociedad de la información."
+  actualizado="25 de agosto de 2026"
+>
+  <p class="aviso">
+    <strong>Pendiente de revisión.</strong> Este texto recoge lo que exige la Ley 34/2002
+    (LSSI-CE) y toma los datos de la ficha de empresa del proyecto. Antes de publicar, el
+    titular debe completar el CIF, el domicilio y los datos registrales reales, y hacerlo
+    revisar por un asesor. No es asesoramiento jurídico.
+  </p>
+
+  <h2>1. Titular del sitio web</h2>
+  <p>
+    En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la
+    sociedad de la información y de comercio electrónico, se facilitan los siguientes
+    datos identificativos:
+  </p>
+  <dl>
+    <div>
+      <dt>Denominación social</dt>
+      <dd>{empresa.razonSocial}</dd>
+    </div>
+    <div>
+      <dt>CIF</dt>
+      <dd>{empresa.cif}</dd>
+    </div>
+    <div>
+      <dt>Domicilio</dt>
+      <dd>{direccionUnaLinea}</dd>
+    </div>
+    <div>
+      <dt>Correo electrónico</dt>
+      <dd>{empresa.email}</dd>
+    </div>
+    <div>
+      <dt>Teléfono</dt>
+      <dd>{empresa.telefono.display}</dd>
+    </div>
+    <div>
+      <dt>Actividad</dt>
+      <dd>Instalación y mantenimiento de infraestructuras de telecomunicación</dd>
+    </div>
+    <div>
+      <dt>Registro de instalador</dt>
+      <dd>Nº {empresa.registroInstalador}</dd>
+    </div>
+    <div>
+      <dt>Datos registrales</dt>
+      <dd>
+        Inscrita en el Registro Mercantil de Santa Cruz de Tenerife. TODO CLIENTE: tomo,
+        folio y hoja.
+      </dd>
+    </div>
+    <div>
+      <dt>Sitio web</dt>
+      <dd>{sitio.href}</dd>
+    </div>
+  </dl>
+
+  <h2>2. Objeto</h2>
+  <p>
+    Este sitio web tiene una finalidad informativa: dar a conocer los servicios de
+    {empresa.razonSocial} y facilitar el contacto con la empresa. No se comercializan
+    productos ni servicios a través de la web, no existe proceso de contratación en línea
+    ni área de usuario registrado.
+  </p>
+
+  <h2>3. Condiciones de uso</h2>
+  <p>
+    El acceso a este sitio es libre y gratuito, y supone la aceptación de este aviso
+    legal. El usuario se compromete a hacer un uso adecuado de los contenidos y a no
+    emplearlos para actividades ilícitas o lesivas para terceros.
+  </p>
+
+  <h2>4. Propiedad intelectual e industrial</h2>
+  <p>
+    Los textos, el diseño, el código y los elementos gráficos de este sitio son
+    titularidad de {empresa.razonSocial} o se utilizan con la autorización
+    correspondiente. Queda prohibida su reproducción o distribución sin consentimiento
+    expreso.
+  </p>
+  <p>
+    Las marcas de fabricantes citadas en este sitio pertenecen a sus respectivos
+    titulares. Se mencionan únicamente para identificar el material con el que trabaja la
+    empresa, sin que ello implique vinculación, patrocinio ni recomendación por parte de
+    dichos titulares.
+  </p>
+
+  <h2>5. Responsabilidad</h2>
+  <p>
+    {empresa.razonSocial} procura que la información publicada sea correcta y esté
+    actualizada, pero no garantiza la ausencia de errores. Los contenidos técnicos son
+    orientativos: cada instalación requiere una valoración concreta sobre el terreno, y
+    solo el presupuesto firmado tiene valor contractual.
+  </p>
+  <p>
+    Este sitio contiene enlaces a servicios de terceros, como WhatsApp o Google Maps.
+    {empresa.razonSocial} no controla dichos servicios ni responde de sus contenidos o de
+    sus políticas de privacidad.
+  </p>
+
+  <h2>6. Legislación aplicable</h2>
+  <p>
+    Este aviso legal se rige por la legislación española. Para cualquier controversia
+    serán competentes los juzgados y tribunales del domicilio del titular, salvo que la
+    normativa de consumo establezca otro fuero.
+  </p>
+</Legal>

@@ -1,0 +1,192 @@
+---
+import { getCollection } from 'astro:content';
+import Logotipo from './Logotipo.astro';
+import Icono from './Icono.astro';
+import {
+  empresa,
+  telHref,
+  waHref,
+  emailHref,
+  direccionUnaLinea,
+} from '../data/empresa';
+
+const servicios = (await getCollection('servicios')).sort(
+  (a, b) => a.data.orden - b.data.orden
+);
+
+const anio = new Date().getFullYear();
+
+const legales = [
+  { href: '/aviso-legal/', texto: 'Aviso legal' },
+  { href: '/politica-de-privacidad/', texto: 'Política de privacidad' },
+  { href: '/politica-de-cookies/', texto: 'Política de cookies' },
+];
+---
+
+<footer class="pie">
+  <div class="container pie__rejilla">
+    <div class="pie__marca">
+      <Logotipo />
+      <p class="small">{empresa.reclamo}</p>
+      <p class="pie__registro">
+        <span class="eyebrow">Empresa instaladora registrada</span>
+        <span class="mono">Nº {empresa.registroInstalador}</span>
+      </p>
+    </div>
+
+    <nav class="pie__col" aria-label="Servicios">
+      <h2 class="eyebrow">Servicios</h2>
+      <ul>
+        {
+          servicios.map((s) => (
+            <li>
+              <a href={`/servicios/${s.id}/`}>{s.data.corto}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="pie__col" aria-label="Empresa">
+      <h2 class="eyebrow">Empresa</h2>
+      <ul>
+        <li><a href="/nosotros/">Nosotros</a></li>
+        <li><a href="/contacto/">Contacto</a></li>
+        <li><a href="/#cobertura">Zona de cobertura</a></li>
+        <li><a href="/#marcas">Marcas</a></li>
+      </ul>
+    </nav>
+
+    <div class="pie__col pie__contacto">
+      <h2 class="eyebrow">Contacto</h2>
+      <ul>
+        <li><a class="mono pie__tel" href={telHref()}>{empresa.telefono.display}</a></li>
+        <li><a class="mono" href={telHref(empresa.movil)}>{empresa.movil.display}</a></li>
+        <li><a href={emailHref}>{empresa.email}</a></li>
+      </ul>
+      <p class="small">{direccionUnaLinea}</p>
+      <p class="small">{empresa.horarioTexto}</p>
+      <a class="btn btn--ghost" href={waHref()} rel="noopener noreferrer">
+        <Icono nombre="whatsapp" tamano={17} />
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="container pie__legal">
+    <p class="small">© {anio} {empresa.razonSocial}. CIF {empresa.cif}.</p>
+    <ul class="pie__legal-enlaces">
+      {legales.map((l) => <li><a class="small" href={l.href}>{l.texto}</a></li>)}
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--surface);
+    border-top: var(--hairline);
+    padding-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .pie__rejilla {
+    display: grid;
+    gap: var(--s-7) var(--s-6);
+    grid-template-columns: 1fr;
+    padding-bottom: var(--s-7);
+  }
+
+  @media (min-width: 40rem) {
+    .pie__rejilla {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .pie__rejilla {
+      grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+      gap: var(--s-6);
+    }
+  }
+
+  .pie__marca {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+
+  .pie__marca .small {
+    max-width: 24ch;
+  }
+
+  .pie__registro {
+    display: grid;
+    gap: 0.375rem;
+    margin-top: var(--s-2);
+    padding-top: var(--s-4);
+    border-top: var(--hairline);
+  }
+
+  .pie__registro .mono {
+    font-size: var(--fs-small);
+  }
+
+  .pie__col {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+  }
+
+  .pie__col ul {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .pie__col a {
+    font-size: var(--fs-small);
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+
+  .pie__col a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .pie__contacto {
+    gap: var(--s-3);
+  }
+
+  .pie__contacto .btn {
+    justify-self: start;
+    margin-top: var(--s-2);
+  }
+
+  .pie__tel {
+    font-size: 1.0625rem !important;
+    color: var(--ink) !important;
+  }
+
+  .pie__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-5);
+    padding-block: var(--s-4);
+    border-top: var(--hairline);
+  }
+
+  .pie__legal-enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+
+  .pie__legal-enlaces a {
+    text-decoration: none;
+  }
+
+  .pie__legal-enlaces a:hover {
+    text-decoration: underline;
+  }
+</style>

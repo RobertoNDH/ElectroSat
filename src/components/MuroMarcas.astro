@@ -1,0 +1,66 @@
+---
+/**
+ * Muro de marcas. Mientras no haya ficheros de logotipo autorizados por el
+ * cliente se muestran como texto: es honesto y evita publicar la marca de un
+ * tercero sin permiso. Cuando lleguen los SVG se sustituye el <span> por la
+ * imagen sin tocar nada mas.
+ */
+import { marcas } from '../data/marcas';
+---
+
+<ul class="marcas">
+  {
+    marcas.map((m) => (
+      <li class="marcas__item">
+        <span class="marcas__nombre">{m.nombre}</span>
+        <span class="marcas__para">{m.para}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .marcas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+    border-top: var(--hairline);
+    border-left: var(--hairline);
+  }
+
+  .marcas__item {
+    display: grid;
+    align-content: center;
+    gap: 0.375rem;
+    min-height: 6.5rem;
+    padding: var(--s-4);
+    border-right: var(--hairline);
+    border-bottom: var(--hairline);
+    transition: background var(--t-fast);
+  }
+
+  .marcas__item:hover {
+    background: var(--paper);
+  }
+
+  .marcas__nombre {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    font-stretch: 108%;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    transition: color var(--t-fast);
+  }
+
+  .marcas__item:hover .marcas__nombre {
+    color: var(--ink);
+  }
+
+  .marcas__para {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    color: var(--ink-3);
+  }
+</style>

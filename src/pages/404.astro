@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import { empresa, telHref } from '../data/empresa';
+
+const servicios = (await getCollection('servicios')).sort(
+  (a, b) => a.data.orden - b.data.orden
+);
+---
+
+<Base
+  titulo="Página no encontrada | ElectroSat TV"
+  descripcion="La página que buscas no existe o ha cambiado de dirección. Aquí tienes los servicios y el teléfono de ElectroSat TV."
+  noindex
+>
+  <section class="section perdido">
+    <div class="container perdido__caja">
+      <p class="eyebrow mono">Error 404</p>
+      <h1 class="display-l">Aquí no llega la señal</h1>
+      <p class="lede">
+        Esta página no existe o ha cambiado de dirección. Si buscabas algo concreto, lo
+        más rápido es llamarnos.
+      </p>
+
+      <div class="perdido__acciones">
+        <a class="btn btn--primary btn--lg" href={telHref()}>
+          <Icono nombre="telefono" tamano={18} />
+          Llamar al {empresa.telefono.display}
+        </a>
+        <a class="btn btn--ghost btn--lg" href="/">Volver al inicio</a>
+      </div>
+
+      <nav class="perdido__enlaces" aria-label="Servicios">
+        <p class="eyebrow">O ve directamente a un servicio</p>
+        <ul>
+          {
+            servicios.map((s) => (
+              <li>
+                <a href={`/servicios/${s.id}/`}>
+                  <Icono nombre={s.data.icono} tamano={20} />
+                  {s.data.corto}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .perdido {
+    display: grid;
+    place-items: center;
+    min-height: 60svh;
+  }
+
+  .perdido__caja {
+    display: grid;
+    gap: var(--s-4);
+    max-width: 46rem;
+  }
+
+  .perdido__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+
+  .perdido__enlaces {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-5);
+    padding-top: var(--s-5);
+    border-top: var(--hairline);
+  }
+
+  .perdido__enlaces ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  .perdido__enlaces a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6875rem 1rem;
+    border: 1px solid var(--control);
+    border-radius: var(--r-sm);
+    font-size: var(--fs-small);
+    font-weight: 550;
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: border-color var(--t-fast), color var(--t-fast);
+  }
+
+  .perdido__enlaces a:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BarraLlamada from '../components/BarraLlamada.astro';
+import { empresa, horarioSchema } from '../data/empresa';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Nodos extra de datos estructurados: Service, FAQPage, BreadcrumbList. */
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { titulo, descripcion, jsonLd = [], noindex = false } = Astro.props;
+
+const sitio = Astro.site!;
+const canonical = new URL(Astro.url.pathname, sitio).href;
+const ogImagen = new URL('/og-default.png', sitio).href;
+
+const negocio = {
+  '@type': 'LocalBusiness',
+  '@id': new URL('/#negocio', sitio).href,
+  name: empresa.razonSocial,
+  alternateName: empresa.nombre,
+  description: empresa.descripcion,
+  url: sitio.href,
+  telephone: empresa.telefono.e164,
+  email: empresa.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: empresa.direccion.calle,
+    postalCode: empresa.direccion.cp,
+    addressLocality: empresa.direccion.municipio,
+    addressRegion: empresa.direccion.provincia,
+    addressCountry: empresa.direccion.pais,
+  },
+  areaServed: empresa.cobertura.map((m) => ({ '@type': 'City', name: m })),
+  openingHoursSpecification: horarioSchema,
+};
+
+const grafo = {
+  '@context': 'https://schema.org',
+  '@graph': [negocio, ...jsonLd],
+};
+---
+
+<!doctype html>
+<html lang="es-ES">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={empresa.razonSocial} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImagen} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(grafo)} />
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <BarraLlamada />
+
+
+    <style is:global>
+      /* Hueco para la barra fija de llamada en movil. */
+      body {
+        padding-bottom: calc(var(--barra-h) + env(safe-area-inset-bottom));
+      }
+
+      @media (min-width: 62rem) {
+        body {
+          padding-bottom: 0;
+        }
+      }
+    </style>
+  </body>
+</html>

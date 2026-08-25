@@ -1,0 +1,75 @@
+---
+/**
+ * Logotipo tipografico monocromo.
+ *
+ * El logo original de ElectroSat es amarillo, azul y naranja, y en una paleta
+ * monocroma desentona. Esta version traduce su estructura: ELECTRO en peso
+ * fuerte, SAT en peso ligero y el arco de senal encima, como en el original.
+ *
+ * TODO CLIENTE: si se prefiere el logo real, sustituir el marcado de este
+ * componente por la imagen. Es el unico sitio que hay que tocar.
+ */
+import ArcoSenal from './ArcoSenal.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: clase } = Astro.props;
+---
+
+<span class:list={['logotipo', clase]}>
+  <ArcoSenal class="logotipo__arco" />
+  <span class="logotipo__nombre">
+    <span class="logotipo__electro">Electro</span><span class="logotipo__sat">Sat</span>
+  </span>
+  <span class="logotipo__tv mono">TV</span>
+</span>
+
+<style>
+  .logotipo {
+    display: inline-grid;
+    /* Sin esto, dentro de una rejilla ancha como la del pie la columna del
+       distintivo TV se estira y se separa del nombre. */
+    width: fit-content;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 0 0.5rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .logotipo__arco {
+    grid-column: 1;
+    justify-self: start;
+    margin-bottom: -0.125rem;
+  }
+
+  .logotipo__nombre {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 1.25rem;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .logotipo__electro {
+    font-weight: 750;
+  }
+
+  .logotipo__sat {
+    font-weight: 350;
+  }
+
+  .logotipo__tv {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    padding: 0.1875rem 0.3125rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+  }
+</style>

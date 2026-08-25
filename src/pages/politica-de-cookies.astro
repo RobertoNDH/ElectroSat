@@ -1,0 +1,64 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { empresa } from '../data/empresa';
+---
+
+<Legal
+  titulo="Política de cookies"
+  tituloSeo="Política de cookies | ElectroSat TV"
+  descripcion="Esta web no instala cookies ni utiliza herramientas de analítica o publicidad. Aquí se explica qué significa eso y qué ocurre con los enlaces externos."
+  actualizado="25 de agosto de 2026"
+>
+  <h2>1. Esta web no usa cookies</h2>
+  <p>
+    {empresa.razonSocial} no instala cookies en tu dispositivo al visitar este sitio. No
+    hay cookies propias ni de terceros, ni analítica, ni píxeles de seguimiento, ni
+    fuentes o scripts cargados desde servidores ajenos.
+  </p>
+  <p>
+    Por eso no verás un banner pidiéndote consentimiento: la normativa solo obliga a
+    solicitarlo cuando se instalan cookies que no son estrictamente necesarias, y aquí no
+    se instala ninguna.
+  </p>
+
+  <h2>2. Por qué está hecho así</h2>
+  <p>
+    Es una decisión deliberada de diseño. Las tipografías se sirven desde este mismo
+    dominio en lugar de desde un proveedor externo, el mapa es un enlace y no un marco
+    incrustado, y no se ha añadido ninguna herramienta de medición. El resultado es una
+    web más rápida, que no comparte tu dirección IP con terceros y que no necesita
+    interrumpirte con un aviso antes de dejarte leer.
+  </p>
+
+  <h2>3. Registros del servidor</h2>
+  <p>
+    Como cualquier sitio web, el servidor que aloja estas páginas puede registrar datos
+    técnicos de las peticiones (dirección IP, fecha, página solicitada, navegador) con la
+    única finalidad de mantener el servicio y su seguridad. Esos registros no se usan
+    para elaborar perfiles ni para publicidad.
+  </p>
+  <p>
+    TODO CLIENTE: confirmar el proveedor de alojamiento y su plazo de conservación de
+    registros para poder concretarlo aquí.
+  </p>
+
+  <h2>4. Enlaces a servicios externos</h2>
+  <p>
+    Este sitio incluye enlaces a servicios de terceros, en concreto a WhatsApp y a Google
+    Maps. Esos enlaces no se cargan dentro de la página: solo se activan si haces clic, y
+    en ese momento sales de esta web. A partir de ahí se aplican las condiciones y las
+    políticas de cookies de cada uno de esos servicios, que {empresa.razonSocial} no
+    controla.
+  </p>
+
+  <h2>5. Cambios en esta política</h2>
+  <p>
+    Si en el futuro se incorporase alguna herramienta que requiera cookies, se
+    actualizaría esta política y se implantaría el mecanismo de consentimiento previo que
+    exige la normativa antes de instalar nada. Mientras tanto, lo que hay escrito aquí es
+    exactamente lo que hace la web.
+  </p>
+  <p>
+    Para cualquier duda sobre esta política puedes escribir a {empresa.email}.
+  </p>
+</Legal>

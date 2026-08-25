@@ -1,0 +1,121 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { empresa, direccionUnaLinea } from '../data/empresa';
+---
+
+<Legal
+  titulo="Política de privacidad"
+  tituloSeo="Política de privacidad | ElectroSat TV"
+  descripcion="Cómo trata ElectroSat TV los datos personales de quienes contactan con la empresa, conforme al Reglamento General de Protección de Datos."
+  actualizado="25 de agosto de 2026"
+>
+  <p class="aviso">
+    <strong>Pendiente de revisión.</strong> Este texto describe con exactitud lo que hoy
+    hace la web, que es no recoger datos por sí misma. Antes de publicar hay que
+    confirmar el proveedor de alojamiento y el de correo, y hacerlo revisar por un
+    asesor. No es asesoramiento jurídico.
+  </p>
+
+  <h2>1. Qué hace y qué no hace esta web</h2>
+  <p>
+    Esta web <strong>no tiene formularios</strong>, no pide datos, no instala cookies, no
+    usa herramientas de analítica ni de publicidad, y no crea perfiles de quien la
+    visita. Es un sitio estático: se limita a mostrar información y a ofrecer enlaces
+    para llamar, escribir por WhatsApp o enviar un correo.
+  </p>
+  <p>
+    Por tanto, navegar por este sitio no supone ningún tratamiento de datos personales
+    por parte de {empresa.razonSocial}. El tratamiento empieza solo si decides ponerte en
+    contacto.
+  </p>
+
+  <h2>2. Responsable del tratamiento</h2>
+  <dl>
+    <div>
+      <dt>Responsable</dt>
+      <dd>{empresa.razonSocial}</dd>
+    </div>
+    <div>
+      <dt>CIF</dt>
+      <dd>{empresa.cif}</dd>
+    </div>
+    <div>
+      <dt>Domicilio</dt>
+      <dd>{direccionUnaLinea}</dd>
+    </div>
+    <div>
+      <dt>Contacto</dt>
+      <dd>{empresa.email}</dd>
+    </div>
+  </dl>
+
+  <h2>3. Qué datos se tratan y con qué finalidad</h2>
+  <p>
+    Si llamas, escribes por WhatsApp o envías un correo, {empresa.razonSocial} trata los
+    datos que facilites en esa comunicación: normalmente nombre, teléfono, correo,
+    dirección de la instalación y la descripción del trabajo o la avería.
+  </p>
+  <ul>
+    <li>Atender la consulta y, si procede, preparar y enviar un presupuesto.</li>
+    <li>Organizar la visita técnica y ejecutar el trabajo contratado.</li>
+    <li>Cumplir las obligaciones contables, fiscales y de garantía derivadas del servicio.</li>
+  </ul>
+
+  <h2>4. Base jurídica</h2>
+  <ul>
+    <li>
+      <strong>Medidas precontractuales y ejecución del contrato</strong> (art. 6.1.b
+      RGPD) para atender la solicitud, presupuestar y realizar el trabajo.
+    </li>
+    <li>
+      <strong>Obligación legal</strong> (art. 6.1.c RGPD) para la facturación y la
+      conservación de documentación mercantil y fiscal.
+    </li>
+    <li>
+      <strong>Interés legítimo</strong> (art. 6.1.f RGPD) para conservar el historial
+      técnico de una instalación y poder atender averías o garantías posteriores.
+    </li>
+  </ul>
+
+  <h2>5. Conservación</h2>
+  <p>
+    Los datos se conservan mientras dure la relación y, después, durante los plazos de
+    prescripción legal aplicables, en particular los plazos fiscales y mercantiles y el
+    de garantía de la instalación. Cumplidos esos plazos, se suprimen.
+  </p>
+
+  <h2>6. Destinatarios</h2>
+  <p>
+    No se ceden datos a terceros, salvo obligación legal. Pueden acceder a ellos, como
+    encargados del tratamiento y con el contrato correspondiente, los proveedores de
+    servicios necesarios para la actividad: alojamiento web, correo electrónico y
+    asesoría contable y fiscal.
+  </p>
+  <p>
+    TODO CLIENTE: indicar aquí el proveedor de alojamiento y el de correo electrónico, y
+    si alguno trata datos fuera del Espacio Económico Europeo.
+  </p>
+  <p>
+    Si eliges contactar por WhatsApp, esa comunicación se produce en la plataforma de
+    WhatsApp Ireland Limited y se rige además por sus propias condiciones y su política
+    de privacidad, ajenas a {empresa.razonSocial}.
+  </p>
+
+  <h2>7. Tus derechos</h2>
+  <p>
+    Puedes ejercer los derechos de acceso, rectificación, supresión, oposición,
+    limitación del tratamiento y portabilidad escribiendo a {empresa.email}, indicando el
+    derecho que ejercitas y acompañando copia de un documento que acredite tu identidad.
+  </p>
+  <p>
+    Si consideras que el tratamiento no se ajusta a la normativa, puedes reclamar ante la
+    Agencia Española de Protección de Datos (www.aepd.es).
+  </p>
+
+  <h2>8. Seguridad</h2>
+  <p>
+    {empresa.razonSocial} aplica medidas técnicas y organizativas razonables para
+    proteger la información frente a pérdida, acceso no autorizado o uso indebido. Este
+    sitio se sirve íntegramente cifrado mediante HTTPS.
+  </p>
+</Legal>

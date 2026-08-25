@@ -1,0 +1,233 @@
+---
+/**
+ * Elemento firma de la web: seccion de un edificio con una sola linea troncal
+ * que sube desde la cabecera y alimenta la toma de cada vivienda.
+ *
+ * Es la unica idea que ningun competidor sabe contar en una imagen: que llevar
+ * internet a todo el portal no obliga a pasar cable nuevo. Se dibuja solo al
+ * entrar en pantalla.
+ */
+const IZQ = 60;
+const DER = 300;
+const TECHO = 130;
+const SUELO = 500;
+const TRONCAL = 105;
+const TOMA = 250;
+
+const plantas = [0, 1, 2, 3];
+const alto = (SUELO - TECHO) / plantas.length;
+const forjados = plantas.map((i) => TECHO + alto * (i + 1)).slice(0, -1);
+const centros = plantas.map((i) => TECHO + alto * i + alto / 2);
+
+const arcos = [16, 30, 44].map(
+  (r) => `M ${125} ${46 - r} A ${r} ${r} 0 0 1 ${125 + r} ${46}`
+);
+
+const etiquetas = [
+  { y: 96, texto: 'Cabecera en cubierta', desde: 172 },
+  { y: forjados[1], texto: 'El cable que ya existe', desde: TRONCAL + 8 },
+  { y: centros[3], texto: 'Una toma por vivienda', desde: TOMA + 10 },
+];
+---
+
+<figure class="diagrama">
+  <svg viewBox="0 0 470 540" role="img" class="diagrama__svg">
+    <title>Sección de un edificio con la instalación de internet comunitario</title>
+    <desc>
+      Una cabecera situada en la cubierta alimenta una única línea vertical que
+      recorre el edificio y llega a una toma en cada una de las cuatro viviendas.
+    </desc>
+
+    <g class="d-fino">
+      <!-- Envolvente del edificio -->
+      <path d={`M ${IZQ} ${SUELO} L ${IZQ} ${TECHO} L ${DER} ${TECHO} L ${DER} ${SUELO} Z`} />
+      <!-- Forjados -->
+      {forjados.map((y) => <path d={`M ${IZQ} ${y} L ${DER} ${y}`} />)}
+      <!-- Terreno -->
+      <path d={`M ${IZQ - 26} ${SUELO} L ${DER + 26} ${SUELO}`} class="d-suelo" />
+    </g>
+
+    <!-- Cabecera y mastil -->
+    <g class="d-cabecera">
+      <rect x="80" y="88" width="90" height="38" rx="3" />
+      <path d="M 125 88 L 125 50" />
+      {arcos.map((d) => <path d={d} class="d-arco" />)}
+      <circle cx="125" cy="46" r="3.5" class="d-punto" />
+    </g>
+
+    <!-- Linea troncal -->
+    <path
+      class="d-troncal"
+      d={`M ${TRONCAL} ${TECHO} L ${TRONCAL} ${centros[3]}`}
+    />
+
+    <!-- Derivaciones y tomas -->
+    {
+      centros.map((y, i) => (
+        <g class:list={['d-planta', `d-planta--${i + 1}`]}>
+          <path class="d-rama" d={`M ${TRONCAL} ${y} L ${TOMA} ${y}`} />
+          <circle class="d-toma" cx={TOMA} cy={y} r="6" />
+        </g>
+      ))
+    }
+
+    <!-- Etiquetas -->
+    <g class="d-etiquetas">
+      {
+        etiquetas.map((e) => (
+          <>
+            <path class="d-guia" d={`M ${e.desde} ${e.y} L 318 ${e.y}`} />
+            <text x="326" y={e.y + 4}>{e.texto}</text>
+          </>
+        ))
+      }
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .diagrama {
+    margin: 0;
+  }
+
+  .diagrama__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .diagrama__svg path,
+  .diagrama__svg rect,
+  .diagrama__svg circle {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .d-fino path {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .d-suelo {
+    stroke: var(--ink) !important;
+    stroke-width: 1.5 !important;
+  }
+
+  .d-arco {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .d-punto {
+    fill: var(--ink);
+    stroke: none;
+  }
+
+  .d-troncal {
+    stroke-width: 2;
+  }
+
+  .d-toma {
+    fill: var(--paper);
+    stroke-width: 2;
+  }
+
+  .d-guia {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+  }
+
+  .d-etiquetas text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    fill: var(--ink-3);
+    stroke: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .diagrama.is-armado .d-troncal {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+    }
+
+    .diagrama.is-armado .d-rama {
+      stroke-dasharray: 160;
+      stroke-dashoffset: 160;
+    }
+
+    .diagrama.is-armado .d-toma,
+    .diagrama.is-armado .d-etiquetas,
+    .diagrama.is-armado .d-cabecera {
+      opacity: 0;
+    }
+
+    .diagrama.is-in .d-troncal {
+      animation: trazo 900ms cubic-bezier(0.2, 0.6, 0.2, 1) 200ms forwards;
+    }
+
+    .diagrama.is-in .d-rama {
+      animation: trazo 420ms cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+    }
+
+    .diagrama.is-in .d-toma {
+      animation: aparecer 300ms ease-out forwards;
+    }
+
+    .diagrama.is-in .d-cabecera {
+      animation: aparecer 400ms ease-out forwards;
+    }
+
+    .diagrama.is-in .d-etiquetas {
+      animation: aparecer 500ms ease-out 1400ms forwards;
+    }
+
+    .diagrama.is-in .d-planta--1 .d-rama { animation-delay: 700ms; }
+    .diagrama.is-in .d-planta--2 .d-rama { animation-delay: 860ms; }
+    .diagrama.is-in .d-planta--3 .d-rama { animation-delay: 1020ms; }
+    .diagrama.is-in .d-planta--4 .d-rama { animation-delay: 1180ms; }
+
+    .diagrama.is-in .d-planta--1 .d-toma { animation-delay: 1000ms; }
+    .diagrama.is-in .d-planta--2 .d-toma { animation-delay: 1160ms; }
+    .diagrama.is-in .d-planta--3 .d-toma { animation-delay: 1320ms; }
+    .diagrama.is-in .d-planta--4 .d-toma { animation-delay: 1480ms; }
+
+    @keyframes trazo {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes aparecer {
+      to {
+        opacity: 1;
+      }
+    }
+  }
+</style>
+
+<script>
+  // El diagrama es el momento de la home: se dispara solo cuando se ve entero.
+  const figura = document.querySelector('.diagrama');
+
+  if (figura) {
+    // Se arma desde JS: sin script, el diagrama se ve entero y sin animar.
+    figura.classList.add('is-armado');
+
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        figura.classList.add('is-in');
+        obs.disconnect();
+      },
+      { threshold: 0.35 }
+    );
+    obs.observe(figura);
+  }
+</script>

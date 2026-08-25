@@ -1,0 +1,108 @@
+---
+/**
+ * Motivo de senal: arcos concentricos que salen de un punto.
+ *
+ * Es el puente entre el logotipo de ElectroSat, que lleva arcos de senal, y un
+ * diseno monocromo. En la variante "hero" el arco interior y el punto de origen
+ * son el unico sitio de la web donde aparece el ambar de la marca.
+ */
+interface Props {
+  variante?: 'hero' | 'marca';
+  class?: string;
+}
+
+const { variante = 'marca', class: clase } = Astro.props;
+
+const ORIGEN = 24;
+const radios =
+  variante === 'hero'
+    ? Array.from({ length: 13 }, (_, i) => 40 + i * 40)
+    : [5, 9, 13];
+const lado = variante === 'hero' ? 384 : 16;
+const origenY = lado - (variante === 'hero' ? ORIGEN : 3);
+const origenX = variante === 'hero' ? ORIGEN : 3;
+
+const arcos = radios.map(
+  (r) => `M ${origenX} ${origenY - r} A ${r} ${r} 0 0 1 ${origenX + r} ${origenY}`
+);
+---
+
+<svg
+  class:list={['arco', `arco--${variante}`, clase]}
+  viewBox={`0 0 ${lado} ${lado}`}
+  fill="none"
+  stroke="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  {arcos.map((d, i) => <path d={d} class:list={[i === 0 && 'arco__interior']} />)}
+  <circle cx={origenX} cy={origenY} r={variante === 'hero' ? 4 : 1.5} class="arco__origen" />
+</svg>
+
+<style>
+  .arco {
+    display: block;
+    color: var(--line-strong);
+  }
+
+  .arco path {
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .arco circle {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .arco--marca {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--ink-3);
+  }
+
+  .arco--hero {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Los tres arcos mas cercanos al origen pesan mas: el ojo va al foco. */
+  .arco--hero path:nth-child(2),
+  .arco--hero path:nth-child(3) {
+    stroke: var(--ink-3);
+  }
+
+  /* Los dos unicos elementos ambar del motivo. */
+  .arco--hero .arco__interior,
+  .arco--hero .arco__origen {
+    color: var(--signal);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .arco--hero path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: dibujar 1.1s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+    }
+
+    .arco--hero path:nth-child(2) { animation-delay: 70ms; }
+    .arco--hero path:nth-child(3) { animation-delay: 140ms; }
+    .arco--hero path:nth-child(4) { animation-delay: 210ms; }
+    .arco--hero path:nth-child(5) { animation-delay: 280ms; }
+    .arco--hero path:nth-child(6) { animation-delay: 350ms; }
+    .arco--hero path:nth-child(7) { animation-delay: 420ms; }
+    .arco--hero path:nth-child(8) { animation-delay: 490ms; }
+    .arco--hero path:nth-child(9) { animation-delay: 560ms; }
+    .arco--hero path:nth-child(10) { animation-delay: 630ms; }
+    .arco--hero path:nth-child(11) { animation-delay: 700ms; }
+    .arco--hero path:nth-child(12) { animation-delay: 770ms; }
+    .arco--hero path:nth-child(13) { animation-delay: 840ms; }
+
+    @keyframes dibujar {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+</style>

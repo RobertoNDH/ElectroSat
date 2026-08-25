@@ -1,0 +1,118 @@
+---
+/**
+ * Indicador de "abierto ahora".
+ *
+ * Se calcula siempre en hora de Canarias, no en la del visitante: un cliente
+ * que mira la web desde Alemania tiene que ver si la oficina esta abierta alli,
+ * no aqui. Sin JavaScript se ve el horario escrito, que ya es informacion util.
+ *
+ * El punto ambar de este componente es uno de los tres usos permitidos del
+ * unico color de la web.
+ */
+import { empresa } from '../data/empresa';
+---
+
+<p class="estado" data-estado data-horario={JSON.stringify(empresa.horario)}>
+  <span class="estado__punto" aria-hidden="true"></span>
+  <span data-estado-texto>{empresa.horarioTexto}</span>
+</p>
+
+<script>
+  const DIAS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const NOMBRES = [
+    'el domingo',
+    'el lunes',
+    'el martes',
+    'el miércoles',
+    'el jueves',
+    'el viernes',
+    'el sábado',
+  ];
+
+  type Tramo = { dias: number[]; desde: string; hasta: string };
+
+  const enMinutos = (hhmm: string) => {
+    const [h, m] = hhmm.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  for (const nodo of document.querySelectorAll<HTMLElement>('[data-estado]')) {
+    const tramos: Tramo[] = JSON.parse(nodo.dataset.horario ?? '[]');
+    const texto = nodo.querySelector('[data-estado-texto]');
+    if (!tramos.length || !texto) continue;
+
+    const partes = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Atlantic/Canary',
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+
+    const valor = (tipo: string) =>
+      partes.find((p) => p.type === tipo)?.value ?? '';
+
+    const dia = DIAS.indexOf(valor('weekday'));
+    const ahora = Number(valor('hour')) * 60 + Number(valor('minute'));
+
+    const abierto = tramos.some(
+      (t) =>
+        t.dias.includes(dia) &&
+        ahora >= enMinutos(t.desde) &&
+        ahora < enMinutos(t.hasta)
+    );
+
+    if (abierto) {
+      nodo.classList.add('is-abierto');
+      texto.textContent = 'Abierto ahora';
+      continue;
+    }
+
+    // Primer tramo futuro, buscando hasta una semana por delante.
+    let proximo: { dia: number; desde: string } | null = null;
+
+    for (let salto = 0; salto < 8 && !proximo; salto++) {
+      const d = (dia + salto) % 7;
+      const candidatos = tramos
+        .filter((t) => t.dias.includes(d))
+        .filter((t) => salto > 0 || enMinutos(t.desde) > ahora)
+        .sort((a, b) => enMinutos(a.desde) - enMinutos(b.desde));
+
+      if (candidatos[0]) proximo = { dia: d, desde: candidatos[0].desde };
+    }
+
+    texto.textContent = proximo
+      ? `Cerrado ahora. Abrimos ${
+          proximo.dia === dia ? 'hoy' : NOMBRES[proximo.dia]
+        } a las ${proximo.desde}`
+      : 'Cerrado ahora';
+  }
+</script>
+
+<style>
+  .estado {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  .estado__punto {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--line-strong);
+    flex: none;
+  }
+
+  .estado.is-abierto .estado__punto {
+    background: var(--signal);
+  }
+
+  .estado.is-abierto {
+    color: var(--ink);
+  }
+</style>

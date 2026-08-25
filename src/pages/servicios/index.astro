@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icono from '../../components/Icono.astro';
+import ArcoSenal from '../../components/ArcoSenal.astro';
+import BloqueContacto from '../../components/BloqueContacto.astro';
+import { empresa } from '../../data/empresa';
+
+const servicios = (await getCollection('servicios')).sort(
+  (a, b) => a.data.orden - b.data.orden
+);
+
+const sitio = Astro.site!;
+const jsonLd = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: sitio.href },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Servicios',
+        item: new URL('/servicios/', sitio).href,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  titulo="Servicios de telecomunicaciones en Tenerife | ElectroSat TV"
+  descripcion="Antenas de TDT y satélite, videovigilancia, porteros y videoporteros, internet comunitario e infraestructura de telecomunicaciones para toda la isla de Tenerife."
+  jsonLd={jsonLd}
+>
+  <section class="portada">
+    <div class="container">
+      <p class="eyebrow"><ArcoSenal />Servicios</p>
+      <h1 class="display-l">Cinco trabajos, una sola empresa</h1>
+      <p class="lede">
+        Televisión, seguridad, portería, internet e infraestructura comparten cableado en
+        un edificio. Llevarlo todo con {empresa.nombre} evita que cada instalación nueva
+        estropee la anterior.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ol class="lista">
+        {
+          servicios.map((s) => (
+            <li class="fila">
+              <span class="fila__orden mono">
+                {String(s.data.orden).padStart(2, '0')}
+              </span>
+              <Icono nombre={s.data.icono} tamano={30} class="fila__icono" />
+              <div class="fila__texto">
+                <h2 class="h3">
+                  <a href={`/servicios/${s.id}/`}>{s.data.titulo}</a>
+                </h2>
+                <p class="fila__resumen">{s.data.resumen}</p>
+                <ul class="fila__puntos">
+                  {s.data.puntos.map((punto) => <li>{punto}</li>)}
+                </ul>
+              </div>
+              <a class="enlace-flecha fila__enlace" href={`/servicios/${s.id}/`}>
+                Ver servicio<span class="oculto-visual"> de {s.data.corto}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <BloqueContacto
+    titulo="¿No tienes claro cuál necesitas?"
+    texto="Descríbenos el problema por teléfono o WhatsApp. En muchos casos se resuelve en la propia llamada, y si no, vamos a verlo sin coste."
+  />
+</Base>
+
+<style>
+  .portada {
+    display: grid;
+    gap: var(--s-4);
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    border-bottom: var(--hairline);
+  }
+
+  .portada .container {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .lista {
+    display: grid;
+    border-top: var(--hairline);
+  }
+
+  .fila {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-3) var(--s-4);
+    align-items: start;
+    padding-block: var(--s-6);
+    border-bottom: var(--hairline);
+  }
+
+  @media (min-width: 55rem) {
+    .fila {
+      grid-template-columns: 3rem auto minmax(0, 1fr) auto;
+      gap: var(--s-6);
+      align-items: center;
+    }
+  }
+
+  .fila__orden {
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+
+  .fila__icono {
+    color: var(--ink);
+  }
+
+  .fila__texto {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  @media (min-width: 55rem) {
+    .fila__texto {
+      grid-column: auto;
+    }
+  }
+
+  .fila__texto a {
+    text-decoration: none;
+  }
+
+  .fila__texto a:hover {
+    text-decoration: underline;
+  }
+
+  .fila__resumen {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+
+  .fila__puntos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1rem;
+  }
+
+  .fila__puntos li {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .fila__enlace {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 55rem) {
+    .fila__enlace {
+      grid-column: auto;
+    }
+  }
+</style>

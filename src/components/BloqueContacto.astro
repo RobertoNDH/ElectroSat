@@ -1,0 +1,163 @@
+---
+/**
+ * Bloque de cierre. Se repite al final de la home, de cada servicio y de
+ * nosotros, porque el visitante decide llamar en momentos distintos segun lo
+ * que haya venido a leer.
+ */
+import Icono from './Icono.astro';
+import EstadoHorario from './EstadoHorario.astro';
+import {
+  empresa,
+  telHref,
+  waHref,
+  emailHref,
+  direccionUnaLinea,
+} from '../data/empresa';
+
+interface Props {
+  titulo?: string;
+  texto?: string;
+}
+
+const {
+  titulo = 'Cuéntanos qué necesitas',
+  texto = 'Te atendemos por teléfono y, si hace falta, pasamos a verlo. La visita para valorar el trabajo es gratuita y sin compromiso en toda la isla.',
+} = Astro.props;
+---
+
+<section class="section contacto" aria-labelledby="contacto-titulo">
+  <div class="container contacto__rejilla">
+    <div class="contacto__principal">
+      <p class="eyebrow">Contacto directo</p>
+      <h2 class="h2" id="contacto-titulo">{titulo}</h2>
+      <p class="lede">{texto}</p>
+
+      <a class="contacto__numero mono" href={telHref()}>{empresa.telefono.display}</a>
+
+      <div class="contacto__acciones">
+        <a class="btn btn--primary btn--lg" href={telHref()}>
+          <Icono nombre="telefono" tamano={18} />
+          Llamar ahora
+        </a>
+        <a class="btn btn--ghost btn--lg" href={waHref()} rel="noopener noreferrer">
+          <Icono nombre="whatsapp" tamano={18} />
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <dl class="contacto__datos">
+      <div>
+        <dt><Icono nombre="reloj" tamano={17} />Horario</dt>
+        <dd>
+          <EstadoHorario />
+          <span class="small">{empresa.horarioTexto}</span>
+        </dd>
+      </div>
+      <div>
+        <dt><Icono nombre="telefono" tamano={17} />Móvil y WhatsApp</dt>
+        <dd><a class="mono" href={telHref(empresa.movil)}>{empresa.movil.display}</a></dd>
+      </div>
+      <div>
+        <dt><Icono nombre="email" tamano={17} />Correo</dt>
+        <dd><a href={emailHref}>{empresa.email}</a></dd>
+      </div>
+      <div>
+        <dt><Icono nombre="mapa" tamano={17} />Dónde estamos</dt>
+        <dd>
+          <span class="small">{direccionUnaLinea}</span>
+          <a class="enlace-flecha" href={empresa.mapsUrl} rel="noopener noreferrer">
+            Ver en el mapa
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    background: var(--surface);
+    border-top: var(--hairline);
+  }
+
+  .contacto__rejilla {
+    display: grid;
+    gap: var(--s-7);
+  }
+
+  @media (min-width: 62rem) {
+    .contacto__rejilla {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: var(--s-9);
+      align-items: start;
+    }
+  }
+
+  .contacto__principal {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+  }
+
+  .contacto__numero {
+    justify-self: start;
+    margin-top: var(--s-3);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 0.25rem;
+    transition: border-color var(--t-fast);
+  }
+
+  .contacto__numero:hover {
+    border-bottom-color: var(--ink);
+  }
+
+  .contacto__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+
+  .contacto__datos {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border-top: var(--hairline);
+  }
+
+  .contacto__datos > div {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: var(--s-4);
+    border-bottom: var(--hairline);
+  }
+
+  .contacto__datos dt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .contacto__datos dd {
+    display: grid;
+    gap: 0.375rem;
+    justify-items: start;
+    margin: 0;
+  }
+
+  .contacto__datos a {
+    color: var(--ink);
+  }
+</style>

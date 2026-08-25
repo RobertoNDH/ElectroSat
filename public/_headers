@@ -1,0 +1,23 @@
+# Cabeceras de seguridad para Netlify y Cloudflare Pages.
+# En Vercel se traducen a vercel.json y en nginx a un bloque add_header.
+#
+# La Content-Security-Policy principal no va aqui: la genera Astro pagina a
+# pagina con los hashes de sus propios scripts y estilos, y viaja en una
+# etiqueta meta. Aqui solo se anade frame-ancestors, que las etiquetas meta no
+# pueden declarar.
+
+/*
+  Content-Security-Policy: frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

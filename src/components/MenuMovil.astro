@@ -1,0 +1,157 @@
+---
+/**
+ * Menu movil sobre <dialog> nativo.
+ *
+ * showModal() ya trae trampa de foco, cierre con Escape, inertizado del resto
+ * de la pagina y rol de dialogo. Escribirlo a mano serian cien lineas de JS
+ * para llegar al mismo sitio con mas fallos.
+ */
+import Icono from './Icono.astro';
+import Logotipo from './Logotipo.astro';
+import { empresa, telHref, waHref, emailHref } from '../data/empresa';
+
+interface Props {
+  servicios: { id: string; corto: string }[];
+}
+const { servicios } = Astro.props;
+---
+
+<dialog class="menu" id="menu-movil" aria-label="Menú de navegación">
+  <div class="menu__barra">
+    <Logotipo />
+    <button type="button" class="menu__cerrar" data-cerrar-menu aria-label="Cerrar el menú">
+      <Icono nombre="cerrar" tamano={22} />
+    </button>
+  </div>
+
+  <nav class="menu__cuerpo" aria-label="Navegación del menú">
+    <p class="eyebrow">Servicios</p>
+    <ul class="menu__lista">
+      {
+        servicios.map((s) => (
+          <li>
+            <a href={`/servicios/${s.id}/`}>{s.corto}</a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <hr class="rule" />
+
+    <ul class="menu__lista">
+      <li><a href="/servicios/">Todos los servicios</a></li>
+      <li><a href="/nosotros/">Nosotros</a></li>
+      <li><a href="/contacto/">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <div class="menu__pie">
+    <a class="btn btn--primary btn--lg" href={telHref()}>
+      <Icono nombre="telefono" tamano={18} />
+      Llamar al {empresa.telefono.display}
+    </a>
+    <a class="btn btn--ghost btn--lg" href={waHref()} rel="noopener noreferrer">
+      <Icono nombre="whatsapp" tamano={18} />
+      Escribir por WhatsApp
+    </a>
+    <a class="menu__email small" href={emailHref}>{empresa.email}</a>
+  </div>
+</dialog>
+
+<script>
+  const dialogo = document.getElementById('menu-movil') as HTMLDialogElement | null;
+
+  if (dialogo) {
+    document
+      .querySelector('[data-abrir-menu]')
+      ?.addEventListener('click', () => dialogo.showModal());
+
+    dialogo
+      .querySelector('[data-cerrar-menu]')
+      ?.addEventListener('click', () => dialogo.close());
+  }
+</script>
+
+<style>
+  .menu {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .menu::backdrop {
+    background: rgba(12, 12, 12, 0.35);
+  }
+
+  .menu__barra {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    min-height: var(--header-h);
+    padding-inline: var(--gutter);
+    background: var(--paper);
+    border-bottom: var(--hairline);
+  }
+
+  .menu__cerrar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: none;
+    border: 1px solid var(--control);
+    border-radius: var(--r-sm);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .menu__cuerpo {
+    padding: var(--s-6) var(--gutter) var(--s-5);
+  }
+
+  .menu__cuerpo .rule {
+    margin-block: var(--s-5);
+  }
+
+  .menu__lista {
+    display: grid;
+    gap: 0.125rem;
+    margin-top: var(--s-4);
+  }
+
+  .menu__lista a {
+    display: block;
+    padding-block: 0.6875rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-stretch: 104%;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .menu__pie {
+    display: grid;
+    gap: var(--s-3);
+    padding: var(--s-5) var(--gutter) calc(var(--s-6) + env(safe-area-inset-bottom));
+    border-top: var(--hairline);
+    background: var(--surface);
+  }
+
+  .menu__email {
+    justify-self: center;
+    padding-block: 0.5rem;
+  }
+</style>

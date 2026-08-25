@@ -1,0 +1,63 @@
+---
+/**
+ * Barra fija de llamada. Solo en movil, que es donde el visitante tiene el
+ * telefono en la mano. El body reserva su altura para que no tape el pie.
+ */
+import Icono from './Icono.astro';
+import { empresa, telHref, waHref } from '../data/empresa';
+---
+
+<div class="barra">
+  <a class="barra__accion barra__accion--principal" href={telHref()}>
+    <Icono nombre="telefono" tamano={18} />
+    Llamar ahora
+  </a>
+  <a
+    class="barra__accion"
+    href={waHref()}
+    rel="noopener noreferrer"
+    aria-label={`Escribir por WhatsApp al ${empresa.movil.display}`}
+  >
+    <Icono nombre="whatsapp" tamano={18} />
+    WhatsApp
+  </a>
+</div>
+
+<style>
+  .barra {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .barra__accion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--barra-h);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    font-stretch: 104%;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .barra__accion--principal {
+    background: var(--ink);
+    color: var(--on-ink);
+  }
+
+  @media (min-width: 62rem) {
+    .barra {
+      display: none;
+    }
+  }
+</style>
