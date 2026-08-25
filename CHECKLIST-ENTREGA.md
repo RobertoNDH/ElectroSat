@@ -61,7 +61,7 @@ gitleaks dir . --redact --report-path .security\gitleaks-final.json --exit-code 
 ## Rendimiento
 
 - [x] Salida estática, sin runtime de framework
-- [x] JavaScript total del sitio por debajo de 1 KB en tres módulos
+- [x] JavaScript total de la home: 1,6 KB en cuatro módulos, embebido con hash de CSP y sin peticiones adicionales
 - [x] Tipografías variables autoalojadas, subconjunto latino, `font-display: swap`
 - [x] Iconos SVG en línea, sin peticiones adicionales ni fuente de iconos
 - [x] Sin imágenes en el contenido, por tanto sin CLS por imagen

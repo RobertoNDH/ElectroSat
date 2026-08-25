@@ -64,7 +64,7 @@ revisar `src/pages/politica-de-cookies.astro` e implantar consentimiento previo.
 se rompe si se añade un `style="..."` en el HTML, un `<script>` con `is:inline` o una
 librería que inyecte estilos en línea. Si algo deja de verse, mira primero la consola.
 
-**Nada del contenido depende de JavaScript.** Si el script no carga, la página se lee
+**Nada del contenido depende de JavaScript.** Son 1,6 KB en cuatro módulos. Si el script no carga, la página se lee
 entera. El único efecto que se pierde es el dibujado del diagrama del portal, que se
 queda quieto y completo.
 
