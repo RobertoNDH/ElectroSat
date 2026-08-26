@@ -1,0 +1,85 @@
+---
+// Nota media en estrellas. Se apaga desde empresa.ts con `mostrar: false`.
+import Icono from './Icono.astro';
+import { empresa } from '../data/empresa';
+import { IDIOMAS, type Idioma } from '../i18n/config';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const v = empresa.valoracion;
+
+const nota = new Intl.NumberFormat(IDIOMAS[lang].htmlLang, {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+}).format(v.nota);
+
+const textos = {
+  es: { sobre: `de ${v.sobre}`, alt: `Valoración media de ${nota} sobre ${v.sobre}` },
+  en: { sobre: `out of ${v.sobre}`, alt: `Average rating of ${nota} out of ${v.sobre}` },
+  de: { sobre: `von ${v.sobre}`, alt: `Durchschnittsbewertung ${nota} von ${v.sobre}` },
+}[lang];
+
+// La nota exacta va escrita al lado, así que basta con redondear la estrella.
+const estrellas = Array.from({ length: v.sobre }, (_, i) =>
+  v.nota - i >= 0.5 ? 'llena' : 'vacia'
+);
+---
+
+{
+  v.mostrar && (
+    <p class="valoracion" role="img" aria-label={textos.alt}>
+      <span class="valoracion__estrellas" aria-hidden="true">
+        {estrellas.map((e) => (
+          <span class:list={['valoracion__estrella', `es-${e}`]}>
+            <Icono nombre="estrella" tamano={17} />
+          </span>
+        ))}
+      </span>
+      <span class="valoracion__nota" aria-hidden="true">
+        <strong>{nota}</strong> {textos.sobre}
+      </span>
+    </p>
+  )
+}
+
+<style>
+  .valoracion {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.4375rem 0.9375rem;
+    border-radius: 999px;
+    background: var(--paper);
+    border: var(--hairline);
+    box-shadow: var(--sombra-sm);
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  .valoracion__estrellas {
+    display: inline-flex;
+    gap: 0.0625rem;
+  }
+
+  .valoracion__estrella {
+    display: block;
+    color: var(--amarillo-osc);
+  }
+
+  .es-llena :global(svg) {
+    fill: currentColor;
+  }
+
+  .es-vacia :global(svg) {
+    fill: none;
+    opacity: 0.45;
+  }
+
+  .valoracion__nota strong {
+    color: var(--ink);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

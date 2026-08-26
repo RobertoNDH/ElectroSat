@@ -18,8 +18,9 @@ const { class: clase, tamano = 'md' } = Astro.props;
   class:list={['logo', `logo--${tamano}`, clase]}
   src={logo}
   alt="ElectroSat TV"
-  widths={[200, 400]}
-  sizes="11rem"
+  widths={[290, 580]}
+  sizes="145px"
+  format="png"
   loading="eager"
 />
 
@@ -29,13 +30,14 @@ const { class: clase, tamano = 'md' } = Astro.props;
     width: auto;
   }
 
-  /* El archivo de origen es muy pequeño: por encima de estos tamaños se ve
-     pastoso. Cuando llegue el vectorial se podrá subir. */
+  /* El archivo de origen tiene 179x48 px. A esta altura se sirve a doble
+     densidad y el escalado disimula los defectos del JPEG original.
+     Cuando llegue el vectorial se podrá subir. */
   .logo--md {
-    height: 1.75rem;
+    height: 1.5rem;
   }
 
   .logo--sm {
-    height: 1.5rem;
+    height: 1.375rem;
   }
 </style>

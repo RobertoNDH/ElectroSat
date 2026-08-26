@@ -26,7 +26,7 @@ publico:
 marcas: ['Ubiquiti', 'Televes', 'Promax']
 faq:
   - p: 'Are you a registered company?'
-    r: 'Yes. ElectroSat TV is listed on the register of telecommunications installation companies, and the number appears in the footer of this site. That is what allows us to sign off an installation.'
+    r: 'Yes. ElectroSat TV is listed on the register of telecommunications installation companies. That is what allows us to sign off an installation, and we give you the number if you need it.'
   - p: 'Can you extend work done by another company?'
     r: 'Yes. We check how it was built, tell you what we find and give you a price. If something has been done badly we say so before starting, not afterwards.'
   - p: 'Does the wifi reach every room?'

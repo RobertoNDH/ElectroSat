@@ -26,7 +26,7 @@ publico:
 marcas: ['Ubiquiti', 'Televes', 'Promax']
 faq:
   - p: '¿Sois empresa registrada?'
-    r: 'Sí. ElectroSat TV está inscrita en el registro de empresas instaladoras de telecomunicación, y el número aparece al pie de esta web. Es lo que nos permite firmar los papeles de una instalación.'
+    r: 'Sí. ElectroSat TV está inscrita en el registro de empresas instaladoras de telecomunicación. Es lo que nos permite firmar los papeles de una instalación, y te damos el número si lo necesitas.'
   - p: '¿Podéis ampliar algo que montó otra empresa?'
     r: 'Sí. Revisamos cómo está hecho, te decimos con qué nos encontramos y te damos precio. Si hay algo mal hecho te lo decimos antes de empezar, no después.'
   - p: '¿El wifi llega a todas las habitaciones?'

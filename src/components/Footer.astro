@@ -39,13 +39,6 @@ const legales = [
     <div class="pie__marca">
       <Logotipo />
       <p class="small">{txt.pie.lema}</p>
-      <p class="pie__registro">
-        <Icono nombre="documento" tamano={16} />
-        <span>
-          {txt.pie.registro}
-          <strong class="tel-num">nº {empresa.registroInstalador}</strong>
-        </span>
-      </p>
     </div>
 
     <nav class="pie__col" aria-label={txt.pie.servicios}>
@@ -95,7 +88,7 @@ const legales = [
           <span>{txt.datos.horario}</span>
         </li>
       </ul>
-      <a class="btn btn--principal" href={waHref(lang)} rel="noopener noreferrer">
+      <a class="btn btn--azul" href={waHref(lang)} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={17} />
         {txt.acciones.escribirWhatsapp}
       </a>
@@ -156,29 +149,6 @@ const legales = [
 
   .pie__marca .small {
     max-width: 28ch;
-  }
-
-  .pie__registro {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-top: var(--s-1);
-    padding-top: var(--s-3);
-    border-top: var(--hairline);
-    font-size: var(--fs-small);
-    line-height: 1.45;
-    color: var(--ink-3);
-  }
-
-  .pie__registro svg {
-    color: var(--azul);
-    margin-top: 0.125rem;
-    flex: none;
-  }
-
-  .pie__registro strong {
-    display: block;
-    color: var(--ink);
   }
 
   .pie__col {

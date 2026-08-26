@@ -26,7 +26,7 @@ publico:
 marcas: ['Ubiquiti', 'Televes', 'Promax']
 faq:
   - p: 'Sind Sie ein eingetragener Betrieb?'
-    r: 'Ja. ElectroSat TV ist im Register der Telekommunikationsinstallateure eingetragen, die Nummer steht im Fuß dieser Website. Sie berechtigt uns, Anlagen abzunehmen.'
+    r: 'Ja. ElectroSat TV ist im Register der Telekommunikationsinstallateure eingetragen. Das berechtigt uns, Anlagen abzunehmen; die Nummer nennen wir Ihnen auf Wunsch.'
   - p: 'Können Sie eine Anlage einer anderen Firma erweitern?'
     r: 'Ja. Wir sehen uns an, wie sie gebaut ist, sagen Ihnen, was wir vorfinden, und nennen einen Preis. Ist etwas schlecht ausgeführt, sagen wir das vorher und nicht hinterher.'
   - p: 'Kommt das WLAN in jedem Zimmer an?'
