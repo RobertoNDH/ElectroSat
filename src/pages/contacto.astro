@@ -165,16 +165,25 @@ const jsonLd = [
     gap: var(--s-3);
     align-content: start;
     justify-items: start;
+    position: relative;
     padding: var(--s-5);
     background: var(--paper);
     border: var(--hairline);
-    border-top: 3px solid var(--azul);
     border-radius: var(--r-lg);
     box-shadow: var(--sombra-sm);
+    overflow: hidden;
   }
 
-  .canal--principal {
-    border-top-color: var(--naranja);
+  .canal::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--azul);
+  }
+
+  .canal--principal::before {
+    background: var(--naranja);
   }
 
   .canal__numero {
