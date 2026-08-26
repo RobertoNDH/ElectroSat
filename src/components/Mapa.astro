@@ -1,0 +1,175 @@
+---
+// Mapa de Google que solo se carga al pulsar. Incrustarlo de entrada metería
+// cookies de Google en todas las visitas y obligaría a poner banner; así la web
+// sigue sin cookies hasta que el visitante decide ver el mapa.
+import Icono from './Icono.astro';
+import { empresa, direccionUnaLinea } from '../data/empresa';
+import type { Idioma } from '../i18n/config';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+
+const consulta = encodeURIComponent(
+  `${empresa.razonSocial}, ${empresa.direccion.calle}, ${empresa.direccion.barrio}, ${empresa.direccion.municipio}`
+);
+const incrustado = `https://maps.google.com/maps?q=${consulta}&hl=${lang}&z=16&output=embed`;
+
+const textos = {
+  es: {
+    titulo: 'Dónde estamos',
+    ver: 'Ver el mapa',
+    aviso: 'Al abrirlo se carga Google Maps, que sí usa cookies propias.',
+    comoLlegar: 'Cómo llegar',
+    cargando: 'Mapa de la ubicación de ElectroSat TV',
+  },
+  en: {
+    titulo: 'Where we are',
+    ver: 'Show the map',
+    aviso: 'Opening it loads Google Maps, which does set its own cookies.',
+    comoLlegar: 'Get directions',
+    cargando: 'Map showing the location of ElectroSat TV',
+  },
+  de: {
+    titulo: 'Wo Sie uns finden',
+    ver: 'Karte anzeigen',
+    aviso: 'Beim Öffnen wird Google Maps geladen, das eigene Cookies setzt.',
+    comoLlegar: 'Route anzeigen',
+    cargando: 'Karte mit dem Standort von ElectroSat TV',
+  },
+}[lang];
+---
+
+<section class="mapa" aria-labelledby="mapa-titulo">
+  <div class="mapa__datos">
+    <h2 class="mapa__titulo" id="mapa-titulo">{textos.titulo}</h2>
+    <p class="mapa__dir">
+      <Icono nombre="mapa" tamano={17} />
+      <span>{direccionUnaLinea}</span>
+    </p>
+    <a class="enlace-flecha" href={empresa.mapsUrl} rel="noopener noreferrer">
+      {textos.comoLlegar}
+      <Icono nombre="flecha" tamano={16} />
+    </a>
+  </div>
+
+  <div class="mapa__lienzo" data-mapa data-src={incrustado} data-titulo={textos.cargando}>
+    <div class="mapa__trama" aria-hidden="true"></div>
+    <button type="button" class="btn btn--azul mapa__boton" data-mapa-abrir>
+      <Icono nombre="mapa" tamano={17} />
+      {textos.ver}
+    </button>
+    <p class="mapa__aviso">{textos.aviso}</p>
+  </div>
+</section>
+
+<script>
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-mapa]')) {
+    caja.querySelector('[data-mapa-abrir]')?.addEventListener('click', () => {
+      const marco = document.createElement('iframe');
+      marco.src = caja.dataset.src ?? '';
+      marco.title = caja.dataset.titulo ?? '';
+      marco.loading = 'lazy';
+      marco.referrerPolicy = 'no-referrer-when-downgrade';
+      marco.className = 'mapa__marco';
+      caja.classList.add('is-cargado');
+      caja.replaceChildren(marco);
+    });
+  }
+</script>
+
+<style>
+  .mapa {
+    display: grid;
+    gap: var(--s-4);
+    align-items: center;
+  }
+
+  @media (min-width: 55rem) {
+    .mapa {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: var(--s-6);
+    }
+  }
+
+  .mapa__datos {
+    display: grid;
+    gap: 0.625rem;
+    justify-items: start;
+  }
+
+  .mapa__titulo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .mapa__dir {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+  }
+
+  .mapa__dir svg {
+    color: var(--azul);
+    margin-top: 0.1875rem;
+    flex: none;
+  }
+
+  .mapa__lienzo {
+    position: relative;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.75rem;
+    min-height: 13rem;
+    padding: var(--s-5);
+    background: var(--surface-2);
+    border: var(--hairline);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+
+  /* Retícula suave que insinúa un plano sin fingir un mapa real. */
+  .mapa__trama {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 2.25rem 2.25rem;
+    opacity: 0.65;
+  }
+
+  .mapa__boton,
+  .mapa__aviso {
+    position: relative;
+  }
+
+  .mapa__aviso {
+    max-width: 34ch;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--ink-3);
+  }
+
+  /* Con el mapa dentro sobra el relleno: el marco ocupa toda la caja. */
+  .mapa__lienzo.is-cargado {
+    display: block;
+    padding: 0;
+  }
+
+  .mapa__lienzo :global(.mapa__marco) {
+    width: 100%;
+    height: 100%;
+    min-height: 17rem;
+    aspect-ratio: 16 / 10;
+    border: 0;
+    display: block;
+  }
+</style>

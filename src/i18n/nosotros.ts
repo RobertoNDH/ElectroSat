@@ -8,6 +8,11 @@ export const NOSOTROS = {
     titulo: 'Somos de aquí y trabajamos aquí',
     lede:
       'ElectroSat TV está en Valle San Lorenzo, en Arona. Montamos y mantenemos antenas, cámaras, porteros e internet en el sur de Tenerife.',
+    cifras: {
+      anios: 'años trabajando aquí',
+      areas: 'áreas de trabajo',
+      municipios: 'municipios del sur',
+    },
     historiaTitulo: 'Conocemos los edificios porque llevamos años subiendo a ellos',
     historia: [
       'Empezamos con antenas de televisión, que es de donde viene el nombre. Con los años, los mismos edificios nos fueron pidiendo cámaras, porteros y, más tarde, internet para todas las viviendas.',
@@ -44,6 +49,11 @@ export const NOSOTROS = {
     titulo: 'We are from here and we work here',
     lede:
       'ElectroSat TV is based in Valle San Lorenzo, Arona. We install and maintain aerials, cameras, door entry systems and internet across southern Tenerife.',
+    cifras: {
+      anios: 'years working here',
+      areas: 'areas of work',
+      municipios: 'towns in the south',
+    },
     historiaTitulo: 'We know these buildings because we have been climbing them for years',
     historia: [
       'We started with television aerials, which is where the name comes from. Over the years the same buildings began asking us for cameras, door entry and, later on, internet for every flat.',
@@ -80,6 +90,11 @@ export const NOSOTROS = {
     titulo: 'Wir sind von hier und arbeiten hier',
     lede:
       'ElectroSat TV sitzt in Valle San Lorenzo, Arona. Wir montieren und warten Antennen, Kameras, Türsprechanlagen und Internet im Süden Teneriffas.',
+    cifras: {
+      anios: 'Jahre hier tätig',
+      areas: 'Arbeitsbereiche',
+      municipios: 'Orte im Süden',
+    },
     historiaTitulo: 'Wir kennen diese Häuser, weil wir seit Jahren auf ihre Dächer steigen',
     historia: [
       'Angefangen haben wir mit Fernsehantennen, daher der Name. Mit den Jahren fragten dieselben Häuser nach Kameras, Sprechanlagen und später nach Internet für alle Wohnungen.',

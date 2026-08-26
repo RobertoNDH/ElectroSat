@@ -37,6 +37,8 @@ export default defineConfig({
         "form-action 'none'",
         "object-src 'none'",
         "manifest-src 'self'",
+        // El mapa solo se carga si el visitante pulsa el boton.
+        "frame-src https://maps.google.com https://www.google.com",
       ],
     },
   },

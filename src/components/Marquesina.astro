@@ -1,0 +1,163 @@
+---
+// Tira horizontal que gira sin parar. Se usa donde el orden de izquierda a
+// derecha tiene que mantenerse también en móvil, en lugar de apilarse.
+// La pista se duplica para que el bucle no tenga salto; la copia queda oculta
+// a los lectores de pantalla.
+import Icono from './Icono.astro';
+import type { NombreIcono } from './iconos';
+
+type Elemento = {
+  titulo: string;
+  texto: string;
+  icono?: NombreIcono;
+};
+
+interface Props {
+  items: Elemento[];
+  variante?: 'datos' | 'marcas';
+  /** Segundos por vuelta. Más items piden más tiempo. */
+  duracion?: number;
+  etiqueta: string;
+}
+
+const { items, variante = 'datos', duracion = 42, etiqueta } = Astro.props;
+const pistas = [false, true];
+---
+
+<div class:list={['tira', `tira--${variante}`]} data-duracion={duracion}>
+  {
+    pistas.map((copia) => (
+      <ul
+        class="tira__pista"
+        aria-label={copia ? undefined : etiqueta}
+        aria-hidden={copia ? 'true' : undefined}
+      >
+        {items.map((it) => (
+          <li class="tira__item">
+            {it.icono && (
+              <span class="tira__icono">
+                <Icono nombre={it.icono} tamano={20} />
+              </span>
+            )}
+            <span class="tira__texto">
+              <strong class="tira__titulo">{it.titulo}</strong>
+              <span class="tira__sub">{it.texto}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    ))
+  }
+</div>
+
+<script>
+  // La duración va en una propiedad CSS. Se asigna desde el script y no con un
+  // atributo style, que la política de seguridad no permite.
+  for (const tira of document.querySelectorAll<HTMLElement>('.tira[data-duracion]')) {
+    tira.style.setProperty('--vuelta', `${tira.dataset.duracion}s`);
+  }
+</script>
+
+<style>
+  .tira {
+    --vuelta: 42s;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    /* Los extremos se desvanecen para que no se corte en seco. */
+    mask-image: linear-gradient(90deg, transparent, #000 5rem, #000 calc(100% - 5rem), transparent);
+  }
+
+  .tira__pista {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
+    padding-right: clamp(1.75rem, 4vw, 3.5rem);
+    animation: girar var(--vuelta) linear infinite;
+  }
+
+  .tira:hover .tira__pista,
+  .tira:focus-within .tira__pista {
+    animation-play-state: paused;
+  }
+
+  @keyframes girar {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .tira__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: none;
+  }
+
+  .tira__icono {
+    display: grid;
+    place-items: center;
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: 50%;
+    background: var(--naranja-tinte);
+    color: var(--naranja-osc);
+    flex: none;
+  }
+
+  .tira__texto {
+    display: grid;
+    gap: 0.0625rem;
+  }
+
+  .tira__titulo {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .tira__sub {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  /* Marcas: sin icono, el nombre manda y la línea queda fina. */
+  .tira--marcas .tira__titulo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    transition: color var(--t-rapido);
+  }
+
+  .tira--marcas .tira__item:hover .tira__titulo {
+    color: var(--azul);
+  }
+
+  .tira--marcas .tira__sub {
+    font-size: 0.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tira {
+      overflow-x: auto;
+      mask-image: none;
+      scrollbar-width: thin;
+    }
+
+    .tira__pista {
+      animation: none;
+    }
+
+    /* Sin movimiento la copia sobra. */
+    .tira__pista[aria-hidden] {
+      display: none;
+    }
+  }
+</style>

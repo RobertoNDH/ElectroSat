@@ -1,0 +1,37 @@
+// Iconos propios en SVG. Rejilla de 24, trazo 1.5, hereda currentColor.
+export const TRAZOS = {
+  satelite:
+    '<path d="M12.6 12a9 9 0 0 0-9-9v9z"/><path d="M12.6 12 16.2 8.4"/><circle cx="17.4" cy="7.2" r="1.5"/><path d="M17.6 2.4a5.6 5.6 0 0 1 4 4"/><path d="M8.2 12v4.6"/><path d="M4.6 21.2h7.2"/><path d="m8.2 16.6-3.6 4.6"/>',
+  camara:
+    '<rect x="3.2" y="7.4" width="14.2" height="9.2" rx="4.6"/><circle cx="7.8" cy="12" r="2.5"/><path d="M17.4 12h3.1"/><path d="M20.5 8.4v7.2"/>',
+  portero:
+    '<rect x="6" y="2.4" width="12" height="19.2" rx="2"/><circle cx="12" cy="7.4" r="2"/><path d="M9 12.4h6"/><path d="M9 15h6"/><path d="M9 17.6h3"/>',
+  internet:
+    '<path d="M6 21.4V4.6"/><path d="M6 4.6h4.4"/><path d="M6 9h5"/><path d="M6 13.4h5"/><path d="M6 17.8h5"/><circle cx="12.8" cy="9" r="1.4"/><circle cx="12.8" cy="13.4" r="1.4"/><circle cx="12.8" cy="17.8" r="1.4"/><path d="M15.6 2.6a6.4 6.4 0 0 1 4.6 4.6"/>',
+  red: '<rect x="3" y="3.2" width="18" height="5.2" rx="1.6"/><rect x="3" y="10.4" width="18" height="5.2" rx="1.6"/><rect x="3" y="17.6" width="18" height="3.6" rx="1.4"/><path d="M6.6 5.8h.01"/><path d="M6.6 13h.01"/><path d="M6.6 19.4h.01"/>',
+  telefono:
+    '<path d="M6.4 2.8h3.2l1.6 4-2 1.2a12.2 12.2 0 0 0 5.9 5.9l1.2-2 4 1.6v3.1a2 2 0 0 1-2.2 2A17.6 17.6 0 0 1 4.4 5 2 2 0 0 1 6.4 2.8z"/>',
+  whatsapp:
+    '<path d="m3.2 20.8 1.3-4.1A8.6 8.6 0 1 1 7.9 20z"/><path d="M9.1 8.8c-.4 1.6.2 3.2 1.4 4.4 1.2 1.2 2.8 1.8 4.4 1.4"/>',
+  email:
+    '<rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2"/><path d="m3.2 6.2 8.8 6.4 8.8-6.4"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 6.8v5.4l3.4 2"/>',
+  mapa: '<path d="M12 21.4s6.9-5.6 6.9-10.9a6.9 6.9 0 1 0-13.8 0C5.1 15.8 12 21.4 12 21.4z"/><circle cx="12" cy="10.2" r="2.6"/>',
+  flecha: '<path d="M4 12h15.4"/><path d="m13.6 6.2 5.8 5.8-5.8 5.8"/>',
+  menu: '<path d="M3.4 7h17.2"/><path d="M3.4 12h17.2"/><path d="M3.4 17h17.2"/>',
+  cerrar: '<path d="m6 6 12 12"/><path d="M18 6 6 18"/>',
+  check: '<path d="m4.6 12.4 5 5 9.8-10.8"/>',
+  escudo:
+    '<path d="M12 2.4 4.6 5.6v6.1c0 4.6 3 8.4 7.4 9.9 4.4-1.5 7.4-5.3 7.4-9.9V5.6z"/><path d="m8.8 11.8 2.3 2.3 4.3-4.6"/>',
+  documento:
+    '<path d="M13.4 2.6H6.6a2 2 0 0 0-2 2v14.8a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2V8.6z"/><path d="M13.4 2.6v6h6"/><path d="M8.4 13h7.2"/><path d="M8.4 16.6h4.6"/>',
+  herramienta:
+    '<path d="M18.7 3.3a4.6 4.6 0 0 0-6.2 6.1l-8.6 8.6a2.2 2.2 0 1 0 3.1 3.1l8.6-8.6a4.6 4.6 0 0 0 6.1-6.2l-2.9 2.9-2.9-.6-.6-2.9z"/>',
+  mundo:
+    '<circle cx="12" cy="12" r="9"/><path d="M3.2 9.4h17.6"/><path d="M3.2 14.6h17.6"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/>',
+  estrella:
+    '<path d="m12 3.2 2.7 5.5 6.1.9-4.4 4.3 1 6-5.4-2.9-5.4 2.9 1-6L3.2 9.6l6.1-.9z"/>',
+  euro: '<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4a4.6 4.6 0 0 0-6.9 3.6 4.6 4.6 0 0 0 6.9 3.6"/><path d="M7.4 10.8h5"/><path d="M7.4 13.2h5"/>',
+} as const;
+
+export type NombreIcono = keyof typeof TRAZOS;

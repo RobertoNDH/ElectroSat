@@ -73,7 +73,6 @@ const jsonLd = [
   <section class="portada">
     <div class="container portada__rejilla">
       <div class="portada__texto">
-        <p class="eyebrow">{data.corto}</p>
         <h1 class="display-l">{data.titulo}</h1>
         <p class="lede">{data.entradilla}</p>
         <div class="portada__acciones">
@@ -163,7 +162,6 @@ const jsonLd = [
   <section class="section section--tight" aria-labelledby="publico-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="eyebrow">{lang === 'es' ? 'Para quién' : lang === 'en' ? 'Who it is for' : 'Für wen'}</p>
         <h2 class="h2" id="publico-titulo">
           {lang === 'es'
             ? 'Según tu caso'
@@ -197,7 +195,6 @@ const jsonLd = [
   <section class="section section--surface" aria-labelledby="faq-servicio">
     <div class="container faq-servicio">
       <div class="cabecera">
-        <p class="eyebrow">{txt.faq.eyebrow}</p>
         <h2 class="h2" id="faq-servicio">{data.corto}</h2>
       </div>
       <Faq items={data.faq} />

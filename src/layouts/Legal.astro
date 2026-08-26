@@ -13,7 +13,6 @@ const { titulo, tituloSeo, descripcion, actualizado } = Astro.props;
 <Base lang="es" titulo={tituloSeo} descripcion={descripcion} noindex>
   <section class="portada">
     <div class="container">
-      <p class="eyebrow">Información legal</p>
       <h1 class="display-l">{titulo}</h1>
       <p class="small">Última actualización: {actualizado}</p>
     </div>
@@ -118,11 +117,18 @@ const { titulo, tituloSeo, descripcion, actualizado } = Astro.props;
     color: var(--ink);
   }
 
+  /* Nota pendiente de revisión: tinte cálido y borde completo, sin barra
+     lateral de color. */
   .legal :global(.aviso) {
-    padding: var(--s-4);
+    padding: var(--s-4) var(--s-5);
     background: var(--naranja-tinte);
-    border-left: 4px solid var(--naranja);
-    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    border: 1px solid #f0cfa4;
+    border-radius: var(--r-md);
     font-size: var(--fs-small);
+    color: #7a4405;
+  }
+
+  .legal :global(.aviso strong) {
+    color: #5e3404;
   }
 </style>

@@ -1,50 +1,27 @@
 ---
-// Logotipo de la marca, reconstruido en vector a partir del original: bloque
-// amarillo con ELECTRO, bloque azul con SAT y los arcos de señal a la derecha.
-// Al ser SVG escala sin perder nitidez.
-//
-// TODO: si el cliente facilita el archivo original en SVG, sustituir el marcado
-// de este componente. Es el único sitio que hay que tocar.
+// Logotipo original de la empresa, con el fondo blanco recortado.
+// El archivo de partida es un JPEG de 179x48 px, así que la nitidez está
+// limitada por el original.
+// TODO: pedir al cliente el vectorial (SVG, AI o EPS) para sustituirlo.
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-electrosat.png';
+
 interface Props {
   class?: string;
-  /** El tamaño va por clase y no por atributo style: la CSP no admite estilos en línea. */
+  /** El tamaño va por clase: la CSP no admite atributos style. */
   tamano?: 'md' | 'sm';
 }
 const { class: clase, tamano = 'md' } = Astro.props;
 ---
 
-<svg
+<Image
   class:list={['logo', `logo--${tamano}`, clase]}
-  viewBox="0 0 320 76"
-  role="img"
-  aria-label="ElectroSat TV"
->
-  <defs>
-    <linearGradient id="lg-am" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fcd75c" />
-      <stop offset="0.48" stop-color="#f2b70e" />
-      <stop offset="1" stop-color="#d59705" />
-    </linearGradient>
-    <linearGradient id="lg-az" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2f8ade" />
-      <stop offset="0.48" stop-color="#1263b2" />
-      <stop offset="1" stop-color="#093f7c" />
-    </linearGradient>
-  </defs>
-
-  <path d="M7 0h169l-25 76H7a7 7 0 0 1-7-7V7a7 7 0 0 1 7-7Z" fill="url(#lg-am)"></path>
-  <path d="M176 0h137a7 7 0 0 1 7 7v62a7 7 0 0 1-7 7H151Z" fill="url(#lg-az)"></path>
-
-  <text class="logo__electro" x="16" y="54">ELECTRO</text>
-  <text class="logo__sat" x="190" y="54">SAT</text>
-
-  <g class="logo__senal">
-    <path d="M264 47a13 13 0 0 1 13 13" />
-    <path d="M264 39a21 21 0 0 1 21 21" />
-    <path d="M264 31a29 29 0 0 1 29 29" />
-    <circle cx="264" cy="60" r="3.6" />
-  </g>
-</svg>
+  src={logo}
+  alt="ElectroSat TV"
+  widths={[240, 480]}
+  sizes="15rem"
+  loading="eager"
+/>
 
 <style>
   .logo {
@@ -58,33 +35,5 @@ const { class: clase, tamano = 'md' } = Astro.props;
 
   .logo--sm {
     height: 2.125rem;
-  }
-
-  .logo__electro,
-  .logo__sat {
-    font-family: var(--font-display);
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: 0.015em;
-  }
-
-  .logo__electro {
-    fill: #14202e;
-  }
-
-  .logo__sat {
-    fill: #ffffff;
-  }
-
-  .logo__senal path {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 4.5;
-    stroke-linecap: round;
-    opacity: 0.95;
-  }
-
-  .logo__senal circle {
-    fill: #ffffff;
   }
 </style>

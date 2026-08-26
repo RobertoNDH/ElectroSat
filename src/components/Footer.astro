@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Logotipo from './Logotipo.astro';
 import Icono from './Icono.astro';
+import Mapa from './Mapa.astro';
 import {
   empresa,
   telHref,
@@ -98,6 +99,12 @@ const legales = [
         <Icono nombre="whatsapp" tamano={17} />
         {txt.acciones.escribirWhatsapp}
       </a>
+    </div>
+  </div>
+
+  <div class="pie__mapa">
+    <div class="container">
+      <Mapa lang={lang} />
     </div>
   </div>
 
@@ -242,6 +249,11 @@ const legales = [
   .pie__col .btn {
     justify-self: start;
     margin-top: var(--s-1);
+  }
+
+  .pie__mapa {
+    border-top: var(--hairline);
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
   }
 
   .pie__legal {

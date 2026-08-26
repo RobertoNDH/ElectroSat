@@ -65,6 +65,32 @@ a {
   color: var(--on-oscuro);
 }
 
+/* Lo que no dibujamos también es parte del diseño. */
+html {
+  caret-color: var(--azul);
+  scrollbar-color: var(--control) var(--surface);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--control);
+  border: 3px solid var(--surface);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-3);
+}
+
 /* ---------- Titulares ---------- */
 
 .display-xl,
@@ -123,27 +149,16 @@ a {
   font-weight: 600;
 }
 
-/* Antetítulo: barra naranja + texto azul en versalitas */
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
+/* Etiqueta de grupo dentro de una lista o un panel. Nunca sobre un titular:
+   el titular se sostiene solo. */
+.etiqueta {
   font-family: var(--font-base);
   font-size: var(--fs-eyebrow);
-  font-weight: 600;
-  letter-spacing: 0.11em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--azul);
-}
-
-.eyebrow::before {
-  content: '';
-  width: 1.75rem;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--naranja) 0 60%, var(--amarillo) 60% 100%);
-  flex: none;
+  color: var(--ink-3);
 }
 
 .small {
@@ -191,13 +206,9 @@ a {
 
 @media (min-width: 62rem) {
   .cabecera--split {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     align-items: end;
     gap: var(--s-4) var(--s-7);
-  }
-
-  .cabecera--split .eyebrow {
-    grid-column: 1 / -1;
   }
 }
 

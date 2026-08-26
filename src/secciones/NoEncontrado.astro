@@ -22,7 +22,6 @@ const servicios = (await getCollection('servicios'))
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} noindex>
   <section class="section perdido">
     <div class="container perdido__caja">
-      <p class="eyebrow">{txt.error404.eyebrow}</p>
       <h1 class="display-l">{txt.error404.titulo}</h1>
       <p class="lede">{txt.error404.texto}</p>
 
@@ -35,7 +34,7 @@ const servicios = (await getCollection('servicios'))
       </div>
 
       <nav class="perdido__enlaces" aria-label={txt.nav.servicios}>
-        <p class="eyebrow">{txt.error404.oVeA}</p>
+        <p class="etiqueta">{txt.error404.oVeA}</p>
         <ul>
           {
             servicios.map((s) => (
