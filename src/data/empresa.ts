@@ -43,12 +43,10 @@ export const empresa = {
   // TODO: CIF real. Obligatorio en el aviso legal (LSSI-CE).
   cif: 'B00000000',
   /**
-   * Valoración media que se muestra en la portada.
-   * TODO CLIENTE: poner la nota y el número de reseñas reales de Google.
-   * Publicar una puntuación que no corresponde a reseñas verificables puede
-   * considerarse publicidad engañosa. Con `mostrar: false` desaparece de la web.
+   * Valoración media en Google Maps de la ficha del negocio.
+   * Actualizarla cuando cambie. Con `mostrar: false` desaparece de la web.
    */
-  valoracion: { nota: 4.3, sobre: 5, resenas: 0, mostrar: true },
+  valoracion: { nota: 4.3, sobre: 5, mostrar: true },
 
   // TODO: inscripción en el Registro de Empresas Instaladoras de Telecomunicación.
   registroInstalador: '00000',

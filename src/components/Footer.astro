@@ -103,7 +103,7 @@ const legales = [
 
   <div class="pie__legal">
     <div class="container pie__legal-fila">
-      <p class="small">© {anio} {empresa.razonSocial}. CIF {empresa.cif}.</p>
+      <p class="small">© {anio} {empresa.razonSocial}</p>
       <ul class="pie__legal-enlaces">
         {legales.map((l) => <li><a href={l.href}>{l.texto}</a></li>)}
       </ul>
@@ -171,13 +171,13 @@ const legales = [
     gap: 0.5rem;
   }
 
-  .pie__col a {
+  .pie__col a:not(.btn) {
     font-size: var(--fs-small);
     text-decoration: none;
     color: var(--ink-2);
   }
 
-  .pie__col a:hover {
+  .pie__col a:not(.btn):hover {
     color: var(--azul);
     text-decoration: underline;
   }
