@@ -1,48 +1,51 @@
 /* Sistema de diseño de ElectroSat TV.
-   Base clara y neutra. El azul del logo estructura (barra superior, enlaces,
-   iconos) y el naranja marca la acción: botón de llamada, numeración y
-   subrayados. Todo lo demás es gris azulado. */
+   Los tres colores salen medidos del propio logotipo: el azul estructura, el
+   amarillo marca la acción y el naranja pone los detalles. Base clara. */
 
 :root {
   color-scheme: light;
 
   /* Superficies */
   --paper: #ffffff;
-  --surface: #f4f6f9;
-  --surface-2: #e8edf3;
-  --line: #dbe2ea;
-  --control: #7b8998; /* borde de controles, 3.58:1 sobre blanco */
+  --surface: #f4f7f9;
+  --surface-2: #e6eef3;
+  --line: #d8e3ea;
+  --control: #78909d; /* borde de controles, 3.6:1 sobre blanco */
 
   /* Tinta */
-  --ink: #14202e;
-  --ink-2: #46556a;
-  --ink-3: #5d6b7d;
+  --ink: #12212b;
+  --ink-2: #42555f;
+  --ink-3: #5b6c76;
   --on-oscuro: #ffffff;
 
-  /* Azul del logo */
-  --azul: #0c4da2;
-  --azul-osc: #093a7c;
-  --azul-tinte: #eaf1fb;
+  /* Azul del logo. --azul-vivo es el tono exacto del bloque SAT; --azul es su
+     versión oscurecida, la única que da 4.5:1 para texto y fondos. */
+  --azul: #0b7099;
+  --azul-osc: #085876;
+  --azul-vivo: #1192cb;
+  --azul-tinte: #e7f3fa;
 
-  /* Amarillo del logo, solo para detalles */
-  --amarillo: #f2b70e;
-  --amarillo-osc: #8a6300;
-  --amarillo-tinte: #fdf4d9;
+  /* Amarillo del logo: botones principales, siempre con texto en tinta. */
+  --amarillo: #f2c14e;
+  --amarillo-osc: #e0ad33;
+  --amarillo-tinte: #fdf4dd;
 
-  /* Naranja de trabajo */
-  --naranja: #ee7c1a;
-  --naranja-osc: #d96d10;
-  --naranja-tinte: #fdf1e4;
+  /* Naranja del pie del degradado amarillo: detalles y remates. */
+  --naranja: #c96f1c;
+  --naranja-texto: #a85a10;
+  --naranja-tinte: #fbeeda;
 
-  /* Familias */
-  --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
-  --font-base: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Familias. Bitter da autoridad en los titulares sin perder legibilidad;
+     Source Sans 3 es de las más legibles en texto corrido y cubre bien los
+     acentos del español y del alemán. */
+  --font-display: 'Bitter Variable', Georgia, 'Times New Roman', serif;
+  --font-base: 'Source Sans 3 Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Escala tipográfica */
-  --fs-display-xl: clamp(2.5rem, 4.4vw, 3.5rem);
-  --fs-display-l: clamp(2.25rem, 4vw, 3.25rem);
-  --fs-h2: clamp(1.875rem, 3vw, 2.625rem);
-  --fs-h3: 1.25rem;
+  --fs-display-xl: clamp(2.25rem, 4vw, 3.375rem);
+  --fs-display-l: clamp(1.875rem, 3.2vw, 2.75rem);
+  --fs-h2: clamp(1.625rem, 2.6vw, 2.25rem);
+  --fs-h3: 1.1875rem;
   --fs-body: 1.0625rem;
   --fs-small: 0.9375rem;
   --fs-eyebrow: 0.8125rem;
@@ -62,16 +65,16 @@
   --container: 75rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --section-y: clamp(2.75rem, 5vw, 4.25rem);
-  --measure: 66ch;
+  --measure: 64ch;
 
   /* Forma */
   --r-sm: 4px;
   --r-md: 8px;
   --r-lg: 12px;
   --hairline: 1px solid var(--line);
-  --sombra-sm: 0 1px 2px rgba(20, 32, 46, 0.06);
-  --sombra: 0 2px 4px rgba(20, 32, 46, 0.04), 0 12px 28px rgba(20, 32, 46, 0.08);
-  --sombra-alta: 0 4px 8px rgba(20, 32, 46, 0.06), 0 20px 44px rgba(20, 32, 46, 0.12);
+  --sombra-sm: 0 1px 2px rgba(18, 33, 43, 0.06);
+  --sombra: 0 2px 4px rgba(18, 33, 43, 0.04), 0 12px 28px rgba(18, 33, 43, 0.09);
+  --sombra-alta: 0 4px 8px rgba(18, 33, 43, 0.06), 0 20px 44px rgba(18, 33, 43, 0.13);
 
   /* Movimiento */
   --t-rapido: 160ms cubic-bezier(0.2, 0.6, 0.2, 1);
@@ -79,7 +82,7 @@
 
   /* Alturas */
   --barra-sup-h: 2.25rem;
-  --header-h: 4.5rem;
+  --header-h: 4.25rem;
   --barra-h: 3.5rem;
 }
 

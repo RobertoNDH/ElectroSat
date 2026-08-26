@@ -18,8 +18,8 @@ const { class: clase, tamano = 'md' } = Astro.props;
   class:list={['logo', `logo--${tamano}`, clase]}
   src={logo}
   alt="ElectroSat TV"
-  widths={[240, 480]}
-  sizes="15rem"
+  widths={[200, 400]}
+  sizes="11rem"
   loading="eager"
 />
 
@@ -29,11 +29,13 @@ const { class: clase, tamano = 'md' } = Astro.props;
     width: auto;
   }
 
+  /* El archivo de origen es muy pequeño: por encima de estos tamaños se ve
+     pastoso. Cuando llegue el vectorial se podrá subir. */
   .logo--md {
-    height: 2.5rem;
+    height: 1.75rem;
   }
 
   .logo--sm {
-    height: 2.125rem;
+    height: 1.5rem;
   }
 </style>

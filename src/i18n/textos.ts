@@ -37,7 +37,7 @@ export const TEXTOS = {
     },
     hero: {
       eyebrow: 'Instalador registrado · Sur de Tenerife',
-      titulo: 'Que se vea bien. Que suene. Que funcione.',
+      titulo: 'Especialistas en telecomunicaciones en el sur de Tenerife',
       lede:
         'ElectroSat TV lleva la antena, las cámaras, el portero y el internet de tu casa, tu comunidad o tu negocio en el sur de Tenerife.',
       ventajas: [
@@ -229,7 +229,7 @@ export const TEXTOS = {
     },
     hero: {
       eyebrow: 'Registered installer · South Tenerife',
-      titulo: 'Clear picture. Clear sound. It just works.',
+      titulo: 'Telecommunications specialists in southern Tenerife',
       lede:
         'ElectroSat TV takes care of the aerial, the cameras, the door entry system and the internet in your home, your building or your business in the south of Tenerife.',
       ventajas: [
@@ -422,7 +422,7 @@ export const TEXTOS = {
     },
     hero: {
       eyebrow: 'Eingetragener Installateur · Süden Teneriffas',
-      titulo: 'Klares Bild. Guter Ton. Es funktioniert.',
+      titulo: 'Fachbetrieb für Telekommunikation im Süden Teneriffas',
       lede:
         'ElectroSat TV kümmert sich um Antenne, Kameras, Türsprechanlage und Internet in Ihrer Wohnung, Ihrer Wohnanlage oder Ihrem Betrieb im Süden Teneriffas.',
       ventajas: [

@@ -15,8 +15,6 @@ import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
 
 import fotoAntena from '../assets/antena-tejado.jpg';
-import fotoCamara from '../assets/videovigilancia.jpg';
-import fotoPortero from '../assets/porteros-y-videoporteros.jpg';
 import fotoTenerife from '../assets/hero-sur-tenerife.jpg';
 
 interface Props {
@@ -64,69 +62,48 @@ const jsonLd = [
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
   <section class="hero">
-    <div class="container hero__rejilla">
-      <div class="hero__texto">
-        <h1 class="display-xl">{txt.hero.titulo}</h1>
-        <p class="lede">{txt.hero.lede}</p>
+    <div class="hero__fondo">
+      <Image
+        src={fotoAntena}
+        alt="Antena de televisión instalada en el tejado de una vivienda del sur de Tenerife"
+        widths={[900, 1400, 2000]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={72}
+      />
+    </div>
 
-        <ul class="hero__ventajas">
-          {
-            txt.hero.ventajas.map((v) => (
-              <li>
-                <Icono nombre="check" tamano={17} />
-                {v}
-              </li>
-            ))
-          }
-        </ul>
+    <div class="container hero__contenido">
+      <h1 class="display-xl">{txt.hero.titulo}</h1>
+      <p class="lede">{txt.hero.lede}</p>
 
-        <div class="hero__acciones">
-          <a class="btn btn--principal btn--lg" href={telHref()}>
-            <Icono nombre="telefono" tamano={18} />
-            {txt.acciones.llamarA(empresa.telefono.display)}
-          </a>
-          <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
-            <Icono nombre="whatsapp" tamano={18} />
-            {txt.acciones.whatsapp}
-          </a>
-        </div>
+      <ul class="hero__ventajas">
+        {
+          txt.hero.ventajas.map((v) => (
+            <li>
+              <Icono nombre="check" tamano={17} />
+              {v}
+            </li>
+          ))
+        }
+      </ul>
 
-        <p class="hero__sello">
-          <Icono nombre="escudo" tamano={16} />
-          {txt.hero.sello} <strong class="tel-num">nº {empresa.registroInstalador}</strong>
-        </p>
+      <div class="hero__acciones">
+        <a class="btn btn--principal btn--lg" href={telHref()}>
+          <Icono nombre="telefono" tamano={18} />
+          {txt.acciones.llamarA(empresa.telefono.display)}
+        </a>
+        <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+          <Icono nombre="whatsapp" tamano={18} />
+          {txt.acciones.whatsapp}
+        </a>
       </div>
 
-      <div class="mosaico">
-        <figure class="mosaico__pieza mosaico__pieza--ancha">
-          <Image
-            src={fotoAntena}
-            alt="Antena de televisión instalada en el tejado de una vivienda"
-            widths={[520, 780, 1100]}
-            sizes="(min-width: 62rem) 32rem, 92vw"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </figure>
-        <figure class="mosaico__pieza mosaico__pieza--camara">
-          <Image
-            src={fotoCamara}
-            alt="Cámaras de seguridad montadas en la fachada de un edificio"
-            widths={[260, 400, 520]}
-            sizes="(min-width: 62rem) 16rem, 46vw"
-            loading="eager"
-          />
-        </figure>
-        <figure class="mosaico__pieza">
-          <Image
-            src={fotoPortero}
-            alt="Panel de portero automático en la entrada de un portal"
-            widths={[260, 400, 520]}
-            sizes="(min-width: 62rem) 16rem, 46vw"
-            loading="eager"
-          />
-        </figure>
-      </div>
+      <p class="hero__sello">
+        <Icono nombre="escudo" tamano={16} />
+        {txt.hero.sello} <strong class="tel-num">nº {empresa.registroInstalador}</strong>
+      </p>
     </div>
   </section>
 
@@ -136,7 +113,7 @@ const jsonLd = [
 
   <section class="section" aria-labelledby="publicos-titulo">
     <div class="container">
-      <div class="cabecera cabecera--split">
+      <div class="cabecera">
         <h2 class="h2" id="publicos-titulo">{txt.publicos.titulo}</h2>
         <p class="prosa">{txt.publicos.prosa}</p>
       </div>
@@ -159,7 +136,7 @@ const jsonLd = [
 
   <section class="section section--surface" id="servicios" aria-labelledby="servicios-titulo">
     <div class="container">
-      <div class="cabecera cabecera--split">
+      <div class="cabecera">
         <h2 class="h2" id="servicios-titulo">{txt.servicios.titulo}</h2>
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
@@ -213,7 +190,7 @@ const jsonLd = [
 
   <section class="section section--tight" aria-labelledby="proceso-titulo">
     <div class="container">
-      <h2 class="h2 titulo-solo" id="proceso-titulo">{txt.pasos.titulo}</h2>
+      <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
 
       <ol class="pasos">
         {
@@ -233,7 +210,7 @@ const jsonLd = [
 
   <section class="section section--surface" aria-labelledby="pruebas-titulo">
     <div class="container">
-      <h2 class="h2 titulo-solo" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
+      <h2 class="h2" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
 
       <ul class="pruebas">
         {
@@ -250,7 +227,7 @@ const jsonLd = [
   </section>
 
   <section class="section section--tight" id="marcas" aria-labelledby="marcas-titulo">
-    <div class="container cabecera cabecera--split">
+    <div class="container cabecera">
       <h2 class="h2" id="marcas-titulo">{txt.marcas.titulo}</h2>
       <p class="prosa">{txt.marcas.prosa}</p>
     </div>
@@ -283,7 +260,7 @@ const jsonLd = [
 
   <section class="section section--tight" aria-labelledby="opiniones-titulo">
     <div class="container">
-      <h2 class="h2 titulo-solo" id="opiniones-titulo">{txt.opiniones.titulo}</h2>
+      <h2 class="h2" id="opiniones-titulo">{txt.opiniones.titulo}</h2>
       <ul class="opiniones">
         {
           [0, 1, 2].map(() => (
@@ -322,63 +299,123 @@ const jsonLd = [
 <style>
   /* ---------- Portada ---------- */
   .hero {
-    padding-block: clamp(2rem, 4vw, 3.5rem);
-    background: var(--paper);
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(42rem, 92svh);
+    padding-block: clamp(2rem, 4vw, 3rem);
+    overflow: hidden;
   }
 
-  .hero__rejilla {
-    display: grid;
-    gap: clamp(1.75rem, 4vw, 3.5rem);
-    align-items: center;
+  .hero__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
   }
 
-  @media (min-width: 62rem) {
-    .hero__rejilla {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  .hero__fondo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* En estrecho la foto se recorta por los lados, así que manda la x. */
+    object-position: 42% 50%;
+  }
+
+  @media (min-width: 55rem) {
+    .hero__fondo :global(img) {
+      object-position: 50% 72%;
     }
   }
 
-  .hero__texto {
+  /* Velo claro que sube desde abajo: arriba se ve la antena contra el cielo y
+     el texto se apoya en blanco. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        58% 46% at 50% 62%,
+        rgba(255, 255, 255, 0.97) 0%,
+        rgba(255, 255, 255, 0.9) 46%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 26%,
+        rgba(255, 255, 255, 0.72) 58%,
+        rgba(255, 255, 255, 0.97) 80%,
+        var(--paper) 94%
+      );
+  }
+
+  .hero__contenido {
     display: grid;
+    justify-items: center;
     gap: var(--s-4);
+    text-align: center;
   }
 
   .hero .display-xl {
-    max-width: 15ch;
+    max-width: 19ch;
   }
 
+  .hero .lede {
+    max-width: 54ch;
+  }
+
+  /* En estrecho cada ventaja ocupa su línea: en fila se partían por la mitad. */
   .hero__ventajas {
     display: grid;
+    justify-items: start;
     gap: 0.4375rem;
+    text-align: left;
+  }
+
+  @media (min-width: 55rem) {
+    .hero__ventajas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.5rem;
+    }
   }
 
   .hero__ventajas li {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 0.5rem;
     font-size: var(--fs-small);
     font-weight: 600;
     color: var(--ink-2);
   }
 
   .hero__ventajas svg {
-    color: var(--naranja-osc);
+    margin-top: 0.15rem;
+  }
+
+  .hero__ventajas svg {
+    color: var(--naranja);
     flex: none;
   }
 
   .hero__acciones {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--s-3);
-    margin-top: var(--s-1);
+    margin-top: var(--s-2);
   }
 
   .hero__sello {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    justify-self: start;
-    padding: 0.4375rem 0.75rem;
+    padding: 0.4375rem 0.875rem;
     border-radius: 999px;
     background: var(--azul-tinte);
     font-size: 0.8125rem;
@@ -391,64 +428,20 @@ const jsonLd = [
     flex: none;
   }
 
-  /* Tres fotos: antena, cámara y portero. Se ve de qué va el negocio sin leer. */
-  .mosaico {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.625rem;
-  }
-
-  .mosaico__pieza {
-    margin: 0;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    box-shadow: var(--sombra);
-  }
-
-  .mosaico__pieza--ancha {
-    grid-column: 1 / -1;
-  }
-
-  .mosaico__pieza :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .mosaico__pieza--ancha :global(img) {
-    aspect-ratio: 3 / 2;
-    object-position: 50% 38%;
-  }
-
-  .mosaico__pieza:not(.mosaico__pieza--ancha) :global(img) {
-    aspect-ratio: 4 / 3;
-  }
-
-  /* La cámara está en la mitad baja del encuadre original. */
-  .mosaico__pieza--camara :global(img) {
-    object-position: 50% 72%;
-  }
-
-  /* Único momento de movimiento de la página: las fotos entran al cargar.
-     Parten de visibles, así que si la animación no corre no se pierde nada. */
   @media (prefers-reduced-motion: no-preference) {
-    .mosaico__pieza {
-      animation: entrar 720ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    .hero__contenido > * {
+      animation: entrar 760ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
 
-    .mosaico__pieza:nth-child(2) {
-      animation-delay: 110ms;
-    }
-
-    .mosaico__pieza:nth-child(3) {
-      animation-delay: 200ms;
-    }
+    .hero__contenido > *:nth-child(2) { animation-delay: 80ms; }
+    .hero__contenido > *:nth-child(3) { animation-delay: 150ms; }
+    .hero__contenido > *:nth-child(4) { animation-delay: 215ms; }
+    .hero__contenido > *:nth-child(5) { animation-delay: 275ms; }
 
     @keyframes entrar {
       from {
         opacity: 0;
-        transform: translateY(14px) scale(0.985);
-        filter: blur(6px);
+        transform: translateY(12px);
       }
     }
   }
@@ -589,11 +582,6 @@ const jsonLd = [
   }
 
   /* ---------- Proceso ---------- */
-  .titulo-solo {
-    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
-    max-width: 22ch;
-  }
-
   .pasos {
     display: grid;
     gap: var(--s-4);
