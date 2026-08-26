@@ -117,18 +117,17 @@ const { titulo, tituloSeo, descripcion, actualizado } = Astro.props;
     color: var(--ink);
   }
 
-  /* Nota pendiente de revisión: tinte cálido y borde completo, sin barra
-     lateral de color. */
+  /* Tinte cálido y borde completo, sin barra lateral de color. */
   .legal :global(.aviso) {
     padding: var(--s-4) var(--s-5);
-    background: var(--naranja-tinte);
-    border: 1px solid #f0cfa4;
+    background: var(--amarillo-tinte);
+    border: 1px solid var(--amarillo-osc);
     border-radius: var(--r-md);
     font-size: var(--fs-small);
-    color: #7a4405;
+    color: var(--amarillo-texto);
   }
 
   .legal :global(.aviso strong) {
-    color: #5e3404;
+    color: var(--amarillo-texto);
   }
 </style>

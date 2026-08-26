@@ -101,14 +101,19 @@ const pistas = [false, true];
     width: 2.375rem;
     height: 2.375rem;
     border-radius: 50%;
-    background: var(--naranja-tinte);
-    color: var(--naranja-osc);
+    background: var(--amarillo-tinte);
+    color: var(--amarillo-texto);
     flex: none;
   }
 
   .tira__texto {
     display: grid;
     gap: 0.0625rem;
+  }
+
+  .tira--marcas .tira__texto {
+    justify-items: center;
+    text-align: center;
   }
 
   .tira__titulo {

@@ -1,6 +1,6 @@
 /* Sistema de diseño de ElectroSat TV.
-   Los tres colores salen medidos del propio logotipo: el azul estructura, el
-   amarillo marca la acción y el naranja pone los detalles. Base clara. */
+   Dos colores, medidos del propio logotipo: el azul estructura y el amarillo
+   marca la acción. Base clara. */
 
 :root {
   color-scheme: light;
@@ -25,15 +25,13 @@
   --azul-vivo: #1192cb;
   --azul-tinte: #e7f3fa;
 
-  /* Amarillo del logo: botones principales, siempre con texto en tinta. */
+  /* Amarillo del logo: botones principales, siempre con texto en tinta.
+     --amarillo-texto es la variante oscura para texto e iconos sobre claro:
+     5.7:1 en blanco, 5.2:1 sobre el tinte (el amarillo puro no llega a 3:1). */
   --amarillo: #f2c14e;
   --amarillo-osc: #e0ad33;
   --amarillo-tinte: #fdf4dd;
-
-  /* Naranja del pie del degradado amarillo: detalles y remates. */
-  --naranja: #c96f1c;
-  --naranja-texto: #a85a10;
-  --naranja-tinte: #fbeeda;
+  --amarillo-texto: #856000;
 
   /* Familias. Bitter da autoridad en los titulares sin perder legibilidad;
      Source Sans 3 es de las más legibles en texto corrido y cubre bien los

@@ -197,7 +197,7 @@ a {
 }
 
 /* Cabecera de sección: siempre centrada, con la descripción debajo. La regla
-   naranja ancla la composición y es donde vive el tercer color de la marca. */
+   amarilla ancla la composición. */
 .cabecera {
   display: grid;
   justify-items: center;
@@ -219,7 +219,7 @@ a {
   width: 3.25rem;
   height: 4px;
   border-radius: 2px;
-  background: var(--naranja);
+  background: var(--amarillo);
 }
 
 .cabecera .prosa,
@@ -311,7 +311,7 @@ a {
 }
 
 .enlace-flecha:hover {
-  color: var(--naranja-texto);
+  color: var(--azul-osc);
 }
 
 .enlace-flecha:hover svg {
@@ -329,11 +329,6 @@ a {
   background: var(--azul-tinte);
   color: var(--azul);
   flex: none;
-}
-
-.pastilla--naranja {
-  background: var(--naranja-tinte);
-  color: var(--naranja-texto);
 }
 
 /* ---------- Accesibilidad ---------- */
