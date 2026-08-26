@@ -24,6 +24,11 @@
   --azul-osc: #093a7c;
   --azul-tinte: #eaf1fb;
 
+  /* Amarillo del logo, solo para detalles */
+  --amarillo: #f2b70e;
+  --amarillo-osc: #8a6300;
+  --amarillo-tinte: #fdf4d9;
+
   /* Naranja de trabajo */
   --naranja: #ee7c1a;
   --naranja-osc: #d96d10;
@@ -56,7 +61,7 @@
   /* Estructura */
   --container: 75rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
-  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --section-y: clamp(2.75rem, 5vw, 4.25rem);
   --measure: 66ch;
 
   /* Forma */

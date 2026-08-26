@@ -139,10 +139,10 @@ a {
 
 .eyebrow::before {
   content: '';
-  width: 1.5rem;
+  width: 1.75rem;
   height: 3px;
   border-radius: 2px;
-  background: var(--naranja);
+  background: linear-gradient(90deg, var(--naranja) 0 60%, var(--amarillo) 60% 100%);
   flex: none;
 }
 
@@ -186,7 +186,7 @@ a {
 .cabecera {
   display: grid;
   gap: var(--s-4);
-  margin-bottom: clamp(2rem, 4vw, 3.25rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 @media (min-width: 62rem) {

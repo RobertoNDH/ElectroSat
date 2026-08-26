@@ -1,28 +1,28 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-import Base from '../../layouts/Base.astro';
-import Icono from '../../components/Icono.astro';
-import Faq from '../../components/Faq.astro';
-import BloqueContacto from '../../components/BloqueContacto.astro';
-import { fotoServicio } from '../../data/imagenes';
-import { empresa, telHref, waHref } from '../../data/empresa';
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import Faq from '../components/Faq.astro';
+import BloqueContacto from '../components/BloqueContacto.astro';
+import DiagramaPortal from '../components/DiagramaPortal.astro';
+import { fotoDeServicio } from '../data/imagenes';
+import { empresa, telHref, waHref } from '../data/empresa';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
 
-export async function getStaticPaths() {
-  const servicios = await getCollection('servicios');
-  return servicios.map((servicio) => ({
-    params: { id: servicio.id },
-    props: { servicio },
-  }));
+interface Props {
+  lang: Idioma;
+  servicio: CollectionEntry<'servicios'>;
 }
-
-const { servicio } = Astro.props;
+const { lang, servicio } = Astro.props;
 const { data } = servicio;
 const { Content } = await render(servicio);
-const foto = fotoServicio[servicio.id];
+const slug = servicio.id.split('/')[1];
+const txt = t(lang);
 
 const otros = (await getCollection('servicios'))
-  .filter((s) => s.id !== servicio.id)
+  .filter((s) => s.id.startsWith(`${lang}/`) && s.id !== servicio.id)
   .sort((a, b) => a.data.orden - b.data.orden);
 
 const sitio = Astro.site!;
@@ -35,7 +35,7 @@ const jsonLd = [
     description: data.descripcion,
     url,
     provider: { '@id': new URL('/#negocio', sitio).href },
-    areaServed: { '@type': 'AdministrativeArea', name: 'Tenerife' },
+    areaServed: { '@type': 'AdministrativeArea', name: 'Tenerife Sur' },
   },
   {
     '@type': 'FAQPage',
@@ -48,12 +48,12 @@ const jsonLd = [
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Inicio', item: sitio.href },
+      { '@type': 'ListItem', position: 1, name: txt.nav.inicio, item: new URL(ruta(lang, '/'), sitio).href },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Servicios',
-        item: new URL('/servicios/', sitio).href,
+        name: txt.nav.servicios,
+        item: new URL(ruta(lang, '/servicios/'), sitio).href,
       },
       { '@type': 'ListItem', position: 3, name: data.corto, item: url },
     ],
@@ -61,11 +61,11 @@ const jsonLd = [
 ];
 ---
 
-<Base titulo={data.tituloSeo} descripcion={data.descripcion} jsonLd={jsonLd}>
-  <nav class="miga" aria-label="Ruta de navegación">
+<Base lang={lang} titulo={data.tituloSeo} descripcion={data.descripcion} jsonLd={jsonLd}>
+  <nav class="miga" aria-label={txt.nav.inicio}>
     <ol class="container">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/servicios/">Servicios</a></li>
+      <li><a href={ruta(lang, '/')}>{txt.nav.inicio}</a></li>
+      <li><a href={ruta(lang, '/servicios/')}>{txt.nav.servicios}</a></li>
       <li aria-current="page">{data.corto}</li>
     </ol>
   </nav>
@@ -79,21 +79,21 @@ const jsonLd = [
         <div class="portada__acciones">
           <a class="btn btn--principal btn--lg" href={telHref()}>
             <Icono nombre="telefono" tamano={18} />
-            Llamar al {empresa.telefono.display}
+            {txt.acciones.llamarA(empresa.telefono.display)}
           </a>
-          <a class="btn btn--linea btn--lg" href={waHref()} rel="noopener noreferrer">
+          <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
             <Icono nombre="whatsapp" tamano={18} />
-            WhatsApp
+            {txt.acciones.whatsapp}
           </a>
         </div>
       </div>
 
       <figure class="portada__foto">
         <Image
-          src={foto}
-          alt={`Instalación de ${data.corto.toLowerCase()} realizada por ElectroSat TV`}
-          widths={[520, 780, 1040]}
-          sizes="(min-width: 62rem) 30rem, 100vw"
+          src={fotoDeServicio(servicio.id)}
+          alt={data.corto}
+          widths={[460, 700, 940]}
+          sizes="(min-width: 62rem) 28rem, 100vw"
           loading="eager"
           fetchpriority="high"
         />
@@ -101,9 +101,9 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tight">
     <div class="container detalle">
-      <div class="prosa detalle__prosa">
+      <div class="prosa">
         <Content />
       </div>
 
@@ -112,7 +112,11 @@ const jsonLd = [
           <span class="pastilla pastilla--naranja">
             <Icono nombre="check" tamano={20} />
           </span>
-          Qué incluye el trabajo
+          {lang === 'es'
+            ? 'Qué incluye'
+            : lang === 'en'
+              ? "What's included"
+              : 'Was enthalten ist'}
         </h2>
         <ul>
           {
@@ -128,11 +132,45 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--surface" aria-labelledby="publico-titulo">
+  {
+    slug === 'internet-comunitario' && (
+      <section class="section section--surface" aria-labelledby="diagrama-titulo">
+        <div class="container diagrama__rejilla">
+          <div class="diagrama__caja">
+            <DiagramaPortal />
+          </div>
+          <div class="diagrama__texto">
+            <h2 class="h2" id="diagrama-titulo">
+              {lang === 'es'
+                ? 'Así llega a cada vivienda'
+                : lang === 'en'
+                  ? 'How it reaches every flat'
+                  : 'So kommt es in jede Wohnung'}
+            </h2>
+            <p class="prosa">
+              {lang === 'es'
+                ? 'Desde la azotea baja una sola línea por el edificio y de ahí sale una toma a cada vivienda. Es el cable que ya está puesto, así que no hay obra.'
+                : lang === 'en'
+                  ? 'A single line runs down from the roof through the building, feeding one socket in each flat. It uses the cabling already in place, so there is no building work.'
+                  : 'Vom Dach führt eine einzige Leitung durch das Haus und versorgt in jeder Wohnung eine Dose. Genutzt wird die vorhandene Verkabelung, Bauarbeiten entfallen.'}
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--tight" aria-labelledby="publico-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="eyebrow">Para quién</p>
-        <h2 class="h2" id="publico-titulo">Cómo se plantea según el caso</h2>
+        <p class="eyebrow">{lang === 'es' ? 'Para quién' : lang === 'en' ? 'Who it is for' : 'Für wen'}</p>
+        <h2 class="h2" id="publico-titulo">
+          {lang === 'es'
+            ? 'Según tu caso'
+            : lang === 'en'
+              ? 'Depending on your case'
+              : 'Je nach Fall'}
+        </h2>
       </div>
       <ul class="casos">
         {
@@ -149,7 +187,6 @@ const jsonLd = [
         data.marcas.length > 0 && (
           <p class="marcas-linea">
             <Icono nombre="herramienta" tamano={17} />
-            <span class="marcas-linea__etiqueta">Material</span>
             <span>{data.marcas.join(' · ')}</span>
           </p>
         )
@@ -157,29 +194,26 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section" aria-labelledby="faq-servicio">
+  <section class="section section--surface" aria-labelledby="faq-servicio">
     <div class="container faq-servicio">
       <div class="cabecera">
-        <p class="eyebrow">Dudas frecuentes</p>
-        <h2 class="h2" id="faq-servicio">Sobre {data.corto.toLowerCase()}</h2>
+        <p class="eyebrow">{txt.faq.eyebrow}</p>
+        <h2 class="h2" id="faq-servicio">{data.corto}</h2>
       </div>
       <Faq items={data.faq} />
     </div>
   </section>
 
-  <BloqueContacto
-    titulo={`¿Hablamos de tu caso de ${data.corto.toLowerCase()}?`}
-    texto="Cuéntanos qué tienes montado y qué necesitas. Si hace falta ir a verlo, la visita para valorar el trabajo es gratuita y sin compromiso."
-  />
+  <BloqueContacto lang={lang} />
 
-  <section class="section section--tight otros" aria-labelledby="otros-titulo">
+  <section class="section section--tight otros">
     <div class="container">
-      <h2 class="otros__titulo" id="otros-titulo">Otros servicios</h2>
+      <h2 class="otros__titulo">{txt.nav.todosServicios}</h2>
       <ul class="otros__lista">
         {
           otros.map((o) => (
             <li>
-              <a href={`/servicios/${o.id}/`}>
+              <a href={ruta(lang, `/servicios/${o.id.split('/')[1]}/`)}>
                 <Icono nombre={o.data.icono} tamano={20} />
                 <span>{o.data.corto}</span>
                 <Icono nombre="flecha" tamano={16} />
@@ -224,30 +258,26 @@ const jsonLd = [
   }
 
   .portada {
-    padding-block: clamp(2.25rem, 4.5vw, 3.5rem);
+    padding-block: clamp(2rem, 4vw, 3rem);
     border-bottom: var(--hairline);
   }
 
   .portada__rejilla {
     display: grid;
-    gap: var(--s-6);
+    gap: var(--s-5);
     align-items: center;
   }
 
   @media (min-width: 62rem) {
     .portada__rejilla {
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      gap: var(--s-8);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: var(--s-7);
     }
   }
 
   .portada__texto {
     display: grid;
-    gap: var(--s-4);
-  }
-
-  .portada__texto .lede {
-    max-width: 54ch;
+    gap: var(--s-3);
   }
 
   .portada__acciones {
@@ -272,13 +302,13 @@ const jsonLd = [
 
   .detalle {
     display: grid;
-    gap: var(--s-6);
+    gap: var(--s-5);
   }
 
   @media (min-width: 62rem) {
     .detalle {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: var(--s-8);
+      gap: var(--s-7);
       align-items: start;
     }
   }
@@ -302,7 +332,7 @@ const jsonLd = [
 
   .incluye ul {
     display: grid;
-    margin-top: var(--s-4);
+    margin-top: var(--s-3);
   }
 
   .incluye li {
@@ -310,7 +340,7 @@ const jsonLd = [
     grid-template-columns: auto 1fr;
     gap: 0.75rem;
     align-items: start;
-    padding-block: 0.75rem;
+    padding-block: 0.625rem;
     font-size: var(--fs-small);
     border-top: var(--hairline);
   }
@@ -318,6 +348,31 @@ const jsonLd = [
   .incluye li :global(svg) {
     margin-top: 0.25rem;
     color: var(--naranja-osc);
+  }
+
+  .diagrama__rejilla {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+  }
+
+  @media (min-width: 62rem) {
+    .diagrama__rejilla {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: var(--s-7);
+    }
+  }
+
+  .diagrama__caja {
+    padding: var(--s-4);
+    background: var(--paper);
+    border: var(--hairline);
+    border-radius: var(--r-lg);
+  }
+
+  .diagrama__texto {
+    display: grid;
+    gap: var(--s-3);
   }
 
   .casos {
@@ -360,7 +415,7 @@ const jsonLd = [
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem var(--s-3);
-    margin-top: var(--s-5);
+    margin-top: var(--s-4);
     padding-top: var(--s-4);
     border-top: var(--hairline);
     font-size: var(--fs-small);
@@ -370,19 +425,11 @@ const jsonLd = [
     color: var(--azul);
   }
 
-  .marcas-linea__etiqueta {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-
   @media (min-width: 62rem) {
     .faq-servicio {
       display: grid;
       grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: var(--s-8);
+      gap: var(--s-7);
       align-items: start;
     }
 
@@ -411,7 +458,7 @@ const jsonLd = [
     display: inline-flex;
     align-items: center;
     gap: 0.625rem;
-    padding: 0.75rem 1.125rem;
+    padding: 0.6875rem 1rem;
     background: var(--paper);
     border: var(--hairline);
     border-radius: var(--r-sm);

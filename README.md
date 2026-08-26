@@ -1,7 +1,7 @@
 # ElectroSat TV
 
-Web corporativa de ElectroSat TV S.L., instalador de telecomunicaciones en Tenerife.
-Sitio estático construido con Astro.
+Web corporativa de ElectroSat TV S.L., instalador de telecomunicaciones en el sur de
+Tenerife. Sitio estático construido con Astro, en español, inglés y alemán.
 
 ## Arrancar
 
@@ -19,12 +19,15 @@ Requiere Node 22.12 o superior.
 
 | Para cambiar | Archivo |
 |---|---|
-| Teléfono, WhatsApp, correo, dirección, horario, CIF, registro | `src/data/empresa.ts` |
-| Marcas del muro | `src/data/marcas.ts` |
-| Preguntas frecuentes de la home | `src/data/faq.ts` |
+| Teléfono, WhatsApp, correo, dirección, CIF, registro, municipios | `src/data/empresa.ts` |
+| Cualquier texto de la interfaz, en los tres idiomas | `src/i18n/textos.ts` |
+| Títulos y descripciones para Google | `src/i18n/seo.ts` |
+| Textos de la página Nosotros | `src/i18n/nosotros.ts` |
+| Preguntas frecuentes | `src/data/faq.ts` |
+| Marcas | `src/data/marcas.ts` |
 | Fotos de cada servicio | `src/data/imagenes.ts` y `src/assets/` |
-| Textos de un servicio | `src/content/servicios/<servicio>.md` |
-| Secciones de la home | `src/pages/index.astro` |
+| Textos de un servicio | `src/content/servicios/<idioma>/<servicio>.md` |
+| Secciones de la home | `src/secciones/Home.astro` |
 | Colores, tipografía, espaciado | `src/styles/tokens.css` |
 | Logotipo | `src/components/Logotipo.astro` |
 | Dominio | `astro.config.mjs` y `public/robots.txt` |
@@ -39,21 +42,47 @@ Los valores pendientes están marcados con `TODO`:
 Select-String -Path src -Pattern "TODO" -Recurse
 ```
 
+## Idiomas
+
+Español, inglés y alemán. El español es el principal y va sin prefijo:
+
+```
+/                    /en/                    /de/
+/servicios/          /en/servicios/          /de/servicios/
+/contacto/           /en/contacto/           /de/contacto/
+```
+
+Cada página se escribe una sola vez en `src/secciones/` y recibe el idioma como
+propiedad. Las rutas de `src/pages/[...lang]/` solo eligen el idioma. Para cambiar una
+frase basta con tocar `src/i18n/textos.ts`, que tiene los tres idiomas juntos.
+
+Las etiquetas `hreflang` y el selector del menú se generan solos a partir de
+`src/i18n/config.ts`. Para añadir un cuarto idioma hay que ampliar ese archivo,
+`textos.ts`, `seo.ts`, `nosotros.ts`, `faq.ts` y crear la carpeta de servicios.
+
+Los textos legales están solo en español, que es la versión con validez legal en España.
+Desde inglés y alemán se enlazan igualmente y el pie lo advierte.
+
 ## Añadir un servicio
 
-1. Crear un `.md` en `src/content/servicios/`. El nombre del archivo es la URL.
+1. Crear el `.md` en `src/content/servicios/es/`, `en/` y `de/`. El nombre del archivo es
+   la URL y debe ser el mismo en los tres idiomas.
 2. Añadir la foto en `src/assets/` y registrarla en `src/data/imagenes.ts`.
 
 El esquema de `src/content.config.ts` valida el frontmatter al compilar, así que si falta
-un campo el build falla en lugar de publicar una página incompleta. El servicio aparece
-solo en la home, el pie, el menú y el índice de servicios.
+un campo el build falla en lugar de publicar una página incompleta.
 
 ## Diseño
 
-Base clara con gris azulado. El azul del logo estructura la interfaz (franja superior,
-enlaces, iconos) y el naranja marca la acción: botón de llamada, numeración de pasos y
-subrayado de los antetítulos. Tipografías Barlow Condensed para titulares y Barlow para
-el resto, servidas desde el propio dominio.
+Base clara con gris azulado. Los tres colores del logo tienen cada uno su función:
+
+- **Azul**: estructura. Franja superior, enlaces, iconos y pie.
+- **Naranja**: acción. Botón de llamada, numeración de pasos y antetítulos.
+- **Amarillo**: detalle. Estrellas de las opiniones, indicador de horario abierto y el
+  remate del antetítulo.
+
+Tipografías Barlow Condensed para titulares y Barlow para el resto, servidas desde el
+propio dominio.
 
 ## Decisiones que conviene conocer
 
@@ -66,7 +95,8 @@ implantar consentimiento previo.
 
 **CSP estricta.** Astro calcula el hash de cada script y estilo que emite. Se rompe si se
 añade un `style="..."` en el HTML, un `<script>` con `is:inline` o una librería que
-inyecte estilos en línea. Si algo deja de verse, revisar la consola.
+inyecte estilos en línea. Por eso el tamaño del logotipo va por clase y no por atributo.
+Si algo deja de verse, revisar la consola.
 
 **El contenido no depende de JavaScript.** Si el script no carga, la página se lee entera.
 Lo único que se pierde es el trazado animado del diagrama del portal.

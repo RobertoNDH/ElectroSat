@@ -1,22 +1,37 @@
 ---
 // Barra fija de llamada, solo en móvil.
 import Icono from './Icono.astro';
-import { empresa, telHref, waHref } from '../data/empresa';
+import { telHref, waHref, correoHref } from '../data/empresa';
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang);
 ---
 
 <div class="barra">
   <a class="barra__accion barra__accion--llamar" href={telHref()}>
     <Icono nombre="telefono" tamano={18} />
-    Llamar ahora
+    {txt.acciones.llamarAhora}
   </a>
   <a
     class="barra__accion barra__accion--wa"
-    href={waHref()}
+    href={waHref(lang)}
     rel="noopener noreferrer"
-    aria-label={`Escribir por WhatsApp al ${empresa.movil.display}`}
+    aria-label={txt.acciones.escribirWhatsapp}
   >
     <Icono nombre="whatsapp" tamano={18} />
-    WhatsApp
+    {txt.acciones.whatsapp}
+  </a>
+  <a
+    class="barra__accion barra__accion--mail"
+    href={correoHref(lang)}
+    aria-label={txt.acciones.escribirCorreo}
+  >
+    <Icono nombre="email" tamano={19} />
   </a>
 </div>
 
@@ -28,7 +43,7 @@ import { empresa, telHref, waHref } from '../data/empresa';
     bottom: 0;
     z-index: 30;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 4rem;
     background: var(--paper);
     border-top: var(--hairline);
     box-shadow: 0 -4px 16px rgba(20, 32, 46, 0.1);
@@ -54,6 +69,11 @@ import { empresa, telHref, waHref } from '../data/empresa';
   .barra__accion--wa {
     background: var(--azul);
     color: var(--on-oscuro);
+  }
+
+  .barra__accion--mail {
+    background: var(--surface-2);
+    color: var(--azul);
   }
 
   @media (min-width: 62rem) {

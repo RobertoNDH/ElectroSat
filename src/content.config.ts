@@ -3,7 +3,8 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const servicios = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/servicios' }),
+  // Un subdirectorio por idioma: el id queda como "es/videovigilancia".
+  loader: glob({ pattern: '*/*.md', base: './src/content/servicios' }),
   schema: z.object({
     /** Titular de la página (h1). */
     titulo: z.string(),

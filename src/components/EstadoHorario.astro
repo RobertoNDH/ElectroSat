@@ -2,26 +2,47 @@
 // Indicador de "abierto ahora". Se calcula en hora de Canarias, no en la del
 // visitante. Sin JavaScript se ve el horario escrito.
 import { empresa } from '../data/empresa';
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang).estado;
+
+// Las cadenas viajan en atributos de datos para que el script, que se agrupa
+// en un archivo aparte, no necesite conocer el idioma de la página.
+const etiquetas = {
+  abierto: txt.abierto,
+  cerrado: txt.cerrado,
+  hoy: txt.hoy,
+  dias: txt.dias,
+  plantilla: txt.abrimos('{cuando}', '{hora}'),
+};
 ---
 
-<p class="estado" data-estado data-horario={JSON.stringify(empresa.horario)}>
+<p
+  class="estado"
+  data-estado
+  data-horario={JSON.stringify(empresa.horario)}
+  data-etiquetas={JSON.stringify(etiquetas)}
+>
   <span class="estado__punto" aria-hidden="true"></span>
-  <span data-estado-texto>{empresa.horarioTexto}</span>
+  <span data-estado-texto>{t(lang).datos.horario}</span>
 </p>
 
 <script>
   const DIAS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const NOMBRES = [
-    'el domingo',
-    'el lunes',
-    'el martes',
-    'el miércoles',
-    'el jueves',
-    'el viernes',
-    'el sábado',
-  ];
 
   type Tramo = { dias: number[]; desde: string; hasta: string };
+  type Etiquetas = {
+    abierto: string;
+    cerrado: string;
+    hoy: string;
+    dias: string[];
+    plantilla: string;
+  };
 
   const enMinutos = (hhmm: string) => {
     const [h, m] = hhmm.split(':').map(Number);
@@ -30,8 +51,11 @@ import { empresa } from '../data/empresa';
 
   for (const nodo of document.querySelectorAll<HTMLElement>('[data-estado]')) {
     const tramos: Tramo[] = JSON.parse(nodo.dataset.horario ?? '[]');
+    const et: Etiquetas | null = nodo.dataset.etiquetas
+      ? JSON.parse(nodo.dataset.etiquetas)
+      : null;
     const texto = nodo.querySelector('[data-estado-texto]');
-    if (!tramos.length || !texto) continue;
+    if (!tramos.length || !texto || !et) continue;
 
     const partes = new Intl.DateTimeFormat('en-US', {
       timeZone: 'Atlantic/Canary',
@@ -41,22 +65,18 @@ import { empresa } from '../data/empresa';
       hourCycle: 'h23',
     }).formatToParts(new Date());
 
-    const valor = (tipo: string) =>
-      partes.find((p) => p.type === tipo)?.value ?? '';
-
+    const valor = (tipo: string) => partes.find((p) => p.type === tipo)?.value ?? '';
     const dia = DIAS.indexOf(valor('weekday'));
     const ahora = Number(valor('hour')) * 60 + Number(valor('minute'));
 
     const abierto = tramos.some(
       (t) =>
-        t.dias.includes(dia) &&
-        ahora >= enMinutos(t.desde) &&
-        ahora < enMinutos(t.hasta)
+        t.dias.includes(dia) && ahora >= enMinutos(t.desde) && ahora < enMinutos(t.hasta)
     );
 
     if (abierto) {
       nodo.classList.add('is-abierto');
-      texto.textContent = 'Abierto ahora';
+      texto.textContent = et.abierto;
       continue;
     }
 
@@ -74,10 +94,10 @@ import { empresa } from '../data/empresa';
     }
 
     texto.textContent = proximo
-      ? `Cerrado ahora. Abrimos ${
-          proximo.dia === dia ? 'hoy' : NOMBRES[proximo.dia]
-        } a las ${proximo.desde}`
-      : 'Cerrado ahora';
+      ? et.plantilla
+          .replace('{cuando}', proximo.dia === dia ? et.hoy : et.dias[proximo.dia])
+          .replace('{hora}', proximo.desde)
+      : et.cerrado;
   }
 </script>
 
@@ -103,11 +123,12 @@ import { empresa } from '../data/empresa';
   }
 
   .estado.is-abierto {
-    background: var(--naranja-tinte);
-    color: #8a4a06;
+    background: var(--amarillo-tinte);
+    color: var(--amarillo-osc);
   }
 
   .estado.is-abierto .estado__punto {
-    background: var(--naranja);
+    background: var(--amarillo);
+    box-shadow: 0 0 0 3px rgba(242, 183, 14, 0.28);
   }
 </style>

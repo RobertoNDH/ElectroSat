@@ -1,0 +1,28 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ServicioDetalle from '../../../secciones/ServicioDetalle.astro';
+import { CODIGOS, IDIOMA_POR_DEFECTO, type Idioma } from '../../../i18n/config';
+
+export async function getStaticPaths() {
+  const todos = await getCollection('servicios');
+
+  return CODIGOS.flatMap((lang) =>
+    todos
+      .filter((s) => s.id.startsWith(`${lang}/`))
+      .map((servicio) => ({
+        params: {
+          lang: lang === IDIOMA_POR_DEFECTO ? undefined : lang,
+          slug: servicio.id.split('/')[1],
+        },
+        props: { lang, servicio },
+      }))
+  );
+}
+
+const { lang, servicio } = Astro.props as {
+  lang: Idioma;
+  servicio: CollectionEntry<'servicios'>;
+};
+---
+
+<ServicioDetalle lang={lang} servicio={servicio} />

@@ -3,29 +3,34 @@
 // inertizado del resto de la página los aporta el navegador.
 import Icono from './Icono.astro';
 import Logotipo from './Logotipo.astro';
-import { empresa, telHref, waHref, emailHref } from '../data/empresa';
+import SelectorIdioma from './SelectorIdioma.astro';
+import { empresa, telHref, waHref, correoHref } from '../data/empresa';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
 
 interface Props {
-  servicios: { id: string; corto: string }[];
+  lang: Idioma;
+  servicios: { slug: string; corto: string }[];
 }
-const { servicios } = Astro.props;
+const { lang, servicios } = Astro.props;
+const txt = t(lang);
 ---
 
-<dialog class="menu" id="menu-movil" aria-label="Menú de navegación">
+<dialog class="menu" id="menu-movil" aria-label={txt.nav.servicios}>
   <div class="menu__barra">
-    <Logotipo />
-    <button type="button" class="menu__cerrar" data-cerrar-menu aria-label="Cerrar el menú">
+    <Logotipo tamano="sm" />
+    <button type="button" class="menu__cerrar" data-cerrar-menu aria-label={txt.nav.cerrarMenu}>
       <Icono nombre="cerrar" tamano={22} />
     </button>
   </div>
 
-  <nav class="menu__cuerpo" aria-label="Navegación del menú">
-    <p class="eyebrow">Servicios</p>
+  <nav class="menu__cuerpo" aria-label={txt.nav.servicios}>
+    <p class="eyebrow">{txt.nav.servicios}</p>
     <ul class="menu__lista">
       {
         servicios.map((s) => (
           <li>
-            <a href={`/servicios/${s.id}/`}>
+            <a href={ruta(lang, `/servicios/${s.slug}/`)}>
               {s.corto}
               <Icono nombre="flecha" tamano={18} />
             </a>
@@ -37,22 +42,42 @@ const { servicios } = Astro.props;
     <hr class="rule" />
 
     <ul class="menu__lista">
-      <li><a href="/servicios/">Todos los servicios<Icono nombre="flecha" tamano={18} /></a></li>
-      <li><a href="/nosotros/">Nosotros<Icono nombre="flecha" tamano={18} /></a></li>
-      <li><a href="/contacto/">Contacto<Icono nombre="flecha" tamano={18} /></a></li>
+      <li>
+        <a href={ruta(lang, '/servicios/')}>
+          {txt.nav.todosServicios}<Icono nombre="flecha" tamano={18} />
+        </a>
+      </li>
+      <li>
+        <a href={ruta(lang, '/nosotros/')}>
+          {txt.nav.nosotros}<Icono nombre="flecha" tamano={18} />
+        </a>
+      </li>
+      <li>
+        <a href={ruta(lang, '/contacto/')}>
+          {txt.nav.contacto}<Icono nombre="flecha" tamano={18} />
+        </a>
+      </li>
     </ul>
+
+    <div class="menu__idioma">
+      <span class="eyebrow">{txt.nav.idioma}</span>
+      <SelectorIdioma class="idiomas--claro" />
+    </div>
   </nav>
 
   <div class="menu__pie">
     <a class="btn btn--principal btn--lg" href={telHref()}>
       <Icono nombre="telefono" tamano={18} />
-      Llamar al {empresa.telefono.display}
+      {txt.acciones.llamarA(empresa.telefono.display)}
     </a>
-    <a class="btn btn--linea btn--lg" href={waHref()} rel="noopener noreferrer">
+    <a class="btn btn--linea btn--lg" href={waHref(lang)} rel="noopener noreferrer">
       <Icono nombre="whatsapp" tamano={18} />
-      Escribir por WhatsApp
+      {txt.acciones.escribirWhatsapp}
     </a>
-    <a class="menu__email" href={emailHref}>{empresa.email}</a>
+    <a class="btn btn--linea btn--lg" href={correoHref(lang)}>
+      <Icono nombre="email" tamano={18} />
+      {txt.acciones.escribirCorreo}
+    </a>
   </div>
 </dialog>
 
@@ -117,16 +142,16 @@ const { servicios } = Astro.props;
   }
 
   .menu__cuerpo {
-    padding: var(--s-6) var(--gutter) var(--s-5);
+    padding: var(--s-5) var(--gutter);
   }
 
   .menu__cuerpo .rule {
-    margin-block: var(--s-5);
+    margin-block: var(--s-4);
   }
 
   .menu__lista {
     display: grid;
-    margin-top: var(--s-4);
+    margin-top: var(--s-3);
   }
 
   .menu__lista a {
@@ -134,7 +159,7 @@ const { servicios } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: var(--s-4);
-    padding-block: 0.9375rem;
+    padding-block: 0.875rem;
     border-bottom: var(--hairline);
     font-size: 1.125rem;
     font-weight: 600;
@@ -146,17 +171,22 @@ const { servicios } = Astro.props;
     color: var(--azul);
   }
 
+  .menu__idioma {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    margin-top: var(--s-5);
+    padding-top: var(--s-4);
+    border-top: var(--hairline);
+    color: var(--ink-2);
+  }
+
   .menu__pie {
     display: grid;
     gap: var(--s-3);
     padding: var(--s-5) var(--gutter) calc(var(--s-6) + env(safe-area-inset-bottom));
     border-top: var(--hairline);
     background: var(--surface);
-  }
-
-  .menu__email {
-    justify-self: center;
-    padding-block: 0.5rem;
-    font-size: var(--fs-small);
   }
 </style>

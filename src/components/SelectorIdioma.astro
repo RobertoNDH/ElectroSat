@@ -1,0 +1,80 @@
+---
+// Selector de idioma. Tres enlaces normales: sin JavaScript, rastreables por
+// Google y con la misma página en el idioma de destino.
+import Icono from './Icono.astro';
+import { CODIGOS, IDIOMAS, equivalente, idiomaDeUrl } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  class?: string;
+}
+const { class: clase } = Astro.props;
+
+const actual = idiomaDeUrl(Astro.url);
+const txt = t(actual);
+---
+
+<nav class:list={['idiomas', clase]} aria-label={txt.nav.cambiarIdioma}>
+  <Icono nombre="mundo" tamano={15} />
+  <ul>
+    {
+      CODIGOS.map((codigo) => (
+        <li>
+          <a
+            href={equivalente(Astro.url, codigo)}
+            hreflang={IDIOMAS[codigo].htmlLang}
+            lang={IDIOMAS[codigo].htmlLang}
+            aria-current={codigo === actual ? 'true' : undefined}
+          >
+            <span aria-hidden="true">{IDIOMAS[codigo].corto}</span>
+            <span class="oculto-visual">{IDIOMAS[codigo].nombre}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .idiomas {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+  }
+
+  .idiomas ul {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .idiomas a {
+    display: inline-block;
+    padding: 0.25rem 0.4375rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.75;
+    transition: opacity var(--t-rapido), background var(--t-rapido);
+  }
+
+  .idiomas a:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .idiomas a[aria-current] {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  /* Dentro del menú móvil el fondo es claro. */
+  .idiomas--claro a:hover,
+  .idiomas--claro a[aria-current] {
+    background: var(--azul-tinte);
+    color: var(--azul);
+  }
+</style>

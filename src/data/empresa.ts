@@ -2,17 +2,19 @@
 // wa.me, el pie, la barra móvil, el aviso legal y el JSON-LD.
 // Los TODO son marcadores pendientes de los datos reales.
 
+import type { Idioma } from '../i18n/config';
+
 type Telefono = { display: string; e164: string };
 
 export const empresa = {
   nombre: 'ElectroSat TV',
   razonSocial: 'ElectroSat TV S.L.',
-  reclamo: 'Instalador de telecomunicaciones en Tenerife',
+  reclamo: 'Antenas, cámaras y porteros en el sur de Tenerife',
+  zona: 'Sur de Tenerife',
   descripcion:
-    'Instalacion y mantenimiento de TDT y satelite, videovigilancia, porteros y videoporteros e internet comunitario para comunidades, hoteles y viviendas en toda la isla de Tenerife.',
+    'ElectroSat TV instala y mantiene antenas de TDT y satélite, cámaras de seguridad, porteros y videoporteros e internet para comunidades, hoteles y viviendas del sur de Tenerife.',
 
-  // TODO: teléfono fijo real.
-  telefono: { display: '922 00 00 00', e164: '+34922000000' } satisfies Telefono,
+  telefono: { display: '922 72 22 27', e164: '+34922722227' } satisfies Telefono,
   // TODO: móvil real. Es el mismo número que se usa para WhatsApp.
   movil: { display: '600 00 00 00', e164: '+34600000000' } satisfies Telefono,
   // TODO: WhatsApp en formato internacional, sin + ni espacios.
@@ -21,24 +23,22 @@ export const empresa = {
   email: 'info@electrosattv.es',
 
   direccion: {
-    // TODO: dirección completa.
-    calle: 'Calle pendiente de confirmar, 0',
-    cp: '38000',
-    municipio: 'Santa Cruz de Tenerife',
+    calle: 'Calle Nuestra Señora de la Encarnación, 1',
+    barrio: 'Valle San Lorenzo',
+    cp: '38626',
+    municipio: 'Arona',
     provincia: 'Santa Cruz de Tenerife',
     comunidad: 'Canarias',
     pais: 'ES',
   },
 
-  // TODO: enlace de Google Maps de la ubicación real.
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tenerife',
+  mapsUrl:
+    'https://www.google.com/maps/search/?api=1&query=Calle+Nuestra+Se%C3%B1ora+de+la+Encarnaci%C3%B3n+1+Valle+San+Lorenzo+Arona',
 
   /** Tramos de atención. `dias` usa el índice de Date#getDay: 0 domingo, 1 lunes. */
-  horario: [
-    { dias: [1, 2, 3, 4, 5], desde: '08:30', hasta: '13:30' },
-    { dias: [1, 2, 3, 4, 5], desde: '15:30', hasta: '18:00' },
-  ],
-  horarioTexto: 'Lunes a viernes, de 8:30 a 13:30 y de 15:30 a 18:00',
+  horario: [{ dias: [1, 2, 3, 4, 5], desde: '08:00', hasta: '14:00' }],
+  /** Solo para textos legales y datos estructurados. La web usa i18n/textos.ts. */
+  horarioTexto: 'Lunes a viernes, de 8:00 a 14:00',
 
   // TODO: CIF real. Obligatorio en el aviso legal (LSSI-CE).
   cif: 'B00000000',
@@ -47,33 +47,22 @@ export const empresa = {
   // TODO: año de inicio de actividad.
   anioFundacion: 2005,
 
-  /** Municipios donde se presta servicio. */
+  /** Municipios donde se presta servicio. Solo el sur de la isla. */
   cobertura: [
-    'Santa Cruz de Tenerife',
-    'La Laguna',
-    'Tacoronte',
-    'El Sauzal',
-    'La Matanza',
-    'La Victoria',
-    'Santa Ursula',
-    'La Orotava',
-    'Puerto de la Cruz',
-    'Los Realejos',
-    'San Juan de la Rambla',
-    'Icod de los Vinos',
-    'Garachico',
-    'Buenavista del Norte',
-    'Santiago del Teide',
-    'Guia de Isora',
-    'Adeje',
     'Arona',
+    'Los Cristianos',
+    'Playa de las Américas',
+    'Adeje',
+    'Costa Adeje',
     'San Miguel de Abona',
     'Granadilla de Abona',
+    'El Médano',
+    'Vilaflor',
+    'Guía de Isora',
+    'Playa San Juan',
+    'Santiago del Teide',
     'Arico',
     'Fasnia',
-    'Guimar',
-    'Candelaria',
-    'El Rosario',
   ],
 
   // TODO: perfiles reales. Borrar los que no existan.
@@ -86,17 +75,31 @@ export const empresa = {
 /** Años de actividad, calculados a partir del año de fundación. */
 export const aniosActividad = new Date().getFullYear() - empresa.anioFundacion;
 
-export const direccionUnaLinea = `${empresa.direccion.calle}, ${empresa.direccion.cp} ${empresa.direccion.municipio}`;
+export const direccionUnaLinea = `${empresa.direccion.calle}, ${empresa.direccion.barrio}, ${empresa.direccion.cp} ${empresa.direccion.municipio}`;
 
 export const telHref = (t: Telefono = empresa.telefono) => `tel:${t.e164}`;
 
-const MENSAJE_WA =
-  'Hola, he visto su web y me gustaria consultarles sobre una instalacion.';
+/** Mensaje con el que se abre WhatsApp, en el idioma de la página. */
+const MENSAJE_WA: Record<Idioma, string> = {
+  es: 'Hola, he visto su web y quería consultarles sobre una instalación.',
+  en: 'Hello, I saw your website and would like to ask about an installation.',
+  de: 'Hallo, ich habe Ihre Website gesehen und hätte eine Frage zu einer Installation.',
+};
 
-export const waHref = (mensaje: string = MENSAJE_WA) =>
-  `https://wa.me/${empresa.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+export const waHref = (lang: Idioma = 'es') =>
+  `https://wa.me/${empresa.whatsapp}?text=${encodeURIComponent(MENSAJE_WA[lang])}`;
+
+/** Asunto con el que se abre el gestor de correo. */
+const ASUNTO_EMAIL: Record<Idioma, string> = {
+  es: 'Consulta desde la web',
+  en: 'Enquiry from the website',
+  de: 'Anfrage über die Website',
+};
 
 export const emailHref = `mailto:${empresa.email}`;
+
+export const correoHref = (lang: Idioma = 'es') =>
+  `mailto:${empresa.email}?subject=${encodeURIComponent(ASUNTO_EMAIL[lang])}`;
 
 const DIAS_SCHEMA = [
   'Sunday',

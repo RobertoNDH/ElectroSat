@@ -3,19 +3,30 @@ import { getCollection } from 'astro:content';
 import Logotipo from './Logotipo.astro';
 import Icono from './Icono.astro';
 import MenuMovil from './MenuMovil.astro';
+import SelectorIdioma from './SelectorIdioma.astro';
 import { empresa, telHref, waHref, emailHref } from '../data/empresa';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
 
-const servicios = (await getCollection('servicios')).sort(
-  (a, b) => a.data.orden - b.data.orden
-);
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang);
 
-const ruta = Astro.url.pathname;
-const activo = (href: string) => (href === '/' ? ruta === '/' : ruta.startsWith(href));
+const servicios = (await getCollection('servicios'))
+  .filter((s) => s.id.startsWith(`${lang}/`))
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .map((s) => ({ slug: s.id.split('/')[1], corto: s.data.corto }));
+
+const camino = Astro.url.pathname;
+const activo = (href: string) =>
+  href === ruta(lang, '/') ? camino === href : camino.startsWith(href);
 
 const enlaces = [
-  { href: '/servicios/', texto: 'Servicios' },
-  { href: '/nosotros/', texto: 'Nosotros' },
-  { href: '/contacto/', texto: 'Contacto' },
+  { href: ruta(lang, '/servicios/'), texto: txt.nav.servicios },
+  { href: ruta(lang, '/nosotros/'), texto: txt.nav.nosotros },
+  { href: ruta(lang, '/contacto/'), texto: txt.nav.contacto },
 ];
 ---
 
@@ -23,17 +34,18 @@ const enlaces = [
   <div class="container barra-sup__fila">
     <p class="barra-sup__dato">
       <Icono nombre="reloj" tamano={14} />
-      {empresa.horarioTexto}
+      {txt.datos.horario}
     </p>
-    <div class="barra-sup__enlaces">
-      <a href={emailHref}>
+    <div class="barra-sup__derecha">
+      <a class="barra-sup__enlace" href={emailHref}>
         <Icono nombre="email" tamano={14} />
         {empresa.email}
       </a>
-      <a href={`${empresa.mapsUrl}`} rel="noopener noreferrer">
+      <span class="barra-sup__zona">
         <Icono nombre="mapa" tamano={14} />
-        Toda la isla de Tenerife
-      </a>
+        {txt.datos.zona}
+      </span>
+      <SelectorIdioma />
     </div>
   </div>
 </div>
@@ -42,11 +54,11 @@ const enlaces = [
 
 <header class="cab" data-cabecera>
   <div class="container cab__fila">
-    <a href="/" class="cab__inicio" aria-label={`${empresa.nombre}, ir al inicio`}>
+    <a href={ruta(lang, '/')} class="cab__inicio" aria-label={`${empresa.nombre}, ${txt.nav.irAlInicio}`}>
       <Logotipo />
     </a>
 
-    <nav class="cab__nav" aria-label="Navegación principal">
+    <nav class="cab__nav" aria-label={txt.nav.servicios}>
       {
         enlaces.map((e) => (
           <a href={e.href} aria-current={activo(e.href) ? 'page' : undefined}>
@@ -60,32 +72,32 @@ const enlaces = [
       <a class="cab__tel" href={telHref()}>
         <span class="cab__tel-icono"><Icono nombre="telefono" tamano={18} /></span>
         <span class="cab__tel-texto">
-          <span class="cab__tel-etiqueta">Llámanos</span>
+          <span class="cab__tel-etiqueta">{txt.acciones.llamanos}</span>
           <span class="cab__tel-num tel-num">{empresa.telefono.display}</span>
         </span>
       </a>
 
-      <a class="btn btn--principal cab__cta" href={waHref()} rel="noopener noreferrer">
+      <a class="btn btn--principal cab__cta" href={waHref(lang)} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={17} />
-        WhatsApp
+        {txt.acciones.whatsapp}
       </a>
 
       <a
         class="cab__icono"
         href={telHref()}
-        aria-label={`Llamar al ${empresa.telefono.display}`}
+        aria-label={txt.acciones.llamarA(empresa.telefono.display)}
       >
         <Icono nombre="telefono" tamano={20} />
       </a>
 
-      <button type="button" class="cab__icono" data-abrir-menu aria-label="Abrir el menú">
+      <button type="button" class="cab__icono" data-abrir-menu aria-label={txt.nav.abrirMenu}>
         <Icono nombre="menu" tamano={22} />
       </button>
     </div>
   </div>
 </header>
 
-<MenuMovil servicios={servicios.map((s) => ({ id: s.id, corto: s.data.corto }))} />
+<MenuMovil lang={lang} servicios={servicios} />
 
 <script>
   const centinela = document.querySelector('[data-centinela]');
@@ -99,10 +111,9 @@ const enlaces = [
 </script>
 
 <style>
-  /* ---------- Franja superior ---------- */
   .barra-sup {
     background: var(--azul);
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.8125rem;
   }
 
@@ -115,34 +126,42 @@ const enlaces = [
   }
 
   .barra-sup__dato,
-  .barra-sup__enlaces a {
+  .barra-sup__zona,
+  .barra-sup__enlace {
     display: inline-flex;
     align-items: center;
     gap: 0.4375rem;
   }
 
-  .barra-sup__enlaces {
+  .barra-sup__derecha {
     display: flex;
+    align-items: center;
     gap: var(--s-5);
   }
 
-  .barra-sup__enlaces a {
+  .barra-sup__enlace {
     color: inherit;
     text-decoration: none;
   }
 
-  .barra-sup__enlaces a:hover {
+  .barra-sup__enlace:hover {
     color: var(--on-oscuro);
     text-decoration: underline;
   }
 
   @media (max-width: 61.99rem) {
-    .barra-sup {
+    .barra-sup__dato,
+    .barra-sup__enlace,
+    .barra-sup__zona {
       display: none;
+    }
+
+    .barra-sup__fila {
+      justify-content: center;
+      min-height: 2rem;
     }
   }
 
-  /* ---------- Cabecera ---------- */
   .cab {
     position: sticky;
     top: 0;
@@ -210,7 +229,6 @@ const enlaces = [
     gap: var(--s-4);
   }
 
-  /* Teléfono siempre visible: es la conversión principal de la web. */
   .cab__tel {
     display: inline-flex;
     align-items: center;
