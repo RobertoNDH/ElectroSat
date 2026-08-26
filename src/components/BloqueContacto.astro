@@ -1,18 +1,11 @@
 ---
-/**
- * Bloque de cierre. Se repite al final de la home, de cada servicio y de
- * nosotros, porque el visitante decide llamar en momentos distintos segun lo
- * que haya venido a leer.
- */
+// Cierre de página. Se repite al final de la home, de cada servicio y de
+// nosotros porque el visitante decide llamar en momentos distintos.
+import { Image } from 'astro:assets';
 import Icono from './Icono.astro';
 import EstadoHorario from './EstadoHorario.astro';
-import {
-  empresa,
-  telHref,
-  waHref,
-  emailHref,
-  direccionUnaLinea,
-} from '../data/empresa';
+import foto from '../assets/equipo.jpg';
+import { empresa, telHref, waHref, emailHref, direccionUnaLinea } from '../data/empresa';
 
 interface Props {
   titulo?: string;
@@ -25,139 +18,148 @@ const {
 } = Astro.props;
 ---
 
-<section class="section contacto" aria-labelledby="contacto-titulo">
-  <div class="container contacto__rejilla">
-    <div class="contacto__principal">
+<section class="cta" aria-labelledby="cta-titulo">
+  <div class="container cta__rejilla">
+    <div class="cta__texto">
       <p class="eyebrow">Contacto directo</p>
-      <h2 class="h2" id="contacto-titulo">{titulo}</h2>
+      <h2 class="h2" id="cta-titulo">{titulo}</h2>
       <p class="lede">{texto}</p>
 
-      <a class="contacto__numero mono" href={telHref()}>{empresa.telefono.display}</a>
+      <a class="cta__numero" href={telHref()}>
+        <span class="cta__numero-icono"><Icono nombre="telefono" tamano={22} /></span>
+        <span class="tel-num">{empresa.telefono.display}</span>
+      </a>
 
-      <div class="contacto__acciones">
-        <a class="btn btn--primary btn--lg" href={telHref()}>
+      <div class="cta__acciones">
+        <a class="btn btn--principal btn--lg" href={telHref()}>
           <Icono nombre="telefono" tamano={18} />
           Llamar ahora
         </a>
-        <a class="btn btn--ghost btn--lg" href={waHref()} rel="noopener noreferrer">
+        <a class="btn btn--linea btn--lg" href={waHref()} rel="noopener noreferrer">
           <Icono nombre="whatsapp" tamano={18} />
           Escribir por WhatsApp
         </a>
       </div>
+
+      <ul class="cta__datos">
+        <li><EstadoHorario /></li>
+        <li>
+          <Icono nombre="email" tamano={16} />
+          <a href={emailHref}>{empresa.email}</a>
+        </li>
+        <li>
+          <Icono nombre="mapa" tamano={16} />
+          <span>{direccionUnaLinea}</span>
+        </li>
+      </ul>
     </div>
 
-    <dl class="contacto__datos">
-      <div>
-        <dt><Icono nombre="reloj" tamano={17} />Horario</dt>
-        <dd>
-          <EstadoHorario />
-          <span class="small">{empresa.horarioTexto}</span>
-        </dd>
-      </div>
-      <div>
-        <dt><Icono nombre="telefono" tamano={17} />Móvil y WhatsApp</dt>
-        <dd><a class="mono" href={telHref(empresa.movil)}>{empresa.movil.display}</a></dd>
-      </div>
-      <div>
-        <dt><Icono nombre="email" tamano={17} />Correo</dt>
-        <dd><a href={emailHref}>{empresa.email}</a></dd>
-      </div>
-      <div>
-        <dt><Icono nombre="mapa" tamano={17} />Dónde estamos</dt>
-        <dd>
-          <span class="small">{direccionUnaLinea}</span>
-          <a class="enlace-flecha" href={empresa.mapsUrl} rel="noopener noreferrer">
-            Ver en el mapa
-          </a>
-        </dd>
-      </div>
-    </dl>
+    <figure class="cta__foto">
+      <Image
+        src={foto}
+        alt="Técnico de ElectroSat TV trabajando en una instalación de cubierta"
+        widths={[480, 720, 960]}
+        sizes="(min-width: 62rem) 34rem, 100vw"
+        loading="lazy"
+      />
+    </figure>
   </div>
 </section>
 
 <style>
-  .contacto {
+  .cta {
+    padding-block: var(--section-y);
     background: var(--surface);
     border-top: var(--hairline);
   }
 
-  .contacto__rejilla {
+  .cta__rejilla {
     display: grid;
-    gap: var(--s-7);
+    gap: var(--s-6);
+    align-items: center;
   }
 
   @media (min-width: 62rem) {
-    .contacto__rejilla {
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-      gap: var(--s-9);
-      align-items: start;
+    .cta__rejilla {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: var(--s-8);
     }
   }
 
-  .contacto__principal {
+  .cta__texto {
     display: grid;
     gap: var(--s-4);
     align-content: start;
   }
 
-  .contacto__numero {
+  .cta__numero {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     justify-self: start;
-    margin-top: var(--s-3);
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    font-weight: 500;
+    margin-top: var(--s-2);
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 3rem);
+    font-weight: 700;
     line-height: 1;
-    text-decoration: none;
+    letter-spacing: 0.01em;
     color: var(--ink);
-    border-bottom: 2px solid var(--line-strong);
-    padding-bottom: 0.25rem;
-    transition: border-color var(--t-fast);
+    text-decoration: none;
   }
 
-  .contacto__numero:hover {
-    border-bottom-color: var(--ink);
+  .cta__numero-icono {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--naranja);
+    color: var(--ink);
+    flex: none;
   }
 
-  .contacto__acciones {
+  .cta__numero:hover {
+    color: var(--azul);
+  }
+
+  .cta__acciones {
     display: flex;
     flex-wrap: wrap;
     gap: var(--s-3);
-    margin-top: var(--s-3);
+    margin-top: var(--s-2);
   }
 
-  .contacto__datos {
+  .cta__datos {
     display: grid;
-    gap: 0;
-    margin: 0;
+    gap: 0.625rem;
+    margin-top: var(--s-3);
+    padding-top: var(--s-4);
     border-top: var(--hairline);
   }
 
-  .contacto__datos > div {
-    display: grid;
-    gap: 0.5rem;
-    padding-block: var(--s-4);
-    border-bottom: var(--hairline);
-  }
-
-  .contacto__datos dt {
+  .cta__datos li {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: var(--fs-eyebrow);
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
+    font-size: var(--fs-small);
+    color: var(--ink-2);
   }
 
-  .contacto__datos dd {
-    display: grid;
-    gap: 0.375rem;
-    justify-items: start;
+  .cta__datos svg {
+    color: var(--azul);
+    flex: none;
+  }
+
+  .cta__foto {
     margin: 0;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--sombra);
   }
 
-  .contacto__datos a {
-    color: var(--ink);
+  .cta__foto :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
   }
 </style>

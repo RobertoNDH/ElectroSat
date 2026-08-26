@@ -1,75 +1,83 @@
 ---
-/**
- * Logotipo tipografico monocromo.
- *
- * El logo original de ElectroSat es amarillo, azul y naranja, y en una paleta
- * monocroma desentona. Esta version traduce su estructura: ELECTRO en peso
- * fuerte, SAT en peso ligero y el arco de senal encima, como en el original.
- *
- * TODO CLIENTE: si se prefiere el logo real, sustituir el marcado de este
- * componente por la imagen. Es el unico sitio que hay que tocar.
- */
-import ArcoSenal from './ArcoSenal.astro';
-
+// Logotipo tipográfico. Recoge la estructura del logo real: ELECTRO en oscuro,
+// SAT en azul y los arcos de señal en naranja.
+// TODO: sustituir por el archivo del logo cuando el cliente lo facilite.
 interface Props {
   class?: string;
+  invertido?: boolean;
 }
-const { class: clase } = Astro.props;
+const { class: clase, invertido = false } = Astro.props;
 ---
 
-<span class:list={['logotipo', clase]}>
-  <ArcoSenal class="logotipo__arco" />
-  <span class="logotipo__nombre">
-    <span class="logotipo__electro">Electro</span><span class="logotipo__sat">Sat</span>
+<span class:list={['logo', invertido && 'logo--inv', clase]}>
+  <svg class="logo__arcos" viewBox="0 0 18 16" aria-hidden="true" focusable="false">
+    <path d="M3 8.6A5 5 0 0 1 8 13.6" />
+    <path d="M3 4.4A9.2 9.2 0 0 1 12.2 13.6" />
+    <path d="M3 0.2A13.4 13.4 0 0 1 16.4 13.6" />
+    <circle cx="3" cy="13.6" r="1.5" />
+  </svg>
+  <span class="logo__texto">
+    Electro<span class="logo__sat">Sat</span>
   </span>
-  <span class="logotipo__tv mono">TV</span>
+  <span class="logo__tv">TV</span>
 </span>
 
 <style>
-  .logotipo {
-    display: inline-grid;
-    /* Sin esto, dentro de una rejilla ancha como la del pie la columna del
-       distintivo TV se estira y se separa del nombre. */
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
     width: fit-content;
-    grid-template-columns: auto auto;
-    align-items: center;
-    gap: 0 0.5rem;
     line-height: 1;
+    white-space: nowrap;
+  }
+
+  .logo__arcos {
+    align-self: center;
+    width: 1.25rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: var(--naranja);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .logo__arcos circle {
+    fill: var(--naranja);
+    stroke: none;
+  }
+
+  .logo__texto {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
     color: var(--ink);
   }
 
-  .logotipo__arco {
-    grid-column: 1;
-    justify-self: start;
-    margin-bottom: -0.125rem;
+  .logo__sat {
+    color: var(--azul);
   }
 
-  .logotipo__nombre {
-    grid-column: 1;
-    grid-row: 2;
-    font-size: 1.25rem;
-    font-stretch: 108%;
-    letter-spacing: -0.015em;
-    text-transform: uppercase;
-  }
-
-  .logotipo__electro {
-    font-weight: 750;
-  }
-
-  .logotipo__sat {
-    font-weight: 350;
-  }
-
-  .logotipo__tv {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: center;
-    padding: 0.1875rem 0.3125rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 2px;
+  .logo__tv {
+    font-family: var(--font-base);
     font-size: 0.625rem;
-    letter-spacing: 0.08em;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    padding: 0.15rem 0.3rem;
+    border-radius: 3px;
+    background: var(--surface-2);
     color: var(--ink-3);
+  }
+
+  .logo--inv .logo__texto,
+  .logo--inv .logo__sat {
+    color: var(--on-oscuro);
+  }
+
+  .logo--inv .logo__tv {
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--on-oscuro);
   }
 </style>

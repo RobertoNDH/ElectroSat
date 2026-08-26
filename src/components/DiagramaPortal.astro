@@ -1,12 +1,6 @@
 ---
-/**
- * Elemento firma de la web: seccion de un edificio con una sola linea troncal
- * que sube desde la cabecera y alimenta la toma de cada vivienda.
- *
- * Es la unica idea que ningun competidor sabe contar en una imagen: que llevar
- * internet a todo el portal no obliga a pasar cable nuevo. Se dibuja solo al
- * entrar en pantalla.
- */
+// Sección de un edificio: una línea troncal baja desde la cabecera y alimenta
+// la toma de cada vivienda. Se dibuja al entrar en pantalla.
 const IZQ = 60;
 const DER = 300;
 const TECHO = 130;
@@ -100,7 +94,7 @@ const etiquetas = [
   .diagrama__svg rect,
   .diagrama__svg circle {
     fill: none;
-    stroke: var(--ink);
+    stroke: var(--azul);
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -108,46 +102,45 @@ const etiquetas = [
   }
 
   .d-fino path {
-    stroke: var(--line-strong);
+    stroke: #b9c6d6;
     stroke-width: 1;
   }
 
   .d-suelo {
     stroke: var(--ink) !important;
-    stroke-width: 1.5 !important;
+    stroke-width: 2 !important;
   }
 
   .d-arco {
-    stroke: var(--line-strong);
-    stroke-width: 1;
+    stroke: var(--naranja);
+    stroke-width: 1.6;
   }
 
   .d-punto {
-    fill: var(--ink);
+    fill: var(--naranja);
     stroke: none;
   }
 
   .d-troncal {
-    stroke-width: 2;
+    stroke-width: 2.5;
   }
 
   .d-toma {
     fill: var(--paper);
-    stroke-width: 2;
+    stroke-width: 2.5;
   }
 
   .d-guia {
-    stroke: var(--line-strong);
+    stroke: #b9c6d6;
     stroke-width: 1;
     stroke-dasharray: 2 4;
   }
 
   .d-etiquetas text {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    fill: var(--ink-3);
+    font-family: var(--font-base);
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--ink-2);
     stroke: none;
   }
 

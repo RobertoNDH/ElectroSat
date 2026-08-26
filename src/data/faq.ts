@@ -1,12 +1,6 @@
-/**
- * Preguntas frecuentes de la home.
- *
- * Esta misma lista alimenta el bloque visible y el JSON-LD de tipo FAQPage,
- * asi que nunca puede desincronizarse lo que ve el usuario de lo que ve Google.
- *
- * TODO CLIENTE: ajustar las respuestas a la realidad de la empresa. Sobre todo
- * las de plazos, garantia y desplazamiento, que son compromisos comerciales.
- */
+// Preguntas frecuentes de la home. Alimenta el bloque visible y el JSON-LD
+// de tipo FAQPage.
+// TODO: ajustar plazos, garantía y desplazamiento a lo que ofrece la empresa.
 export const faq = [
   {
     p: 'Cuanto cuesta que vengan a ver la averia?',

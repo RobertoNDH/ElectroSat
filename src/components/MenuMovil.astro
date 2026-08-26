@@ -1,11 +1,6 @@
 ---
-/**
- * Menu movil sobre <dialog> nativo.
- *
- * showModal() ya trae trampa de foco, cierre con Escape, inertizado del resto
- * de la pagina y rol de dialogo. Escribirlo a mano serian cien lineas de JS
- * para llegar al mismo sitio con mas fallos.
- */
+// Menú móvil sobre <dialog>: la trampa de foco, el cierre con Escape y el
+// inertizado del resto de la página los aporta el navegador.
 import Icono from './Icono.astro';
 import Logotipo from './Logotipo.astro';
 import { empresa, telHref, waHref, emailHref } from '../data/empresa';
@@ -30,7 +25,10 @@ const { servicios } = Astro.props;
       {
         servicios.map((s) => (
           <li>
-            <a href={`/servicios/${s.id}/`}>{s.corto}</a>
+            <a href={`/servicios/${s.id}/`}>
+              {s.corto}
+              <Icono nombre="flecha" tamano={18} />
+            </a>
           </li>
         ))
       }
@@ -39,22 +37,22 @@ const { servicios } = Astro.props;
     <hr class="rule" />
 
     <ul class="menu__lista">
-      <li><a href="/servicios/">Todos los servicios</a></li>
-      <li><a href="/nosotros/">Nosotros</a></li>
-      <li><a href="/contacto/">Contacto</a></li>
+      <li><a href="/servicios/">Todos los servicios<Icono nombre="flecha" tamano={18} /></a></li>
+      <li><a href="/nosotros/">Nosotros<Icono nombre="flecha" tamano={18} /></a></li>
+      <li><a href="/contacto/">Contacto<Icono nombre="flecha" tamano={18} /></a></li>
     </ul>
   </nav>
 
   <div class="menu__pie">
-    <a class="btn btn--primary btn--lg" href={telHref()}>
+    <a class="btn btn--principal btn--lg" href={telHref()}>
       <Icono nombre="telefono" tamano={18} />
       Llamar al {empresa.telefono.display}
     </a>
-    <a class="btn btn--ghost btn--lg" href={waHref()} rel="noopener noreferrer">
+    <a class="btn btn--linea btn--lg" href={waHref()} rel="noopener noreferrer">
       <Icono nombre="whatsapp" tamano={18} />
       Escribir por WhatsApp
     </a>
-    <a class="menu__email small" href={emailHref}>{empresa.email}</a>
+    <a class="menu__email" href={emailHref}>{empresa.email}</a>
   </div>
 </dialog>
 
@@ -82,13 +80,13 @@ const { servicios } = Astro.props;
     padding: 0;
     border: 0;
     background: var(--paper);
-    color: var(--ink);
+    color: var(--ink-2);
     overflow-y: auto;
     overscroll-behavior: contain;
   }
 
   .menu::backdrop {
-    background: rgba(12, 12, 12, 0.35);
+    background: rgba(20, 32, 46, 0.45);
   }
 
   .menu__barra {
@@ -128,18 +126,24 @@ const { servicios } = Astro.props;
 
   .menu__lista {
     display: grid;
-    gap: 0.125rem;
     margin-top: var(--s-4);
   }
 
   .menu__lista a {
-    display: block;
-    padding-block: 0.6875rem;
-    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-block: 0.9375rem;
+    border-bottom: var(--hairline);
+    font-size: 1.125rem;
     font-weight: 600;
-    font-stretch: 104%;
-    letter-spacing: -0.01em;
     text-decoration: none;
+    color: var(--ink);
+  }
+
+  .menu__lista a svg {
+    color: var(--azul);
   }
 
   .menu__pie {
@@ -153,5 +157,6 @@ const { servicios } = Astro.props;
   .menu__email {
     justify-self: center;
     padding-block: 0.5rem;
+    font-size: var(--fs-small);
   }
 </style>

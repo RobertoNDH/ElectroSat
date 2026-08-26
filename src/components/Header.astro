@@ -3,15 +3,14 @@ import { getCollection } from 'astro:content';
 import Logotipo from './Logotipo.astro';
 import Icono from './Icono.astro';
 import MenuMovil from './MenuMovil.astro';
-import { empresa, telHref, waHref } from '../data/empresa';
+import { empresa, telHref, waHref, emailHref } from '../data/empresa';
 
 const servicios = (await getCollection('servicios')).sort(
   (a, b) => a.data.orden - b.data.orden
 );
 
 const ruta = Astro.url.pathname;
-const activo = (href: string) =>
-  href === '/' ? ruta === '/' : ruta.startsWith(href);
+const activo = (href: string) => (href === '/' ? ruta === '/' : ruta.startsWith(href));
 
 const enlaces = [
   { href: '/servicios/', texto: 'Servicios' },
@@ -20,15 +19,34 @@ const enlaces = [
 ];
 ---
 
+<div class="barra-sup">
+  <div class="container barra-sup__fila">
+    <p class="barra-sup__dato">
+      <Icono nombre="reloj" tamano={14} />
+      {empresa.horarioTexto}
+    </p>
+    <div class="barra-sup__enlaces">
+      <a href={emailHref}>
+        <Icono nombre="email" tamano={14} />
+        {empresa.email}
+      </a>
+      <a href={`${empresa.mapsUrl}`} rel="noopener noreferrer">
+        <Icono nombre="mapa" tamano={14} />
+        Toda la isla de Tenerife
+      </a>
+    </div>
+  </div>
+</div>
+
 <span data-centinela aria-hidden="true"></span>
 
-<header class="cabecera" data-cabecera>
-  <div class="container cabecera__fila">
-    <a href="/" class="cabecera__inicio" aria-label={`${empresa.nombre}, ir al inicio`}>
+<header class="cab" data-cabecera>
+  <div class="container cab__fila">
+    <a href="/" class="cab__inicio" aria-label={`${empresa.nombre}, ir al inicio`}>
       <Logotipo />
     </a>
 
-    <nav class="cabecera__nav" aria-label="Navegación principal">
+    <nav class="cab__nav" aria-label="Navegación principal">
       {
         enlaces.map((e) => (
           <a href={e.href} aria-current={activo(e.href) ? 'page' : undefined}>
@@ -38,22 +56,29 @@ const enlaces = [
       }
     </nav>
 
-    <div class="cabecera__acciones">
-      <a class="cabecera__tel" href={telHref()}>
-        <Icono nombre="telefono" tamano={17} />
-        <span class="mono">{empresa.telefono.display}</span>
+    <div class="cab__acciones">
+      <a class="cab__tel" href={telHref()}>
+        <span class="cab__tel-icono"><Icono nombre="telefono" tamano={18} /></span>
+        <span class="cab__tel-texto">
+          <span class="cab__tel-etiqueta">Llámanos</span>
+          <span class="cab__tel-num tel-num">{empresa.telefono.display}</span>
+        </span>
       </a>
 
-      <a class="btn btn--primary cabecera__wa" href={waHref()} rel="noopener noreferrer">
+      <a class="btn btn--principal cab__cta" href={waHref()} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={17} />
         WhatsApp
       </a>
 
-      <a class="cabecera__llamar" href={telHref()} aria-label={`Llamar al ${empresa.telefono.display}`}>
+      <a
+        class="cab__icono"
+        href={telHref()}
+        aria-label={`Llamar al ${empresa.telefono.display}`}
+      >
         <Icono nombre="telefono" tamano={20} />
       </a>
 
-      <button type="button" class="cabecera__menu" data-abrir-menu aria-label="Abrir el menú">
+      <button type="button" class="cab__icono" data-abrir-menu aria-label="Abrir el menú">
         <Icono nombre="menu" tamano={22} />
       </button>
     </div>
@@ -63,111 +88,181 @@ const enlaces = [
 <MenuMovil servicios={servicios.map((s) => ({ id: s.id, corto: s.data.corto }))} />
 
 <script>
-  // Compacta la cabecera cuando el centinela sale de vista.
   const centinela = document.querySelector('[data-centinela]');
   const cabecera = document.querySelector('[data-cabecera]');
 
   if (centinela && cabecera) {
-    new IntersectionObserver(
-      ([entrada]) => cabecera.classList.toggle('is-fija', !entrada.isIntersecting)
+    new IntersectionObserver(([e]) =>
+      cabecera.classList.toggle('is-fija', !e.isIntersecting)
     ).observe(centinela);
   }
 </script>
 
 <style>
-  .cabecera {
+  /* ---------- Franja superior ---------- */
+  .barra-sup {
+    background: var(--azul);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.8125rem;
+  }
+
+  .barra-sup__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    min-height: var(--barra-sup-h);
+  }
+
+  .barra-sup__dato,
+  .barra-sup__enlaces a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+  }
+
+  .barra-sup__enlaces {
+    display: flex;
+    gap: var(--s-5);
+  }
+
+  .barra-sup__enlaces a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .barra-sup__enlaces a:hover {
+    color: var(--on-oscuro);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 61.99rem) {
+    .barra-sup {
+      display: none;
+    }
+  }
+
+  /* ---------- Cabecera ---------- */
+  .cab {
     position: sticky;
     top: 0;
     z-index: 40;
     background: var(--paper);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    border-bottom: var(--hairline);
+    transition: box-shadow var(--t-rapido);
   }
 
-  .cabecera.is-fija {
-    border-bottom-color: var(--line);
-    box-shadow: var(--shadow);
+  .cab.is-fija {
+    box-shadow: var(--sombra);
   }
 
-  .cabecera__fila {
+  .cab__fila {
     display: flex;
     align-items: center;
     gap: var(--s-5);
     min-height: var(--header-h);
   }
 
-  .cabecera__inicio {
-    text-decoration: none;
+  .cab__inicio {
     margin-right: auto;
-  }
-
-  .cabecera__nav {
-    display: flex;
-    gap: var(--s-5);
-  }
-
-  .cabecera__nav a {
-    position: relative;
-    padding-block: 0.25rem;
-    font-size: var(--fs-small);
-    font-weight: 550;
     text-decoration: none;
-    color: var(--ink-2);
-    transition: color var(--t-fast);
   }
 
-  .cabecera__nav a::after {
+  .cab__nav {
+    display: flex;
+    gap: var(--s-6);
+  }
+
+  .cab__nav a {
+    position: relative;
+    padding-block: 0.375rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+    transition: color var(--t-rapido);
+  }
+
+  .cab__nav a::after {
     content: '';
     position: absolute;
     left: 0;
     right: 100%;
-    bottom: 0;
-    height: 1px;
-    background: var(--ink);
-    transition: right var(--t-fast);
+    bottom: -2px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--naranja);
+    transition: right var(--t-rapido);
   }
 
-  .cabecera__nav a:hover,
-  .cabecera__nav a[aria-current='page'] {
-    color: var(--ink);
+  .cab__nav a:hover {
+    color: var(--azul);
   }
 
-  .cabecera__nav a:hover::after,
-  .cabecera__nav a[aria-current='page']::after {
+  .cab__nav a:hover::after,
+  .cab__nav a[aria-current='page']::after {
     right: 0;
   }
 
-  .cabecera__acciones {
+  .cab__acciones {
     display: flex;
     align-items: center;
-    gap: var(--s-3);
+    gap: var(--s-4);
   }
 
-  .cabecera__tel {
+  /* Teléfono siempre visible: es la conversión principal de la web. */
+  .cab__tel {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.25rem;
-    font-size: var(--fs-small);
+    gap: 0.625rem;
     text-decoration: none;
     color: var(--ink);
-    white-space: nowrap;
   }
 
-  .cabecera__tel:hover {
-    text-decoration: underline;
+  .cab__tel-icono {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--azul-tinte);
+    color: var(--azul);
+    flex: none;
+    transition: background var(--t-rapido), color var(--t-rapido);
   }
 
-  /* Solo en movil: llamar e ir al menu */
-  .cabecera__llamar,
-  .cabecera__menu {
+  .cab__tel:hover .cab__tel-icono {
+    background: var(--azul);
+    color: var(--on-oscuro);
+  }
+
+  .cab__tel-texto {
+    display: grid;
+    gap: 0.0625rem;
+    line-height: 1.15;
+  }
+
+  .cab__tel-etiqueta {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .cab__tel-num {
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  .cab__icono {
     display: none;
     align-items: center;
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
-    background: none;
+    background: var(--paper);
     border: 1px solid var(--control);
     border-radius: var(--r-sm);
     color: var(--ink);
@@ -175,15 +270,18 @@ const enlaces = [
   }
 
   @media (max-width: 61.99rem) {
-    .cabecera__nav,
-    .cabecera__tel,
-    .cabecera__wa {
+    .cab__nav,
+    .cab__tel,
+    .cab__cta {
       display: none;
     }
 
-    .cabecera__llamar,
-    .cabecera__menu {
+    .cab__icono {
       display: inline-flex;
+    }
+
+    .cab__acciones {
+      gap: var(--s-2);
     }
   }
 </style>

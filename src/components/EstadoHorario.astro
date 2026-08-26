@@ -1,14 +1,6 @@
 ---
-/**
- * Indicador de "abierto ahora".
- *
- * Se calcula siempre en hora de Canarias, no en la del visitante: un cliente
- * que mira la web desde Alemania tiene que ver si la oficina esta abierta alli,
- * no aqui. Sin JavaScript se ve el horario escrito, que ya es informacion util.
- *
- * El punto ambar de este componente es uno de los tres usos permitidos del
- * unico color de la web.
- */
+// Indicador de "abierto ahora". Se calcula en hora de Canarias, no en la del
+// visitante. Sin JavaScript se ve el horario escrito.
 import { empresa } from '../data/empresa';
 ---
 
@@ -91,12 +83,14 @@ import { empresa } from '../data/empresa';
 
 <style>
   .estado {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: var(--fs-small);
-    font-weight: 500;
+    padding: 0.3125rem 0.6875rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--ink-2);
   }
 
@@ -104,15 +98,16 @@ import { empresa } from '../data/empresa';
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background: var(--line-strong);
+    background: var(--ink-3);
     flex: none;
   }
 
-  .estado.is-abierto .estado__punto {
-    background: var(--signal);
+  .estado.is-abierto {
+    background: var(--naranja-tinte);
+    color: #8a4a06;
   }
 
-  .estado.is-abierto {
-    color: var(--ink);
+  .estado.is-abierto .estado__punto {
+    background: var(--naranja);
   }
 </style>

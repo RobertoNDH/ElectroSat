@@ -1,4 +1,4 @@
-/* Reset minimo y primitivos globales. */
+/* Reset y primitivos compartidos. */
 
 *,
 *::before,
@@ -19,13 +19,10 @@ html {
 body {
   min-height: 100svh;
   background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-display);
+  color: var(--ink-2);
+  font-family: var(--font-base);
   font-size: var(--fs-body);
-  font-weight: 400;
-  line-height: 1.65;
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -52,78 +49,68 @@ ol {
 }
 
 a {
-  color: inherit;
+  color: var(--azul);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.18em;
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
+  outline: 3px solid var(--azul);
+  outline-offset: 2px;
   border-radius: 2px;
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--on-ink);
+  background: var(--azul);
+  color: var(--on-oscuro);
 }
 
-/* ---------- Tipografia ---------- */
+/* ---------- Titulares ---------- */
 
 .display-xl,
 .display-l,
-.h2,
-.h3 {
+.h2 {
   font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--ink);
   text-wrap: balance;
 }
 
 .display-xl {
   font-size: var(--fs-display-xl);
-  font-weight: 700;
-  font-stretch: var(--wd-expanded);
-  letter-spacing: -0.022em;
-  line-height: 0.98;
-  text-transform: uppercase;
 }
 
 .display-l {
   font-size: var(--fs-display-l);
-  font-weight: 700;
-  font-stretch: var(--wd-expanded);
-  letter-spacing: -0.018em;
-  line-height: 1.04;
-  text-transform: uppercase;
 }
 
 .h2 {
   font-size: var(--fs-h2);
-  font-weight: 650;
-  font-stretch: var(--wd-wide);
-  letter-spacing: -0.012em;
-  line-height: 1.12;
-  text-transform: uppercase;
+  line-height: 1.06;
 }
 
 .h3 {
+  font-family: var(--font-base);
   font-size: var(--fs-h3);
   font-weight: 600;
-  font-stretch: var(--wd-normal);
+  line-height: 1.35;
   letter-spacing: -0.006em;
-  line-height: 1.25;
+  color: var(--ink);
 }
 
 .lede {
-  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
-  line-height: 1.55;
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.65;
   color: var(--ink-2);
-  max-width: 46ch;
+  max-width: 52ch;
   text-wrap: pretty;
 }
 
 .prosa {
   max-width: var(--measure);
-  color: var(--ink-2);
   text-wrap: pretty;
 }
 
@@ -131,30 +118,43 @@ a {
   margin-top: var(--s-4);
 }
 
+.prosa strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Antetítulo: barra naranja + texto azul en versalitas */
 .eyebrow {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-base);
   font-size: var(--fs-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.11em;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--azul);
 }
 
-.mono {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  font-feature-settings: 'zero' 1;
+.eyebrow::before {
+  content: '';
+  width: 1.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--naranja);
+  flex: none;
 }
 
 .small {
   font-size: var(--fs-small);
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink-3);
+}
+
+.tel-num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
 }
 
 /* ---------- Estructura ---------- */
@@ -175,7 +175,7 @@ a {
 }
 
 .section--tight {
-  padding-block: clamp(2.5rem, 5vw, 4rem);
+  padding-block: clamp(2.5rem, 4.5vw, 3.5rem);
 }
 
 .rule {
@@ -183,22 +183,17 @@ a {
   border-top: var(--hairline);
 }
 
-/* Cabecera de seccion: eyebrow + titular + entradilla opcional */
 .cabecera {
   display: grid;
   gap: var(--s-4);
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-
-.cabecera--ancha {
-  grid-template-columns: 1fr;
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
 }
 
 @media (min-width: 62rem) {
   .cabecera--split {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     align-items: end;
-    gap: var(--s-7);
+    gap: var(--s-4) var(--s-7);
   }
 
   .cabecera--split .eyebrow {
@@ -209,91 +204,121 @@ a {
 /* ---------- Botones ---------- */
 
 .btn {
-  --btn-py: 0.875rem;
-  --btn-px: 1.5rem;
+  --btn-py: 0.8125rem;
+  --btn-px: 1.375rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
+  gap: 0.5rem;
   min-height: 2.75rem;
   padding: var(--btn-py) var(--btn-px);
   border: 1px solid transparent;
   border-radius: var(--r-sm);
-  font-family: var(--font-display);
+  font-family: var(--font-base);
   font-size: var(--fs-small);
   font-weight: 600;
-  font-stretch: 104%;
-  letter-spacing: 0.01em;
-  line-height: 1;
+  line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast),
-    transform var(--t-fast);
+  transition: background var(--t-rapido), color var(--t-rapido),
+    border-color var(--t-rapido), box-shadow var(--t-rapido);
 }
 
-.btn:active {
-  transform: translateY(1px);
+/* Llamar. Naranja con tinta oscura: 5.9:1, el naranja de marca no da
+   contraste suficiente con texto blanco. */
+.btn--principal {
+  background: var(--naranja);
+  color: var(--ink);
+  border-color: var(--naranja);
+  box-shadow: var(--sombra-sm);
 }
 
-.btn--primary {
-  background: var(--ink);
-  color: var(--on-ink);
-  border-color: var(--ink);
+.btn--principal:hover {
+  background: var(--naranja-osc);
+  border-color: var(--naranja-osc);
 }
 
-.btn--primary:hover {
-  background: #262624;
-  border-color: #262624;
+.btn--azul {
+  background: var(--azul);
+  color: var(--on-oscuro);
+  border-color: var(--azul);
 }
 
-.btn--ghost {
-  background: transparent;
+.btn--azul:hover {
+  background: var(--azul-osc);
+  border-color: var(--azul-osc);
+}
+
+.btn--linea {
+  background: var(--paper);
   color: var(--ink);
   border-color: var(--control);
 }
 
-.btn--ghost:hover {
-  background: var(--ink);
-  color: var(--on-ink);
+.btn--linea:hover {
   border-color: var(--ink);
+  background: var(--surface);
+}
+
+.btn--claro {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--on-oscuro);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.btn--claro:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: var(--on-oscuro);
 }
 
 .btn--lg {
-  --btn-py: 1.125rem;
-  --btn-px: 1.875rem;
+  --btn-py: 1rem;
+  --btn-px: 1.75rem;
   min-height: 3.25rem;
   font-size: 1rem;
 }
 
-.btn .icono {
-  flex: none;
-}
+/* ---------- Enlace con flecha ---------- */
 
-/* Enlace con flecha, para "ver mas" */
 .enlace-flecha {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: var(--fs-eyebrow);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  gap: 0.4375rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
   text-decoration: none;
-  color: var(--ink);
+  color: var(--azul);
 }
 
-.enlace-flecha::after {
-  content: '';
-  width: 1.125rem;
-  height: 1px;
-  background: currentColor;
-  transition: width var(--t-fast);
+.enlace-flecha svg {
+  transition: transform var(--t-rapido);
 }
 
-.enlace-flecha:hover::after {
-  width: 1.875rem;
+.enlace-flecha:hover {
+  color: var(--azul-osc);
+}
+
+.enlace-flecha:hover svg {
+  transform: translateX(3px);
+}
+
+/* ---------- Icono en pastilla ---------- */
+
+.pastilla {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--r-md);
+  background: var(--azul-tinte);
+  color: var(--azul);
+  flex: none;
+}
+
+.pastilla--naranja {
+  background: var(--naranja-tinte);
+  color: var(--naranja-osc);
 }
 
 /* ---------- Accesibilidad ---------- */
@@ -304,14 +329,14 @@ a {
   top: 0;
   z-index: 100;
   padding: 0.75rem 1.25rem;
-  background: var(--ink);
-  color: var(--on-ink);
+  background: var(--azul);
+  color: var(--on-oscuro);
   font-size: var(--fs-small);
   font-weight: 600;
   text-decoration: none;
   border-radius: 0 0 var(--r-sm) var(--r-sm);
   transform: translateY(-110%);
-  transition: transform var(--t-fast);
+  transition: transform var(--t-rapido);
 }
 
 .saltar:focus-visible {
@@ -329,8 +354,6 @@ a {
   white-space: nowrap;
   border: 0;
 }
-
-/* ---------- Movimiento ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   html {

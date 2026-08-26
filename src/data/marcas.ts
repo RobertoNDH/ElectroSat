@@ -1,11 +1,6 @@
-/**
- * Marcas con las que trabaja ElectroSat.
- *
- * TODO CLIENTE: confirmar cuales instala o distribuye realmente y eliminar el
- * resto. Publicar el logotipo de una marca con la que no se trabaja es un
- * problema legal, no un detalle de diseno. Mientras no haya ficheros de logo
- * autorizados se muestran como texto, que en Archivo expandido queda bien.
- */
+// Marcas con las que trabaja la empresa.
+// TODO: confirmar cuáles instala o distribuye realmente y eliminar el resto.
+// Se muestran como texto hasta que haya logotipos autorizados.
 export const marcas = [
   { nombre: 'Televes', para: 'Cabeceras, amplificadores y antenas' },
   { nombre: 'Fermax', para: 'Porteros y videoporteros' },

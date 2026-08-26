@@ -1,47 +1,46 @@
-/* ElectroSat TV - tokens del sistema de diseno.
-   Paleta monocroma. --signal es el unico color de la web y tiene tres usos
-   permitidos: el arco interior del motivo de senal, el punto de horario
-   abierto y el marcador de paso activo. En ningun otro sitio. */
+/* Sistema de diseño de ElectroSat TV.
+   Base clara y neutra. El azul del logo estructura (barra superior, enlaces,
+   iconos) y el naranja marca la acción: botón de llamada, numeración y
+   subrayados. Todo lo demás es gris azulado. */
 
 :root {
   color-scheme: light;
 
   /* Superficies */
   --paper: #ffffff;
-  --surface: #f6f6f5;
-  --surface-2: #edede9;
-  --line: #e0e0dd;
-  --line-strong: #c9c9c5;
-  /* Borde de controles contorneados: 3.47:1 sobre blanco, el minimo que
-     pide WCAG 1.4.11 para identificar un componente de interfaz. */
-  --control: #87877f;
+  --surface: #f4f6f9;
+  --surface-2: #e8edf3;
+  --line: #dbe2ea;
+  --control: #7b8998; /* borde de controles, 3.58:1 sobre blanco */
 
   /* Tinta */
-  --ink: #0c0c0c;
-  --ink-2: #3d3d3b;
-  --ink-3: #666663;
-  --on-ink: #ffffff;
+  --ink: #14202e;
+  --ink-2: #46556a;
+  --ink-3: #5d6b7d;
+  --on-oscuro: #ffffff;
 
-  /* Unico color */
-  --signal: #e9a319;
+  /* Azul del logo */
+  --azul: #0c4da2;
+  --azul-osc: #093a7c;
+  --azul-tinte: #eaf1fb;
+
+  /* Naranja de trabajo */
+  --naranja: #ee7c1a;
+  --naranja-osc: #d96d10;
+  --naranja-tinte: #fdf1e4;
 
   /* Familias */
-  --font-display: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-base: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Escala tipografica */
-  --fs-display-xl: clamp(2.375rem, 4.6vw, 4rem);
-  --fs-display-l: clamp(2rem, 4vw, 3.25rem);
-  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
-  --fs-h3: 1.375rem;
+  /* Escala tipográfica */
+  --fs-display-xl: clamp(2.5rem, 4.4vw, 3.5rem);
+  --fs-display-l: clamp(2.25rem, 4vw, 3.25rem);
+  --fs-h2: clamp(1.875rem, 3vw, 2.625rem);
+  --fs-h3: 1.25rem;
   --fs-body: 1.0625rem;
   --fs-small: 0.9375rem;
-  --fs-eyebrow: 0.75rem;
-
-  /* Anchuras del eje wdth de Archivo */
-  --wd-expanded: 112%;
-  --wd-wide: 106%;
-  --wd-normal: 100%;
+  --fs-eyebrow: 0.8125rem;
 
   /* Espaciado */
   --s-1: 0.25rem;
@@ -53,30 +52,33 @@
   --s-7: 3rem;
   --s-8: 4rem;
   --s-9: 6rem;
-  --s-10: 8rem;
 
   /* Estructura */
   --container: 75rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
-  --section-y: clamp(4rem, 9vw, 8rem);
-  --measure: 68ch;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --measure: 66ch;
 
   /* Forma */
-  --r-sm: 3px;
-  --r-md: 6px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
   --hairline: 1px solid var(--line);
-  --shadow: 0 1px 2px rgba(12, 12, 12, 0.04), 0 8px 24px rgba(12, 12, 12, 0.06);
+  --sombra-sm: 0 1px 2px rgba(20, 32, 46, 0.06);
+  --sombra: 0 2px 4px rgba(20, 32, 46, 0.04), 0 12px 28px rgba(20, 32, 46, 0.08);
+  --sombra-alta: 0 4px 8px rgba(20, 32, 46, 0.06), 0 20px 44px rgba(20, 32, 46, 0.12);
 
   /* Movimiento */
-  --t-fast: 180ms cubic-bezier(0.2, 0.6, 0.2, 1);
-  --t-slow: 240ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  --t-rapido: 160ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  --t-medio: 260ms cubic-bezier(0.2, 0.6, 0.2, 1);
 
-  /* Alturas fijas */
+  /* Alturas */
+  --barra-sup-h: 2.25rem;
   --header-h: 4.5rem;
   --barra-h: 3.5rem;
 }
 
-@media (max-width: 47.99rem) {
+@media (max-width: 61.99rem) {
   :root {
     --header-h: 3.75rem;
   }

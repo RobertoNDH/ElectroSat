@@ -2,13 +2,7 @@
 import { getCollection } from 'astro:content';
 import Logotipo from './Logotipo.astro';
 import Icono from './Icono.astro';
-import {
-  empresa,
-  telHref,
-  waHref,
-  emailHref,
-  direccionUnaLinea,
-} from '../data/empresa';
+import { empresa, telHref, waHref, emailHref, direccionUnaLinea } from '../data/empresa';
 
 const servicios = (await getCollection('servicios')).sort(
   (a, b) => a.data.orden - b.data.orden
@@ -27,15 +21,20 @@ const legales = [
   <div class="container pie__rejilla">
     <div class="pie__marca">
       <Logotipo />
-      <p class="small">{empresa.reclamo}</p>
+      <p class="small">
+        Instalación y mantenimiento de telecomunicaciones en toda la isla de Tenerife.
+      </p>
       <p class="pie__registro">
-        <span class="eyebrow">Empresa instaladora registrada</span>
-        <span class="mono">Nº {empresa.registroInstalador}</span>
+        <Icono nombre="documento" tamano={16} />
+        <span>
+          Empresa instaladora registrada
+          <strong class="tel-num">nº {empresa.registroInstalador}</strong>
+        </span>
       </p>
     </div>
 
     <nav class="pie__col" aria-label="Servicios">
-      <h2 class="eyebrow">Servicios</h2>
+      <h2 class="pie__titulo">Servicios</h2>
       <ul>
         {
           servicios.map((s) => (
@@ -48,7 +47,7 @@ const legales = [
     </nav>
 
     <nav class="pie__col" aria-label="Empresa">
-      <h2 class="eyebrow">Empresa</h2>
+      <h2 class="pie__titulo">Empresa</h2>
       <ul>
         <li><a href="/nosotros/">Nosotros</a></li>
         <li><a href="/contacto/">Contacto</a></li>
@@ -57,42 +56,58 @@ const legales = [
       </ul>
     </nav>
 
-    <div class="pie__col pie__contacto">
-      <h2 class="eyebrow">Contacto</h2>
-      <ul>
-        <li><a class="mono pie__tel" href={telHref()}>{empresa.telefono.display}</a></li>
-        <li><a class="mono" href={telHref(empresa.movil)}>{empresa.movil.display}</a></li>
-        <li><a href={emailHref}>{empresa.email}</a></li>
+    <div class="pie__col">
+      <h2 class="pie__titulo">Contacto</h2>
+      <a class="pie__tel" href={telHref()}>
+        <Icono nombre="telefono" tamano={18} />
+        <span class="tel-num">{empresa.telefono.display}</span>
+      </a>
+      <ul class="pie__datos">
+        <li>
+          <Icono nombre="whatsapp" tamano={16} />
+          <a class="tel-num" href={telHref(empresa.movil)}>{empresa.movil.display}</a>
+        </li>
+        <li>
+          <Icono nombre="email" tamano={16} />
+          <a href={emailHref}>{empresa.email}</a>
+        </li>
+        <li>
+          <Icono nombre="mapa" tamano={16} />
+          <span>{direccionUnaLinea}</span>
+        </li>
+        <li>
+          <Icono nombre="reloj" tamano={16} />
+          <span>{empresa.horarioTexto}</span>
+        </li>
       </ul>
-      <p class="small">{direccionUnaLinea}</p>
-      <p class="small">{empresa.horarioTexto}</p>
-      <a class="btn btn--ghost" href={waHref()} rel="noopener noreferrer">
+      <a class="btn btn--principal" href={waHref()} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={17} />
-        WhatsApp
+        Escribir por WhatsApp
       </a>
     </div>
   </div>
 
-  <div class="container pie__legal">
-    <p class="small">© {anio} {empresa.razonSocial}. CIF {empresa.cif}.</p>
-    <ul class="pie__legal-enlaces">
-      {legales.map((l) => <li><a class="small" href={l.href}>{l.texto}</a></li>)}
-    </ul>
+  <div class="pie__legal">
+    <div class="container pie__legal-fila">
+      <p class="small">© {anio} {empresa.razonSocial}. CIF {empresa.cif}.</p>
+      <ul class="pie__legal-enlaces">
+        {legales.map((l) => <li><a href={l.href}>{l.texto}</a></li>)}
+      </ul>
+    </div>
   </div>
 </footer>
 
 <style>
   .pie {
     background: var(--surface);
-    border-top: var(--hairline);
-    padding-top: clamp(3rem, 6vw, 5rem);
+    border-top: 3px solid var(--azul);
   }
 
   .pie__rejilla {
     display: grid;
     gap: var(--s-7) var(--s-6);
     grid-template-columns: 1fr;
-    padding-bottom: var(--s-7);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
   }
 
   @media (min-width: 40rem) {
@@ -103,8 +118,7 @@ const legales = [
 
   @media (min-width: 62rem) {
     .pie__rejilla {
-      grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
-      gap: var(--s-6);
+      grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
     }
   }
 
@@ -115,25 +129,45 @@ const legales = [
   }
 
   .pie__marca .small {
-    max-width: 24ch;
+    max-width: 28ch;
   }
 
   .pie__registro {
-    display: grid;
-    gap: 0.375rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
     margin-top: var(--s-2);
     padding-top: var(--s-4);
     border-top: var(--hairline);
+    font-size: var(--fs-small);
+    line-height: 1.45;
+    color: var(--ink-3);
   }
 
-  .pie__registro .mono {
-    font-size: var(--fs-small);
+  .pie__registro svg {
+    color: var(--azul);
+    margin-top: 0.125rem;
+    flex: none;
+  }
+
+  .pie__registro strong {
+    display: block;
+    color: var(--ink);
   }
 
   .pie__col {
     display: grid;
-    gap: var(--s-4);
+    gap: var(--s-3);
     align-content: start;
+  }
+
+  .pie__titulo {
+    font-family: var(--font-base);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink);
   }
 
   .pie__col ul {
@@ -148,32 +182,61 @@ const legales = [
   }
 
   .pie__col a:hover {
-    color: var(--ink);
+    color: var(--azul);
     text-decoration: underline;
   }
 
-  .pie__contacto {
-    gap: var(--s-3);
+  .pie__tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.375rem !important;
+    font-weight: 700;
+    color: var(--ink) !important;
+    text-decoration: none;
   }
 
-  .pie__contacto .btn {
+  .pie__tel svg {
+    color: var(--naranja);
+  }
+
+  .pie__datos {
+    display: grid;
+    gap: 0.625rem !important;
+  }
+
+  .pie__datos li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: var(--fs-small);
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .pie__datos svg {
+    color: var(--azul);
+    margin-top: 0.1875rem;
+    flex: none;
+  }
+
+  .pie__col .btn {
     justify-self: start;
     margin-top: var(--s-2);
   }
 
-  .pie__tel {
-    font-size: 1.0625rem !important;
-    color: var(--ink) !important;
+  .pie__legal {
+    border-top: var(--hairline);
+    background: var(--surface-2);
   }
 
-  .pie__legal {
+  .pie__legal-fila {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--s-3) var(--s-5);
+    gap: var(--s-2) var(--s-5);
     padding-block: var(--s-4);
-    border-top: var(--hairline);
   }
 
   .pie__legal-enlaces {
@@ -183,10 +246,13 @@ const legales = [
   }
 
   .pie__legal-enlaces a {
+    font-size: var(--fs-small);
+    color: var(--ink-3);
     text-decoration: none;
   }
 
   .pie__legal-enlaces a:hover {
+    color: var(--azul);
     text-decoration: underline;
   }
 </style>

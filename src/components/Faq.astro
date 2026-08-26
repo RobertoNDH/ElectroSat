@@ -1,8 +1,5 @@
 ---
-/**
- * Acordeon con <details>. Cero JavaScript: el navegador ya sabe abrir y cerrar,
- * anunciarlo a un lector de pantalla y responder al teclado.
- */
+// Acordeón sobre <details>: sin JavaScript y accesible por teclado de serie.
 interface Props {
   items: readonly { p: string; r: string }[];
 }
@@ -25,11 +22,21 @@ const { items } = Astro.props;
 
 <style>
   .faq {
-    border-top: var(--hairline);
+    display: grid;
+    gap: 0.75rem;
   }
 
   .faq__item {
-    border-bottom: var(--hairline);
+    background: var(--paper);
+    border: var(--hairline);
+    border-radius: var(--r-md);
+    transition: border-color var(--t-rapido), box-shadow var(--t-rapido);
+  }
+
+  .faq__item:hover,
+  .faq__item[open] {
+    border-color: var(--azul);
+    box-shadow: var(--sombra-sm);
   }
 
   .faq__pregunta {
@@ -37,11 +44,11 @@ const { items } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: var(--s-4);
-    padding-block: 1.375rem;
+    padding: 1.125rem var(--s-5);
     font-size: 1.0625rem;
     font-weight: 600;
-    font-stretch: 102%;
-    line-height: 1.35;
+    line-height: 1.4;
+    color: var(--ink);
     cursor: pointer;
     list-style: none;
   }
@@ -50,29 +57,39 @@ const { items } = Astro.props;
     display: none;
   }
 
-  .faq__pregunta:hover {
-    color: var(--ink-2);
-  }
-
   .faq__signo {
     position: relative;
+    display: grid;
+    place-items: center;
     flex: none;
-    width: 1rem;
-    height: 1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--azul-tinte);
   }
 
   .faq__signo::before,
   .faq__signo::after {
     content: '';
     position: absolute;
-    inset: 50% 0 auto 0;
-    height: 1.5px;
-    background: currentColor;
-    transition: transform var(--t-fast);
+    width: 0.75rem;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--azul);
+    transition: transform var(--t-rapido);
   }
 
   .faq__signo::after {
     transform: rotate(90deg);
+  }
+
+  .faq__item[open] .faq__signo {
+    background: var(--azul);
+  }
+
+  .faq__item[open] .faq__signo::before,
+  .faq__item[open] .faq__signo::after {
+    background: var(--on-oscuro);
   }
 
   .faq__item[open] .faq__signo::after {
@@ -81,7 +98,7 @@ const { items } = Astro.props;
 
   .faq__respuesta {
     max-width: 62ch;
-    padding-bottom: 1.5rem;
+    padding: 0 var(--s-5) 1.375rem;
     color: var(--ink-2);
     text-wrap: pretty;
   }

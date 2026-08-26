@@ -1,13 +1,6 @@
-/**
- * FUENTE UNICA de los datos de contacto de ElectroSat TV.
- *
- * Todo `tel:`, todo `wa.me`, el footer, la barra movil, la pagina de contacto,
- * el aviso legal y el JSON-LD salen de aqui. No escribas un telefono a mano en
- * ninguna plantilla: si aparece duplicado, tarde o temprano uno se queda viejo.
- *
- * Los valores marcados con TODO CLIENTE son marcadores. Sustituyelos por los
- * reales antes de publicar y revisa el CHECKLIST-ENTREGA.md.
- */
+// Fuente única de los datos de contacto. De aquí salen todos los tel:, los
+// wa.me, el pie, la barra móvil, el aviso legal y el JSON-LD.
+// Los TODO son marcadores pendientes de los datos reales.
 
 type Telefono = { display: string; e164: string };
 
@@ -18,17 +11,17 @@ export const empresa = {
   descripcion:
     'Instalacion y mantenimiento de TDT y satelite, videovigilancia, porteros y videoporteros e internet comunitario para comunidades, hoteles y viviendas en toda la isla de Tenerife.',
 
-  // TODO CLIENTE: telefono fijo real.
+  // TODO: teléfono fijo real.
   telefono: { display: '922 00 00 00', e164: '+34922000000' } satisfies Telefono,
-  // TODO CLIENTE: movil real. Es el mismo numero que se usa para WhatsApp.
+  // TODO: móvil real. Es el mismo número que se usa para WhatsApp.
   movil: { display: '600 00 00 00', e164: '+34600000000' } satisfies Telefono,
-  // TODO CLIENTE: numero de WhatsApp en formato internacional sin + ni espacios.
+  // TODO: WhatsApp en formato internacional, sin + ni espacios.
   whatsapp: '34600000000',
-  // TODO CLIENTE: email real.
+  // TODO: correo real.
   email: 'info@electrosattv.es',
 
   direccion: {
-    // TODO CLIENTE: direccion completa.
+    // TODO: dirección completa.
     calle: 'Calle pendiente de confirmar, 0',
     cp: '38000',
     municipio: 'Santa Cruz de Tenerife',
@@ -37,25 +30,24 @@ export const empresa = {
     pais: 'ES',
   },
 
-  // TODO CLIENTE: enlace de Google Maps de la ubicacion real.
+  // TODO: enlace de Google Maps de la ubicación real.
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Tenerife',
 
-  /** Tramos de atencion. dias usa el indice de Date#getDay: 0 domingo, 1 lunes. */
+  /** Tramos de atención. `dias` usa el índice de Date#getDay: 0 domingo, 1 lunes. */
   horario: [
     { dias: [1, 2, 3, 4, 5], desde: '08:30', hasta: '13:30' },
     { dias: [1, 2, 3, 4, 5], desde: '15:30', hasta: '18:00' },
   ],
   horarioTexto: 'Lunes a viernes, de 8:30 a 13:30 y de 15:30 a 18:00',
 
-  // TODO CLIENTE: CIF real. Obligatorio en el aviso legal (LSSI-CE).
+  // TODO: CIF real. Obligatorio en el aviso legal (LSSI-CE).
   cif: 'B00000000',
-  // TODO CLIENTE: numero de inscripcion en el Registro de Empresas Instaladoras
-  // de Telecomunicacion. Es la prueba de confianza mas fuerte de toda la web.
+  // TODO: inscripción en el Registro de Empresas Instaladoras de Telecomunicación.
   registroInstalador: '00000',
-  // TODO CLIENTE: ano de inicio de actividad.
+  // TODO: año de inicio de actividad.
   anioFundacion: 2005,
 
-  /** Municipios de Tenerife donde se presta servicio. */
+  /** Municipios donde se presta servicio. */
   cobertura: [
     'Santa Cruz de Tenerife',
     'La Laguna',
@@ -84,14 +76,14 @@ export const empresa = {
     'El Rosario',
   ],
 
-  // TODO CLIENTE: perfiles reales. Borra los que no existan.
+  // TODO: perfiles reales. Borrar los que no existan.
   redes: {
     facebook: '',
     instagram: '',
   },
 } as const;
 
-/** Anos de actividad, calculados. No hay que tocarlos cada enero. */
+/** Años de actividad, calculados a partir del año de fundación. */
 export const aniosActividad = new Date().getFullYear() - empresa.anioFundacion;
 
 export const direccionUnaLinea = `${empresa.direccion.calle}, ${empresa.direccion.cp} ${empresa.direccion.municipio}`;
@@ -116,7 +108,7 @@ const DIAS_SCHEMA = [
   'Saturday',
 ];
 
-/** Horario en el formato que espera schema.org. */
+/** Horario en el formato de schema.org. */
 export const horarioSchema = empresa.horario.map((tramo) => ({
   '@type': 'OpeningHoursSpecification',
   dayOfWeek: tramo.dias.map((d) => DIAS_SCHEMA[d]),
