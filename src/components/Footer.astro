@@ -27,10 +27,12 @@ const anio = new Date().getFullYear();
 
 // Los textos legales solo existen en español: es la versión con validez legal
 // en España. Desde inglés y alemán se enlazan igualmente, con una nota.
+// Van siempre en español, así que se piden con 'es' pero pasando por ruta()
+// para que lleven delante la carpeta desde la que se sirve el sitio.
 const legales = [
-  { href: '/aviso-legal/', texto: txt.pie.avisoLegal },
-  { href: '/politica-de-privacidad/', texto: txt.pie.privacidad },
-  { href: '/politica-de-cookies/', texto: txt.pie.cookies },
+  { href: ruta('es', '/aviso-legal/'), texto: txt.pie.avisoLegal },
+  { href: ruta('es', '/politica-de-privacidad/'), texto: txt.pie.privacidad },
+  { href: ruta('es', '/politica-de-cookies/'), texto: txt.pie.cookies },
 ];
 ---
 

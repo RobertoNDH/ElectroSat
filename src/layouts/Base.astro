@@ -7,7 +7,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BarraLlamada from '../components/BarraLlamada.astro';
 import { empresa, horarioSchema } from '../data/empresa';
-import { CODIGOS, IDIOMAS, equivalente, type Idioma } from '../i18n/config';
+import { CODIGOS, IDIOMAS, equivalente, publico, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 
 interface Props {
@@ -25,7 +25,7 @@ const idioma = IDIOMAS[lang];
 
 const sitio = Astro.site!;
 const canonical = new URL(Astro.url.pathname, sitio).href;
-const ogImagen = new URL('/og-default.png', sitio).href;
+const ogImagen = new URL(publico('og-default.png'), sitio).href;
 
 const negocio = {
   '@type': 'LocalBusiness',
@@ -69,15 +69,26 @@ const avisoCorreoCopiado = txt.acciones.correoCopiado(empresa.email);
     {noindex && <meta name="robots" content="noindex, follow" />}
 
     {
-      CODIGOS.map((codigo) => (
-        <link
-          rel="alternate"
-          hreflang={IDIOMAS[codigo].htmlLang}
-          href={new URL(equivalente(Astro.url, codigo), sitio).href}
-        />
-      ))
+      /* Las alternativas de idioma solo salen en las páginas que existen en los
+         tres idiomas. Las legales y la 404 van marcadas con noindex y solo
+         existen en español, así que declararlas apuntaría a URL inexistentes. */
+      !noindex && (
+        <>
+          {CODIGOS.map((codigo) => (
+            <link
+              rel="alternate"
+              hreflang={IDIOMAS[codigo].htmlLang}
+              href={new URL(equivalente(Astro.url, codigo), sitio).href}
+            />
+          ))}
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={new URL(equivalente(Astro.url, 'es'), sitio).href}
+          />
+        </>
+      )
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(equivalente(Astro.url, 'es'), sitio).href} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={empresa.razonSocial} />
@@ -88,8 +99,8 @@ const avisoCorreoCopiado = txt.acciones.correoCopiado(empresa.email);
     <meta property="og:image" content={ogImagen} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href={publico('favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={publico('apple-touch-icon.png')} />
     <meta name="theme-color" content="#0b7099" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(grafo)} />
