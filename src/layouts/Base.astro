@@ -50,6 +50,12 @@ const negocio = {
 };
 
 const grafo = { '@context': 'https://schema.org', '@graph': [negocio, ...jsonLd] };
+
+// mailto: solo abre algo si el dispositivo tiene un cliente de correo
+// configurado. Como refuerzo, al pulsar cualquier enlace de correo se copia
+// la dirección al portapapeles y se avisa, para que funcione también donde no
+// hay cliente (típico en ordenadores de escritorio sin Outlook ni Mail).
+const avisoCorreoCopiado = txt.acciones.correoCopiado(empresa.email);
 ---
 
 <!doctype html>
@@ -98,6 +104,27 @@ const grafo = { '@context': 'https://schema.org', '@graph': [negocio, ...jsonLd]
     <Footer lang={lang} />
     <BarraLlamada lang={lang} />
 
+    <p class="aviso-copia" data-aviso-copia={avisoCorreoCopiado} aria-live="polite"></p>
+
+    <script>
+      const aviso = document.querySelector<HTMLElement>('[data-aviso-copia]');
+      const texto = aviso?.dataset.avisoCopia;
+      let temporizador: ReturnType<typeof setTimeout>;
+
+      if (aviso && texto && navigator.clipboard) {
+        for (const enlace of document.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]')) {
+          enlace.addEventListener('click', () => {
+            navigator.clipboard.writeText(enlace.href.replace(/^mailto:/, '').split('?')[0]).then(() => {
+              aviso.textContent = texto;
+              aviso.classList.add('is-visible');
+              clearTimeout(temporizador);
+              temporizador = setTimeout(() => aviso.classList.remove('is-visible'), 2600);
+            }).catch(() => {});
+          });
+        }
+      }
+    </script>
+
     <style is:global>
       /* Hueco para la barra fija de llamada en móvil. */
       body {
@@ -107,6 +134,39 @@ const grafo = { '@context': 'https://schema.org', '@graph': [negocio, ...jsonLd]
       @media (min-width: 62rem) {
         body {
           padding-bottom: 0;
+        }
+      }
+
+      /* Confirmación tras copiar el correo al portapapeles. */
+      .aviso-copia {
+        position: fixed;
+        left: 50%;
+        bottom: calc(var(--barra-h) + var(--s-4) + env(safe-area-inset-bottom));
+        z-index: 60;
+        margin: 0;
+        padding: 0.6875rem 1.25rem;
+        max-width: calc(100% - 2.5rem);
+        background: var(--ink);
+        color: var(--on-oscuro);
+        font-size: var(--fs-small);
+        font-weight: 600;
+        text-align: center;
+        border-radius: 999px;
+        box-shadow: var(--sombra-alta);
+        opacity: 0;
+        transform: translate(-50%, 8px);
+        pointer-events: none;
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+
+      .aviso-copia.is-visible {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (min-width: 62rem) {
+        .aviso-copia {
+          bottom: var(--s-6);
         }
       }
     </style>

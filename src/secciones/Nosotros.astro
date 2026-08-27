@@ -11,8 +11,8 @@ import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
 import { nosotros } from '../i18n/nosotros';
 import fotoPortada from '../assets/portada-nosotros.jpg';
-import fotoTecnico from '../assets/equipo.jpg';
-import fotoCifras from '../assets/portada-servicios.jpg';
+import fotoTecnico from '../assets/telecomunicaciones.jpg';
+import fotoCifras from '../assets/internet-comunitario.jpg';
 
 interface Props {
   lang: Idioma;
@@ -74,7 +74,7 @@ const jsonLd = [
       <figure class="historia__foto">
         <Image
           src={fotoTecnico}
-          alt="Técnico de ElectroSat TV trabajando en una instalación"
+          alt="Técnico revisando una instalación de telecomunicaciones"
           widths={[800, 1200, 1800, 2400]}
           sizes="(min-width: 62rem) 60rem, 100vw"
           loading="lazy"

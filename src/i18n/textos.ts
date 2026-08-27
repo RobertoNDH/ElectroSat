@@ -34,6 +34,7 @@ export const TEXTOS = {
       verComoLoHacemos: 'Ver cómo lo hacemos',
       abrirMapa: 'Ver cómo llegar',
       verMasArriba: 'Volver al inicio',
+      correoCopiado: (correo: string) => `Correo copiado: ${correo}`,
     },
     hero: {
       eyebrow: 'Instalador registrado · Sur de Tenerife',
@@ -41,7 +42,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV lleva la antena, las cámaras, el portero y el internet de tu casa, tu comunidad o tu negocio en el sur de Tenerife.',
       ventajas: [
-        'Te atiende quien hace el trabajo',
+        'Instalador registrado en el sur de Tenerife',
         'Te decimos el precio antes de empezar',
         'Garantía por escrito en todo lo que montamos',
       ],
@@ -226,6 +227,7 @@ export const TEXTOS = {
       verComoLoHacemos: 'See how we do it',
       abrirMapa: 'Get directions',
       verMasArriba: 'Back to top',
+      correoCopiado: (correo: string) => `Email copied: ${correo}`,
     },
     hero: {
       eyebrow: 'Registered installer · South Tenerife',
@@ -233,7 +235,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV takes care of the aerial, the cameras, the door entry system and the internet in your home, your building or your business in the south of Tenerife.',
       ventajas: [
-        'You deal with the people doing the work',
+        'Registered installer, based in southern Tenerife',
         'You get the price before we start',
         'Written guarantee on everything we install',
       ],
@@ -419,6 +421,7 @@ export const TEXTOS = {
       verComoLoHacemos: 'So gehen wir vor',
       abrirMapa: 'Route anzeigen',
       verMasArriba: 'Nach oben',
+      correoCopiado: (correo: string) => `E-Mail kopiert: ${correo}`,
     },
     hero: {
       eyebrow: 'Eingetragener Installateur · Süden Teneriffas',
@@ -426,7 +429,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV kümmert sich um Antenne, Kameras, Türsprechanlage und Internet in Ihrer Wohnung, Ihrer Wohnanlage oder Ihrem Betrieb im Süden Teneriffas.',
       ventajas: [
-        'Sie sprechen direkt mit dem Techniker',
+        'Eingetragener Installationsbetrieb im Süden Teneriffas',
         'Sie kennen den Preis, bevor wir anfangen',
         'Schriftliche Garantie auf alles, was wir einbauen',
       ],

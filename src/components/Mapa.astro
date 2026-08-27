@@ -99,12 +99,11 @@ const textos = {
     justify-items: start;
   }
 
-  /* La sección va sobre fondo oscuro, en el pie. */
   .mapa__titulo {
     font-size: clamp(1.5rem, 2.4vw, 1.875rem);
     font-weight: 800;
     letter-spacing: -0.028em;
-    color: var(--on-oscuro);
+    color: var(--ink);
   }
 
   .mapa__dir {
@@ -112,21 +111,13 @@ const textos = {
     align-items: flex-start;
     gap: 0.5rem;
     font-size: var(--fs-small);
-    color: rgba(255, 255, 255, 0.76);
+    color: var(--ink-2);
   }
 
   .mapa__dir svg {
-    color: var(--amarillo);
+    color: var(--azul);
     margin-top: 0.1875rem;
     flex: none;
-  }
-
-  .mapa :global(.enlace-flecha) {
-    color: var(--amarillo);
-  }
-
-  .mapa :global(.enlace-flecha:hover) {
-    color: var(--amarillo-osc);
   }
 
   .mapa__lienzo {
@@ -137,8 +128,8 @@ const textos = {
     gap: 0.75rem;
     min-height: 13rem;
     padding: var(--s-5);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--paper);
+    border: var(--hairline);
     border-radius: var(--r-lg);
     overflow: hidden;
   }
@@ -147,9 +138,10 @@ const textos = {
   .mapa__trama {
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-image: linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size: 2.25rem 2.25rem;
+    opacity: 0.65;
   }
 
   .mapa__boton,
@@ -162,7 +154,7 @@ const textos = {
     font-size: 0.75rem;
     line-height: 1.4;
     text-align: center;
-    color: rgba(255, 255, 255, 0.66);
+    color: var(--ink-3);
   }
 
   /* Con el mapa dentro sobra el relleno: el marco ocupa toda la caja. */
