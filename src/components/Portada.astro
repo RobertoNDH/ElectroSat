@@ -85,8 +85,10 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     object-fit: cover;
   }
 
+  /* Sube el motivo de la foto casi al borde superior: en la home la antena
+     tiene que quedar por encima del titular, no detrás de las letras. */
   .enc-alto .portada__fondo :global(img) {
-    object-position: 50% 40%;
+    object-position: 50% 92%;
   }
 
   .enc-centro .portada__fondo :global(img) {
@@ -119,17 +121,17 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
   .portada--alta::before {
     background:
       radial-gradient(
-        62% 44% at 50% 74%,
-        rgba(255, 255, 255, 0.97) 0%,
-        rgba(255, 255, 255, 0.88) 46%,
+        70% 50% at 50% 70%,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 255, 255, 0.94) 50%,
         rgba(255, 255, 255, 0) 100%
       ),
       linear-gradient(
         to bottom,
         rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.12) 28%,
-        rgba(255, 255, 255, 0.62) 62%,
-        rgba(255, 255, 255, 0.9) 88%
+        rgba(255, 255, 255, 0.2) 26%,
+        rgba(255, 255, 255, 0.78) 56%,
+        rgba(255, 255, 255, 0.94) 84%
       );
   }
 

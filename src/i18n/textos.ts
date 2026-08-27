@@ -41,7 +41,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV lleva la antena, las cámaras, el portero y el internet de tu casa, tu comunidad o tu negocio en el sur de Tenerife.',
       ventajas: [
-        'Vamos a verlo gratis y sin compromiso',
+        'Te atiende quien hace el trabajo',
         'Te decimos el precio antes de empezar',
         'Garantía por escrito en todo lo que montamos',
       ],
@@ -78,7 +78,7 @@ export const TEXTOS = {
     },
     servicios: {
       eyebrow: 'Qué hacemos',
-      titulo: 'Todo lo que entra por el mismo cable',
+      titulo: 'Telecomunicaciones de principio a fin',
       prosa:
         'Televisión, cámaras, portero e internet comparten instalación en un edificio. Llevarlo todo con la misma empresa evita que una cosa estropee la otra.',
       ctaTitulo: '¿No sabes cuál te toca?',
@@ -233,7 +233,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV takes care of the aerial, the cameras, the door entry system and the internet in your home, your building or your business in the south of Tenerife.',
       ventajas: [
-        'We come and look at it, free and with no obligation',
+        'You deal with the people doing the work',
         'You get the price before we start',
         'Written guarantee on everything we install',
       ],
@@ -270,7 +270,7 @@ export const TEXTOS = {
     },
     servicios: {
       eyebrow: 'What we do',
-      titulo: 'It all runs through the same cable',
+      titulo: 'Telecoms from end to end',
       prosa:
         'Television, cameras, door entry and internet share the same wiring in a building. Having one company handle all of it stops one job from breaking another.',
       ctaTitulo: 'Not sure which one you need?',
@@ -426,7 +426,7 @@ export const TEXTOS = {
       lede:
         'ElectroSat TV kümmert sich um Antenne, Kameras, Türsprechanlage und Internet in Ihrer Wohnung, Ihrer Wohnanlage oder Ihrem Betrieb im Süden Teneriffas.',
       ventajas: [
-        'Wir schauen es uns kostenlos und unverbindlich an',
+        'Sie sprechen direkt mit dem Techniker',
         'Sie kennen den Preis, bevor wir anfangen',
         'Schriftliche Garantie auf alles, was wir einbauen',
       ],
@@ -463,7 +463,7 @@ export const TEXTOS = {
     },
     servicios: {
       eyebrow: 'Was wir machen',
-      titulo: 'Alles läuft über dasselbe Kabel',
+      titulo: 'Telekommunikation von A bis Z',
       prosa:
         'Fernsehen, Kameras, Türsprechanlage und Internet teilen sich im Haus dieselbe Verkabelung. Wenn eine Firma alles betreut, macht ein Einbau den anderen nicht kaputt.',
       ctaTitulo: 'Sie wissen nicht, was Sie brauchen?',

@@ -221,9 +221,11 @@ const legales = [
     margin-top: var(--s-1);
   }
 
+  /* "Dónde estamos" va en oscuro: separa el mapa de las columnas de enlaces y
+     evita que el pie se lea como un único bloque claro enorme. */
   .pie__mapa {
-    border-top: var(--hairline);
-    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+    background: var(--ink);
+    padding-block: clamp(2rem, 4vw, 3rem);
   }
 
   .pie__legal {

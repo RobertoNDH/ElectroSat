@@ -1,0 +1,117 @@
+---
+// Sección a sangre con foto de fondo y velo oscuro encima. Sirve para cortar
+// la alternancia de blanco y gris: cada dos o tres secciones entra una de
+// estas y la página deja de leerse como una sucesión de cajas.
+// El contenido va en claro; lo pone el propio componente con :global.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  foto: ImageMetadata;
+  /** Alternativo solo si la foto aporta información; si es decorativa, vacío. */
+  alt?: string;
+  encuadre?: 'alto' | 'centro' | 'bajo';
+  /** `apretada` para tiras finas tipo cifras. */
+  alto?: 'normal' | 'apretada';
+  id?: string;
+  rotulo?: string;
+  clase?: string;
+}
+
+const {
+  foto,
+  alt = '',
+  encuadre = 'centro',
+  alto = 'normal',
+  id,
+  rotulo,
+  clase,
+} = Astro.props;
+---
+
+<section
+  class:list={['banda', `banda--${alto}`, `benc-${encuadre}`, clase]}
+  id={id}
+  aria-labelledby={rotulo}
+>
+  <div class="banda__fondo">
+    <Image src={foto} alt={alt} widths={[900, 1400, 2000, 2400]} sizes="100vw" loading="lazy" quality={70} />
+  </div>
+
+  <div class="container">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .banda {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .banda--normal {
+    padding-block: clamp(3.25rem, 6vw, 5rem);
+  }
+
+  .banda--apretada {
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .banda__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--ink);
+  }
+
+  .banda__fondo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .benc-alto .banda__fondo :global(img) {
+    object-position: 50% 25%;
+  }
+
+  .benc-centro .banda__fondo :global(img) {
+    object-position: 50% 50%;
+  }
+
+  .benc-bajo .banda__fondo :global(img) {
+    object-position: 50% 72%;
+  }
+
+  .banda::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    /* Con este velo el texto blanco pasa de 9:1 incluso sobre las zonas más
+       claras de la foto, y la imagen se sigue reconociendo. */
+    background: linear-gradient(
+      to bottom,
+      rgba(9, 20, 28, 0.86) 0%,
+      rgba(9, 20, 28, 0.76) 55%,
+      rgba(9, 20, 28, 0.88) 100%
+    );
+  }
+
+  /* El contenido llega por slot, así que no lleva el identificador de ámbito
+     de este componente: hay que alcanzarlo con :global. */
+  .banda :global(.h2),
+  .banda :global(.h3),
+  .banda :global(.display-l) {
+    color: var(--on-oscuro);
+  }
+
+  .banda :global(.prosa),
+  .banda :global(.lede) {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .banda :global(.cabecera) {
+    margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+</style>
