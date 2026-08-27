@@ -1,0 +1,207 @@
+---
+// Portada a sangre: foto de ancho completo, velo claro y titular centrado
+// encima. La usan la home y todas las páginas interiores, así que el gesto de
+// entrada es el mismo en todo el sitio y solo cambian la foto y la altura.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  titulo: string;
+  texto?: string;
+  foto: ImageMetadata;
+  alt: string;
+  /** `alta` es la home; `media` las interiores. */
+  alto?: 'alta' | 'media';
+  /** Zona de la foto que se conserva al recortar. Va por clase porque la
+      política de seguridad no permite atributos style. */
+  encuadre?: 'alto' | 'centro' | 'bajo';
+  /** La home es la única con <h1> de nivel de marca y carga prioritaria. */
+  principal?: boolean;
+}
+
+const {
+  titulo,
+  texto,
+  foto,
+  alt,
+  alto = 'media',
+  encuadre = 'centro',
+  principal = false,
+} = Astro.props;
+
+const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 2000, 2600];
+---
+
+<section class:list={['portada', `portada--${alto}`, `enc-${encuadre}`]}>
+  <div class="portada__fondo">
+    <Image
+      src={foto}
+      alt={alt}
+      widths={anchos}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      quality={72}
+    />
+  </div>
+
+  <div class="container portada__contenido">
+    <h1 class:list={[principal ? 'display-xl' : 'display-l']}>{titulo}</h1>
+    {texto && <p class="lede portada__lede">{texto}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .portada {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+    border-bottom: var(--hairline);
+  }
+
+  .portada--alta {
+    min-height: min(48rem, 94svh);
+    align-items: flex-end;
+  }
+
+  .portada--media {
+    min-height: min(26rem, 62svh);
+  }
+
+  .portada__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .portada__fondo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .enc-alto .portada__fondo :global(img) {
+    object-position: 50% 40%;
+  }
+
+  .enc-centro .portada__fondo :global(img) {
+    object-position: 50% 50%;
+  }
+
+  .enc-bajo .portada__fondo :global(img) {
+    object-position: 50% 68%;
+  }
+
+  /* Velo claro: un foco blanco detrás del texto y un lavado vertical suave.
+     Deja ver el cielo alrededor en lugar de tapar la foto entera. */
+  .portada::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        76% 58% at 50% 56%,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.88) 52%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.7));
+  }
+
+  /* En la home el texto vive abajo, así que el velo se concentra ahí y el
+     tercio superior queda despejado para que se vea la antena contra el cielo. */
+  .portada--alta::before {
+    background:
+      radial-gradient(
+        62% 44% at 50% 74%,
+        rgba(255, 255, 255, 0.97) 0%,
+        rgba(255, 255, 255, 0.88) 46%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.12) 28%,
+        rgba(255, 255, 255, 0.62) 62%,
+        rgba(255, 255, 255, 0.9) 88%
+      );
+  }
+
+  /* En vertical la foto entra entera de alto, así que la antena cae justo
+     donde va el titular y no hay encuadre que lo evite: ahí manda el velo. */
+  @media (max-width: 54.99rem) {
+    .portada--alta::before {
+      background:
+        radial-gradient(
+          82% 40% at 50% 52%,
+          rgba(255, 255, 255, 0.96) 0%,
+          rgba(255, 255, 255, 0.9) 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 22%,
+          rgba(255, 255, 255, 0.72) 58%,
+          rgba(255, 255, 255, 0.92) 86%
+        );
+    }
+  }
+
+  .portada__contenido {
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+    gap: var(--s-4);
+    text-align: center;
+  }
+
+  /* Ningún hijo puede crecer más que la columna y empujar el ancho. */
+  .portada__contenido > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .portada__contenido h1 {
+    max-width: 18ch;
+  }
+
+  .portada--media .portada__contenido h1 {
+    max-width: 22ch;
+  }
+
+  .portada__lede {
+    max-width: 46ch;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .portada__contenido > * {
+      animation: subir 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+
+    .portada__contenido > *:nth-child(2) {
+      animation-delay: 70ms;
+    }
+
+    .portada__contenido > *:nth-child(3) {
+      animation-delay: 140ms;
+    }
+
+    .portada__contenido > *:nth-child(4) {
+      animation-delay: 210ms;
+    }
+
+    @keyframes subir {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+    }
+  }
+</style>

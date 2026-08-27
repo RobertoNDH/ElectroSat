@@ -1,9 +1,9 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import Faq from '../components/Faq.astro';
+import Portada from '../components/Portada.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import DiagramaPortal from '../components/DiagramaPortal.astro';
 import { fotoDeServicio } from '../data/imagenes';
@@ -70,35 +70,24 @@ const jsonLd = [
     </ol>
   </nav>
 
-  <section class="portada">
-    <div class="container portada__rejilla">
-      <div class="portada__texto">
-        <h1 class="display-l">{data.titulo}</h1>
-        <p class="lede">{data.entradilla}</p>
-        <div class="portada__acciones">
-          <a class="btn btn--principal btn--lg" href={telHref()}>
-            <Icono nombre="telefono" tamano={18} />
-            {txt.acciones.llamarA(empresa.telefono.display)}
-          </a>
-          <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
-            <Icono nombre="whatsapp" tamano={18} />
-            {txt.acciones.whatsapp}
-          </a>
-        </div>
-      </div>
-
-      <figure class="portada__foto">
-        <Image
-          src={fotoDeServicio(servicio.id)}
-          alt={data.corto}
-          widths={[460, 700, 940]}
-          sizes="(min-width: 62rem) 28rem, 100vw"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </figure>
+  <Portada
+    titulo={data.titulo}
+    texto={data.entradilla}
+    foto={fotoDeServicio(servicio.id)}
+    alt={data.corto}
+    encuadre="centro"
+  >
+    <div class="portada__acciones">
+      <a class="btn btn--principal btn--lg" href={telHref()}>
+        <Icono nombre="telefono" tamano={18} />
+        {txt.acciones.llamarA(empresa.telefono.display)}
+      </a>
+      <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+        <Icono nombre="whatsapp" tamano={18} />
+        {txt.acciones.whatsapp}
+      </a>
     </div>
-  </section>
+  </Portada>
 
   <section class="section section--tight">
     <div class="container">
@@ -255,47 +244,12 @@ const jsonLd = [
     text-decoration: underline;
   }
 
-  .portada {
-    padding-block: clamp(2rem, 4vw, 3rem);
-    border-bottom: var(--hairline);
-  }
-
-  .portada__rejilla {
-    display: grid;
-    gap: var(--s-5);
-    align-items: center;
-  }
-
-  @media (min-width: 62rem) {
-    .portada__rejilla {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: var(--s-7);
-    }
-  }
-
-  .portada__texto {
-    display: grid;
-    gap: var(--s-3);
-  }
-
   .portada__acciones {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--s-3);
     margin-top: var(--s-2);
-  }
-
-  .portada__foto {
-    margin: 0;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    box-shadow: var(--sombra);
-  }
-
-  .portada__foto :global(img) {
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
   }
 
   /* Texto a una columna centrada: antes iba a la izquierda y dejaba un hueco

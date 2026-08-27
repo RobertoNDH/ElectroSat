@@ -33,17 +33,21 @@
   --amarillo-tinte: #fdf4dd;
   --amarillo-texto: #856000;
 
-  /* Familias. Bitter da autoridad en los titulares sin perder legibilidad;
-     Source Sans 3 es de las más legibles en texto corrido y cubre bien los
-     acentos del español y del alemán. */
-  --font-display: 'Bitter Variable', Georgia, 'Times New Roman', serif;
-  --font-base: 'Source Sans 3 Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Una sola familia para todo. Schibsted Grotesk está dibujada para prensa
+     digital, así que aguanta tanto un titular de 4rem como un párrafo largo, y
+     lleva completos los acentos del español y las diéresis del alemán.
+     La jerarquía la hacen el peso y el tamaño, no un segundo tipo de letra. */
+  --font-display: 'Schibsted Grotesk Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-base: var(--font-display);
 
-  /* Escala tipográfica */
-  --fs-display-xl: clamp(2.25rem, 4vw, 3.375rem);
-  --fs-display-l: clamp(1.875rem, 3.2vw, 2.75rem);
-  --fs-h2: clamp(1.625rem, 2.6vw, 2.25rem);
-  --fs-h3: 1.1875rem;
+  /* Escala tipográfica. Los titulares van grandes y muy cerrados: es lo que
+     separa una portada de una diapositiva. */
+  /* El mínimo lo manda la palabra más larga que hay que meter en 390px:
+     "telecomunicaciones" en español y los compuestos del alemán. */
+  --fs-display-xl: clamp(2rem, 5.4vw, 4.5rem);
+  --fs-display-l: clamp(1.75rem, 4.2vw, 3.375rem);
+  --fs-h2: clamp(1.5rem, 3vw, 2.5rem);
+  --fs-h3: 1.25rem;
   --fs-body: 1.0625rem;
   --fs-small: 0.9375rem;
   --fs-eyebrow: 0.8125rem;

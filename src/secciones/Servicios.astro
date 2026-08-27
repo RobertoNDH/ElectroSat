@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
-import PortadaPagina from '../components/PortadaPagina.astro';
-import fotoParabolica from '../assets/parabolica.jpg';
+import Portada from '../components/Portada.astro';
+import fotoPortada from '../assets/portada-servicios.jpg';
 import { fotoDeServicio } from '../data/imagenes';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
@@ -35,11 +35,12 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <PortadaPagina
+  <Portada
     titulo={txt.servicios.titulo}
     texto={txt.servicios.prosa}
-    foto={fotoParabolica}
-    alt="Antena parabólica instalada en el tejado de un edificio"
+    foto={fotoPortada}
+    alt="Antenas y parabólicas instaladas en la azotea de un edificio"
+    encuadre="bajo"
   />
 
   <section class="section section--tight">

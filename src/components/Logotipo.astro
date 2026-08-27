@@ -1,8 +1,10 @@
 ---
 // Logotipo original de la empresa, con el fondo blanco recortado.
-// El archivo de partida es un JPEG de 179x48 px, así que la nitidez está
-// limitada por el original.
-// TODO: pedir al cliente el vectorial (SVG, AI o EPS) para sustituirlo.
+// LÍMITE CONOCIDO: el archivo de partida que dio el cliente es un JPEG de unos
+// 179x48 px, así que la nitidez tiene techo por más que se procese. Se sirve
+// pequeño y a doble densidad, que es donde mejor aguanta.
+// Para verlo nítido a cualquier tamaño hace falta el original vectorial
+// (SVG, AI, EPS o PDF) de quien diseñó la marca.
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-electrosat.png';
 
@@ -18,8 +20,8 @@ const { class: clase, tamano = 'md' } = Astro.props;
   class:list={['logo', `logo--${tamano}`, clase]}
   src={logo}
   alt="ElectroSat TV"
-  widths={[290, 580]}
-  sizes="145px"
+  widths={[128, 256, 360]}
+  sizes="128px"
   format="png"
   loading="eager"
 />
@@ -30,14 +32,13 @@ const { class: clase, tamano = 'md' } = Astro.props;
     width: auto;
   }
 
-  /* El archivo de origen tiene 179x48 px. A esta altura se sirve a doble
-     densidad y el escalado disimula los defectos del JPEG original.
-     Cuando llegue el vectorial se podrá subir. */
+  /* A 21px de alto el ancho sale sobre 128px: con densidad doble se piden 256px
+     y el archivo tiene 360px, así que reduce en vez de ampliar y no se empasta. */
   .logo--md {
-    height: 1.5rem;
+    height: 1.3125rem;
   }
 
   .logo--sm {
-    height: 1.375rem;
+    height: 1.1875rem;
   }
 </style>

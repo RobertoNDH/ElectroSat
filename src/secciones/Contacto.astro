@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import PortadaPagina from '../components/PortadaPagina.astro';
-import fotoTaller from '../assets/hero-instalacion.jpg';
+import Portada from '../components/Portada.astro';
+import fotoPortada from '../assets/portada-contacto.jpg';
 import Icono from '../components/Icono.astro';
 import EstadoHorario from '../components/EstadoHorario.astro';
 import {
@@ -38,11 +38,12 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <PortadaPagina
+  <Portada
     titulo={txt.contacto.titulo}
     texto={txt.contacto.texto}
-    foto={fotoTaller}
-    alt="Técnico de ElectroSat TV trabajando en una instalación"
+    foto={fotoPortada}
+    alt="Tejados con antenas de televisión bajo el cielo del sur de Tenerife"
+    encuadre="centro"
   />
 
   <section class="section section--tight">

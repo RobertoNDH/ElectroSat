@@ -3,14 +3,14 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
-import PortadaPagina from '../components/PortadaPagina.astro';
+import Portada from '../components/Portada.astro';
 import { empresa, aniosActividad } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
 import { nosotros } from '../i18n/nosotros';
-import fotoAzotea from '../assets/azotea-antenas.jpg';
-import fotoEdificio from '../assets/edificio.jpg';
+import fotoPortada from '../assets/portada-nosotros.jpg';
+import fotoTecnico from '../assets/equipo.jpg';
 
 interface Props {
   lang: Idioma;
@@ -34,11 +34,12 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <PortadaPagina
+  <Portada
     titulo={n.titulo}
     texto={n.lede}
-    foto={fotoAzotea}
-    alt="Antenas instaladas en la azotea de un edificio del sur de Tenerife"
+    foto={fotoPortada}
+    alt="Antenas de televisión sobre los tejados de un pueblo del sur de Tenerife"
+    encuadre="centro"
   />
 
   <section class="tira" aria-label={txt.contacto.datosEmpresa}>
@@ -59,22 +60,24 @@ const jsonLd = [
   </section>
 
   <section class="section section--tight">
-    <div class="container historia">
+    <div class="container">
+      <div class="cabecera">
+        <h2 class="h2">{n.historiaTitulo}</h2>
+      </div>
+
+      <div class="historia">
+        {n.historia.map((p) => <p>{p}</p>)}
+      </div>
+
       <figure class="historia__foto">
         <Image
-          src={fotoEdificio}
-          alt="Edificio de viviendas con antenas en la cubierta"
-          widths={[380, 560, 760]}
-          sizes="(min-width: 62rem) 22rem, 100vw"
+          src={fotoTecnico}
+          alt="Técnico de ElectroSat TV trabajando en una instalación"
+          widths={[800, 1200, 1800, 2400]}
+          sizes="(min-width: 62rem) 60rem, 100vw"
           loading="lazy"
         />
       </figure>
-      <div>
-        <h2 class="h2 historia__titulo">{n.historiaTitulo}</h2>
-        <div class="prosa">
-          {n.historia.map((p) => <p>{p}</p>)}
-        </div>
-      </div>
     </div>
   </section>
 
@@ -118,11 +121,12 @@ const jsonLd = [
   .tira__lista li {
     display: grid;
     gap: 0.125rem;
-    padding-right: var(--s-4);
+    justify-items: center;
+    text-align: center;
+    padding-inline: var(--s-3);
   }
 
   .tira__lista li + li {
-    padding-left: var(--s-4);
     border-left: var(--hairline);
   }
 
@@ -140,21 +144,19 @@ const jsonLd = [
     color: var(--ink-3);
   }
 
+  /* Texto a una columna centrada y la foto ancha debajo: antes iba a un lado
+     y la foto al otro, que es justo lo que no queremos. */
   .historia {
     display: grid;
-    gap: var(--s-5);
-  }
-
-  @media (min-width: 62rem) {
-    .historia {
-      grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-      gap: var(--s-7);
-      align-items: start;
-    }
+    gap: var(--s-4);
+    max-width: 62ch;
+    margin-inline: auto;
+    text-align: center;
+    text-wrap: pretty;
   }
 
   .historia__foto {
-    margin: 0;
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
     border-radius: var(--r-lg);
     overflow: hidden;
     box-shadow: var(--sombra);
@@ -162,12 +164,14 @@ const jsonLd = [
 
   .historia__foto :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 21 / 9;
     object-fit: cover;
   }
 
-  .historia__titulo {
-    margin-bottom: var(--s-4);
+  @media (max-width: 43.99rem) {
+    .historia__foto :global(img) {
+      aspect-ratio: 3 / 2;
+    }
   }
 
   .compromisos {

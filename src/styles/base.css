@@ -96,34 +96,38 @@ a {
   font-family: var(--font-display);
   color: var(--ink);
   text-wrap: balance;
+  /* Red de seguridad: una palabra larga nunca debe ensanchar su contenedor y
+     sacar barra horizontal. Pasa en alemán y con "telecomunicaciones". */
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .display-xl {
   font-size: var(--fs-display-xl);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.018em;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
 }
 
 .display-l {
   font-size: var(--fs-display-l);
-  font-weight: 700;
-  line-height: 1.13;
-  letter-spacing: -0.015em;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.032em;
 }
 
 .h2 {
   font-size: var(--fs-h2);
   font-weight: 700;
-  line-height: 1.18;
-  letter-spacing: -0.012em;
+  line-height: 1.1;
+  letter-spacing: -0.028em;
 }
 
 .h3 {
   font-size: var(--fs-h3);
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.006em;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.018em;
 }
 
 .lede {
@@ -196,13 +200,13 @@ a {
   border-top: var(--hairline);
 }
 
-/* Cabecera de sección: siempre centrada, con la descripción debajo. La regla
-   amarilla ancla la composición. */
+/* Cabecera de sección: titular grande y centrado, descripción debajo. Sin
+   barritas ni etiquetas encima del titular: el peso y el aire ya ordenan. */
 .cabecera {
   display: grid;
   justify-items: center;
-  gap: var(--s-4);
-  margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  gap: var(--s-3);
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
   text-align: center;
 }
 
@@ -210,22 +214,14 @@ a {
    sin que los compuestos largos del alemán se estiren de lado a lado. */
 .cabecera .h2,
 .cabecera .display-l {
-  max-width: min(100%, 38ch);
-}
-
-.cabecera::after {
-  content: '';
-  order: -1;
-  width: 3.25rem;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--amarillo);
+  max-width: min(100%, 24ch);
 }
 
 .cabecera .prosa,
 .cabecera .lede {
-  max-width: 58ch;
+  max-width: 54ch;
   margin-inline: auto;
+  color: var(--ink-3);
 }
 
 /* ---------- Botones ---------- */
@@ -285,6 +281,19 @@ a {
 .btn--linea:hover {
   border-color: var(--ink);
   background: var(--surface);
+}
+
+/* Contorneado para fondos oscuros: el borde blanco sobre la banda de contacto
+   da 8:1 largos, así que se lee sin necesidad de relleno. */
+.btn--claro {
+  background: transparent;
+  color: var(--on-oscuro);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn--claro:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--on-oscuro);
 }
 
 .btn--lg {
