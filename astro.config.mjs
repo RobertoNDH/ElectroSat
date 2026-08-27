@@ -4,10 +4,11 @@ import sitemap from '@astrojs/sitemap';
 
 // TODO CLIENTE: sustituir por el dominio definitivo antes de publicar.
 // Este valor alimenta las URL canonicas, el sitemap y el JSON-LD.
-export const SITE = 'https://www.electrosattv.es';
+export const SITE = 'https://RobertoNDH.github.io';
 
 export default defineConfig({
   site: SITE,
+  base: '/ElectroSat',
   trailingSlash: 'always',
   integrations: [sitemap()],
 
