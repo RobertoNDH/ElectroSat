@@ -33,7 +33,8 @@ const servicios = (await getCollection('servicios'))
   .filter((s) => s.id.startsWith(`${lang}/`))
   .sort((a, b) => a.data.orden - b.data.orden);
 
-const iconosPublicos = ['internet', 'red', 'satelite'] as const;
+// Una foto por tipo de cliente: edificio, zona hotelera y vivienda suelta.
+const fotosPublicos = [fotoEdificio, fotoSur, fotoAntena];
 const iconosPruebas = ['documento', 'escudo', 'check', 'euro', 'herramienta', 'telefono'] as const;
 
 const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
@@ -154,15 +155,17 @@ const jsonLd = [
         {
           txt.publicos.items.map((p, i) => (
             <li class="publico">
-              <span class="publico__icono">
-                <Icono nombre={iconosPublicos[i]} tamano={24} />
+              <span class="publico__foto">
+                <Image
+                  src={fotosPublicos[i]}
+                  alt=""
+                  widths={[300, 460, 620]}
+                  sizes="(min-width: 55rem) 19rem, 100vw"
+                  loading="lazy"
+                />
               </span>
               <h3 class="h3 publico__titulo">{p.titulo}</h3>
               <p class="publico__texto">{p.texto}</p>
-              <a class="enlace-flecha publico__mas" href={telHref()}>
-                {txt.acciones.llamarAhora}
-                <Icono nombre="flecha" tamano={16} />
-              </a>
             </li>
           ))
         }
@@ -230,10 +233,6 @@ const jsonLd = [
       <h2 class="h2" id="cobertura-titulo">{txt.cobertura.titulo}</h2>
       <p class="prosa">{txt.cobertura.prosa}</p>
     </div>
-
-    <ul class="cobertura">
-      {empresa.cobertura.map((m) => <li>{m}</li>)}
-    </ul>
   </Banda>
 
   <section class="section" aria-labelledby="faq-titulo">
@@ -312,21 +311,8 @@ const jsonLd = [
     }
   }
 
-  .servicio {
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    transition: box-shadow var(--t-rapido), transform var(--t-rapido),
-      border-color var(--t-rapido);
-  }
-
-  .servicio:hover {
-    border-color: var(--azul);
-    box-shadow: var(--sombra-alta);
-    transform: translateY(-3px);
-  }
-
+  /* Sin caja: foto, titular y texto sueltos sobre el fondo de la sección.
+     La tarjeta con borde y esquinas redondas restaba seriedad. */
   .servicio__enlace {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -338,24 +324,33 @@ const jsonLd = [
   .servicio__foto {
     display: block;
     overflow: hidden;
+    background: var(--surface-2);
   }
 
   .servicio__foto :global(img) {
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
-    transition: transform var(--t-medio);
+    transition: transform 600ms cubic-bezier(0.2, 0.6, 0.2, 1);
   }
 
   .servicio:hover .servicio__foto :global(img) {
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
 
   .servicio__cuerpo {
     display: grid;
-    gap: 0.5rem;
+    gap: 0.4375rem;
     align-content: start;
-    padding: var(--s-5);
+    padding-top: var(--s-4);
+  }
+
+  .servicio .h3 {
+    transition: color var(--t-rapido);
+  }
+
+  .servicio:hover .h3 {
+    color: var(--azul);
   }
 
   .servicio__resumen {
@@ -369,11 +364,6 @@ const jsonLd = [
 
   .servicio--cta {
     background: var(--azul);
-    border-color: var(--azul);
-  }
-
-  .servicio--cta:hover {
-    border-color: var(--azul-osc);
   }
 
   .servicio__cta {
@@ -406,53 +396,35 @@ const jsonLd = [
     }
   }
 
-  /* Tarjeta blanca sobre el gris de la sección, con el icono en un disco azul
-     y el enlace anclado abajo para que las tres terminen a la misma altura. */
+  /* Sin caja ni icono en disco: una foto ancha y baja, el título y dos líneas.
+     Ocupa mucho menos alto que la tarjeta que había antes. */
   .publico {
     display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    gap: 0.625rem;
-    padding: var(--s-6) var(--s-5) var(--s-5);
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
-    transition: box-shadow var(--t-rapido), transform var(--t-rapido),
-      border-color var(--t-rapido);
+    align-content: start;
+    gap: 0.375rem;
   }
 
-  .publico:hover {
-    border-color: var(--azul);
-    box-shadow: var(--sombra-alta);
-    transform: translateY(-3px);
-  }
-
-  .publico__icono {
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--azul);
-    color: var(--on-oscuro);
-    box-shadow: 0 0 0 6px var(--azul-tinte);
+  .publico__foto {
+    display: block;
+    overflow: hidden;
     margin-bottom: var(--s-3);
+    background: var(--surface-2);
+  }
+
+  .publico__foto :global(img) {
+    width: 100%;
+    aspect-ratio: 5 / 2;
+    object-fit: cover;
   }
 
   .publico__titulo {
-    font-size: 1.1875rem;
+    font-size: 1.125rem;
   }
 
   .publico__texto {
     font-size: var(--fs-small);
-    line-height: 1.55;
+    line-height: 1.5;
     color: var(--ink-3);
-  }
-
-  .publico__mas {
-    margin-top: var(--s-3);
-    padding-top: var(--s-4);
-    border-top: var(--hairline);
-    justify-self: stretch;
   }
 
   /* ---------- Por qué fiarte ---------- */
@@ -508,29 +480,26 @@ const jsonLd = [
   }
 
   /* ---------- Proceso ---------- */
+  /* Dos columnas ya desde móvil ancho: cuatro pasos apilados ocupaban una
+     pantalla entera para cuatro frases cortas. */
   .pasos {
     display: grid;
-    gap: var(--s-5);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-4) var(--s-4);
   }
 
-  @media (min-width: 44rem) {
-    .pasos {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-6) var(--s-5);
-    }
-  }
-
-  @media (min-width: 66rem) {
+  @media (min-width: 62rem) {
     .pasos {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-5);
     }
   }
 
   .paso {
     display: grid;
     align-content: start;
-    gap: 0.375rem;
-    padding-top: var(--s-4);
+    gap: 0.25rem;
+    padding-top: 0.875rem;
     border-top: 2px solid var(--line);
   }
 
@@ -558,35 +527,17 @@ const jsonLd = [
   /* ---------- Cobertura ---------- */
   /* Va sobre la foto de la costa del sur, así que la sección entera cabe en
      una tira: titular, frase y los municipios en pastillas. Sin foto aparte. */
+  /* Sin el listado de municipios: con decir que es todo el sur basta, y la
+     tira baja a una sola línea de titular y frase. */
   .cobertura__cabecera {
     display: grid;
     justify-items: center;
     gap: var(--s-2);
-    margin-bottom: var(--s-5);
     text-align: center;
   }
 
   .cobertura__cabecera :global(.prosa) {
     max-width: 52ch;
-  }
-
-  .cobertura {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4375rem;
-    max-width: 58rem;
-    margin-inline: auto;
-  }
-
-  .cobertura li {
-    padding: 0.375rem 0.875rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    border-radius: 100px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--on-oscuro);
   }
 
   /* ---------- Preguntas ---------- */

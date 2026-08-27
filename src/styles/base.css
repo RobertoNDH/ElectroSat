@@ -245,7 +245,22 @@ a {
   white-space: nowrap;
   cursor: pointer;
   transition: background var(--t-rapido), color var(--t-rapido),
-    border-color var(--t-rapido), box-shadow var(--t-rapido);
+    border-color var(--t-rapido), box-shadow var(--t-rapido),
+    transform var(--t-rapido);
+}
+
+/* Se levanta al pasar por encima y se hunde al pulsar: sin esto los botones
+   no dan ninguna respuesta y la página se siente muerta. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra);
+  }
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Llamar. Amarillo del logo con tinta oscura: 9.8:1. */

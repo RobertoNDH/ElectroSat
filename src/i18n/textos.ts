@@ -136,7 +136,7 @@ export const TEXTOS = {
       eyebrow: 'Dónde trabajamos',
       titulo: 'Todo el sur de Tenerife',
       prosa:
-        'Estamos en Valle San Lorenzo y nos movemos por toda la comarca sur. Si tu zona está en la lista, ir a verlo no te cuesta nada.',
+        'Estamos en Valle San Lorenzo y nos movemos por toda la comarca sur. Si estás por la zona, ir a verlo no te cuesta nada.',
     },
     opiniones: {
       eyebrow: 'Clientes',
@@ -329,7 +329,7 @@ export const TEXTOS = {
       eyebrow: 'Where we work',
       titulo: 'All across southern Tenerife',
       prosa:
-        'We are based in Valle San Lorenzo and cover the whole southern area. If your town is on the list, coming to look at it costs you nothing.',
+        'We are based in Valle San Lorenzo and cover the whole southern area. If you are anywhere nearby, coming to look at it costs you nothing.',
     },
     opiniones: {
       eyebrow: 'Customers',
@@ -523,7 +523,7 @@ export const TEXTOS = {
       eyebrow: 'Wo wir arbeiten',
       titulo: 'Im gesamten Süden Teneriffas',
       prosa:
-        'Wir sitzen in Valle San Lorenzo und sind in der ganzen Region Süd unterwegs. Steht Ihr Ort auf der Liste, kostet Sie die Besichtigung nichts.',
+        'Wir sitzen in Valle San Lorenzo und sind in der ganzen Region Süd unterwegs. Sind Sie in der Nähe, kostet Sie die Besichtigung nichts.',
     },
     opiniones: {
       eyebrow: 'Kunden',

@@ -47,15 +47,17 @@ const jsonLd = [
   <Banda foto={fotoCifras} encuadre="bajo" alto="apretada">
     <ul class="tira__lista" aria-label={txt.contacto.datosEmpresa}>
       <li>
-        <strong class="tira__dato">{aniosActividad}</strong>
+        <strong class="tira__dato" data-cuenta={aniosActividad}>{aniosActividad}</strong>
         <span class="tira__texto">{n.cifras.anios}</span>
       </li>
       <li>
-        <strong class="tira__dato">5</strong>
+        <strong class="tira__dato" data-cuenta="5">5</strong>
         <span class="tira__texto">{n.cifras.areas}</span>
       </li>
       <li>
-        <strong class="tira__dato">{empresa.cobertura.length}</strong>
+        <strong class="tira__dato" data-cuenta={empresa.cobertura.length}>
+          {empresa.cobertura.length}
+        </strong>
         <span class="tira__texto">{n.cifras.municipios}</span>
       </li>
     </ul>
@@ -145,29 +147,33 @@ const jsonLd = [
      y la foto al otro, que es justo lo que no queremos. */
   .historia {
     display: grid;
-    gap: var(--s-4);
-    max-width: 62ch;
+    gap: var(--s-3);
+    max-width: 58ch;
     margin-inline: auto;
     text-align: center;
     text-wrap: pretty;
   }
 
+  .historia :global(p) {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
   .historia__foto {
-    margin: clamp(2rem, 4vw, 3rem) 0 0;
-    border-radius: var(--r-lg);
+    margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
     overflow: hidden;
-    box-shadow: var(--sombra);
   }
 
   .historia__foto :global(img) {
     width: 100%;
-    aspect-ratio: 21 / 9;
+    aspect-ratio: 3 / 1;
     object-fit: cover;
   }
 
   @media (max-width: 43.99rem) {
     .historia__foto :global(img) {
-      aspect-ratio: 3 / 2;
+      aspect-ratio: 2 / 1;
     }
   }
 

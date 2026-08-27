@@ -82,51 +82,61 @@ const jsonLd = [
 </Base>
 
 <style>
+  /* En columnas y sin caja: antes era una fila con borde por servicio, que
+     ocupaba una pantalla entera en escritorio y parecía un listado de fichas. */
   .lista {
     display: grid;
-    gap: var(--s-4);
+    gap: var(--s-6) var(--s-5);
+  }
+
+  @media (min-width: 44rem) {
+    .lista {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 66rem) {
+    .lista {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .fila {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--s-4);
-    align-items: center;
-    padding: var(--s-4);
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
-    box-shadow: var(--sombra-sm);
-    transition: border-color var(--t-rapido), box-shadow var(--t-rapido);
-  }
-
-  .fila:hover {
-    border-color: var(--azul);
-    box-shadow: var(--sombra);
-  }
-
-  @media (min-width: 55rem) {
-    .fila {
-      grid-template-columns: 14rem minmax(0, 1fr) auto;
-      gap: var(--s-5);
-    }
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.5rem;
+    align-content: start;
   }
 
   .fila__foto {
     display: block;
-    border-radius: var(--r-md);
     overflow: hidden;
+    margin-bottom: var(--s-2);
+    background: var(--surface-2);
   }
 
   .fila__foto :global(img) {
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  .fila:hover .fila__foto :global(img) {
+    transform: scale(1.05);
   }
 
   .fila__texto {
     display: grid;
     gap: 0.5rem;
+  }
+
+  .fila__texto :global(a) {
+    transition: color var(--t-rapido);
+  }
+
+  .fila:hover .fila__texto :global(a) {
+    color: var(--azul);
   }
 
   .fila__texto a {
@@ -139,22 +149,37 @@ const jsonLd = [
 
   .fila__resumen {
     font-size: var(--fs-small);
-    color: var(--ink-2);
-    max-width: 56ch;
+    color: var(--ink-3);
   }
 
+  /* Los puntos pasan a lista con guion: las pastillas repetían la forma
+     redonda que quitamos de las tarjetas. */
   .fila__puntos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
+    display: grid;
+    gap: 0.1875rem;
+    margin-top: var(--s-1);
   }
 
   .fila__puntos li {
-    padding: 0.25rem 0.625rem;
-    border-radius: 999px;
-    background: var(--surface-2);
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--ink-2);
+    position: relative;
+    padding-left: 0.875rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--ink-3);
+  }
+
+  .fila__puntos li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 1px;
+    background: var(--azul);
+  }
+
+  .fila__enlace {
+    margin-top: var(--s-2);
+    justify-self: start;
   }
 </style>

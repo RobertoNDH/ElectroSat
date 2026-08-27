@@ -6,6 +6,7 @@ import '../styles/base.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BarraLlamada from '../components/BarraLlamada.astro';
+import Animaciones from '../components/Animaciones.astro';
 import { empresa, horarioSchema } from '../data/empresa';
 import { CODIGOS, IDIOMAS, equivalente, publico, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
@@ -114,6 +115,7 @@ const avisoCorreoCopiado = txt.acciones.correoCopiado(empresa.email);
     </main>
     <Footer lang={lang} />
     <BarraLlamada lang={lang} />
+    <Animaciones />
 
     <p class="aviso-copia" data-aviso-copia={avisoCorreoCopiado} aria-live="polite"></p>
 

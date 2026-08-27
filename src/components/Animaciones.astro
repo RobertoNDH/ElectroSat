@@ -1,0 +1,159 @@
+---
+// Entradas al hacer scroll para todo el sitio, desde un único punto.
+//
+// El truco para que no haya parpadeo: no se oculta nada desde el CSS. Es el
+// script el que, al arrancar, mira qué elementos quedan por debajo de la
+// primera pantalla y solo a esos les pone la clase que los esconde. Lo que ya
+// se ve al cargar no se toca, y si el JavaScript no llega a ejecutarse la
+// página se ve entera igual.
+---
+
+<script>
+  const ANTES = 'va-a-animar';
+  const DESPUES = 'is-visible';
+
+  /** Elementos que entran solos, con un desplazamiento corto. */
+  const SUELTOS = [
+    '.cabecera',
+    '.cobertura__cabecera',
+    '.historia',
+    '.historia__foto',
+    '.cobertura__foto',
+    '.faq-lista',
+    '.detalle__texto',
+    '.incluye',
+    '.diagrama__caja',
+    '.diagrama__texto',
+    '.marcas-linea',
+    '.mapa__datos',
+    '.mapa__lienzo',
+    '.cta__contenido',
+  ];
+
+  /** Rejillas cuyos hijos entran escalonados, uno detrás de otro. */
+  const REJILLAS = [
+    '.servicios',
+    '.publicos',
+    '.pasos',
+    '.pruebas',
+    '.lista',
+    '.casos',
+    '.compromisos',
+    '.datos',
+    '.tira__lista',
+    '.incluye__lista',
+    '.otros__lista',
+    '.canales',
+  ];
+
+  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reducido) {
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (!entrada.isIntersecting) continue;
+          entrada.target.classList.add(DESPUES);
+          observador.unobserve(entrada.target);
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
+    );
+
+    const preparar = (el: Element, escalonado: boolean) => {
+      if (escalonado) el.classList.add('anima-hijos');
+      // Lo que ya está en pantalla se da por entrado: nada de esconderlo
+      // para animarlo justo después, que es lo que se ve como un parpadeo.
+      if (el.getBoundingClientRect().top < innerHeight * 0.92) {
+        el.classList.add(DESPUES);
+        return;
+      }
+      el.classList.add(ANTES);
+      observador.observe(el);
+    };
+
+    for (const sel of SUELTOS) {
+      for (const el of document.querySelectorAll(sel)) preparar(el, false);
+    }
+    for (const sel of REJILLAS) {
+      for (const el of document.querySelectorAll(sel)) preparar(el, true);
+    }
+  }
+
+  // Cifras que suben hasta su valor. Solo números enteros y cortos.
+  const cifras = document.querySelectorAll<HTMLElement>('[data-cuenta]');
+
+  if (cifras.length && !reducido) {
+    const contar = (nodo: HTMLElement) => {
+      const destino = Number(nodo.dataset.cuenta);
+      if (!Number.isFinite(destino)) return;
+      const DURACION = 1100;
+      const inicio = performance.now();
+
+      const paso = (ahora: number) => {
+        const avance = Math.min((ahora - inicio) / DURACION, 1);
+        // Frena al final en vez de cortar en seco.
+        const suave = 1 - Math.pow(1 - avance, 3);
+        nodo.textContent = String(Math.round(destino * suave));
+        if (avance < 1) requestAnimationFrame(paso);
+      };
+
+      requestAnimationFrame(paso);
+    };
+
+    const obsCifras = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (!entrada.isIntersecting) continue;
+          contar(entrada.target as HTMLElement);
+          obsCifras.unobserve(entrada.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    for (const c of cifras) obsCifras.observe(c);
+  }
+</script>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    .va-a-animar {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+
+    .va-a-animar.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* En las rejillas el contenedor no se mueve: se mueven las piezas, y cada
+       una entra un poco después que la anterior. */
+    .anima-hijos.va-a-animar {
+      opacity: 1;
+      transform: none;
+    }
+
+    .anima-hijos.va-a-animar > * {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .anima-hijos.is-visible > * {
+      opacity: 1;
+      transform: none;
+      transition: opacity 620ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .anima-hijos.is-visible > *:nth-child(2) { transition-delay: 70ms; }
+    .anima-hijos.is-visible > *:nth-child(3) { transition-delay: 140ms; }
+    .anima-hijos.is-visible > *:nth-child(4) { transition-delay: 210ms; }
+    .anima-hijos.is-visible > *:nth-child(5) { transition-delay: 280ms; }
+    .anima-hijos.is-visible > *:nth-child(6) { transition-delay: 350ms; }
+    .anima-hijos.is-visible > *:nth-child(n + 7) { transition-delay: 420ms; }
+  }
+</style>
