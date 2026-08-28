@@ -43,6 +43,7 @@ const jsonLd = [
   <Portada
     titulo={txt.contacto.titulo}
     texto={txt.contacto.texto}
+    etiqueta={txt.contacto.eyebrow}
     foto={fotoPortada}
     alt="Tejados con antenas de televisión bajo el cielo del sur de Tenerife"
     encuadre="centro"
@@ -123,19 +124,25 @@ const jsonLd = [
     }
   }
 
+  /* Sin caja ni esquinas redondas: cada canal cuelga de un filo, igual que los
+     pasos de la home y los públicos. La tarjeta con borde y radio era la forma
+     que se quitó del resto de la web y aquí quedaba como un resto del sistema
+     anterior. El canal preferente se distingue por su botón, no por el fondo. */
   .canal {
     display: grid;
     gap: var(--s-3);
     align-content: start;
     justify-items: start;
-    padding: var(--s-5);
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
+    padding-top: var(--s-4);
+    border-top: 2px solid var(--ink);
+    transition: border-color var(--t-rapido);
   }
 
-  /* El canal preferente se distingue por su botón, no por el fondo: las tres
-     tarjetas van del mismo color. */
+  @media (hover: hover) {
+    .canal:hover {
+      border-color: var(--azul);
+    }
+  }
 
   .canal__etiqueta {
     display: inline-flex;
@@ -189,28 +196,22 @@ const jsonLd = [
     }
   }
 
+  /* Filo arriba en lugar de separadores verticales, igual que en "Por qué
+     fiarte": la misma retícula fina en todas las bandas oscuras. */
   .dato {
     display: grid;
     gap: 0.375rem;
     align-content: start;
     justify-items: start;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--noche-linea);
   }
 
-  @media (min-width: 55rem) {
-    .dato + .dato {
-      padding-left: var(--s-6);
-      border-left: 1px solid rgba(255, 255, 255, 0.18);
-    }
-  }
-
+  /* Icono suelto, sin el disco gris detrás: tres discos en fila pesaban más
+     que los datos que acompañaban. */
   .dato__icono {
-    display: grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-bottom: var(--s-2);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    display: block;
+    margin-bottom: var(--s-3);
     color: var(--amarillo);
   }
 

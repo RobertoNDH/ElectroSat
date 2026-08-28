@@ -39,6 +39,7 @@ const jsonLd = [
   <Portada
     titulo={txt.servicios.titulo}
     texto={txt.servicios.prosa}
+    etiqueta={txt.nav.servicios}
     foto={fotoPortada}
     alt="Antenas y parabólicas instaladas en la azotea de un edificio"
     encuadre="alto"
@@ -146,21 +147,23 @@ const jsonLd = [
     transform: scale(1.05);
   }
 
+  /* Mismo filo sobre el título que en el resto del sitio: es lo que ata cada
+     texto a su foto y da la retícula fina que sostiene la página. */
   .fila__texto {
     display: grid;
     gap: 0.5rem;
-  }
-
-  .fila__texto :global(a) {
-    transition: color var(--t-rapido);
-  }
-
-  .fila:hover .fila__texto :global(a) {
-    color: var(--azul);
+    padding-top: var(--s-3);
+    border-top: 2px solid var(--ink);
   }
 
   .fila__texto a {
+    color: var(--ink);
     text-decoration: none;
+    transition: color var(--t-rapido);
+  }
+
+  .fila:hover .fila__texto a {
+    color: var(--azul);
   }
 
   .fila__texto a:hover {

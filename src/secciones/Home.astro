@@ -62,6 +62,7 @@ const jsonLd = [
   <Portada
     titulo={txt.hero.titulo}
     texto={txt.hero.lede}
+    etiqueta={txt.hero.eyebrow}
     foto={fotoAntena}
     alt="Antena de televisión instalada en el tejado de una vivienda del sur de Tenerife"
     alto="alta"
@@ -96,6 +97,7 @@ const jsonLd = [
   <section class="section" id="servicios" aria-labelledby="servicios-titulo">
     <div class="container">
       <div class="cabecera">
+        <p class="etiqueta-seccion">{txt.servicios.eyebrow}</p>
         <h2 class="h2" id="servicios-titulo">{txt.servicios.titulo}</h2>
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
@@ -147,6 +149,7 @@ const jsonLd = [
   <section class="section section--surface" aria-labelledby="publicos-titulo">
     <div class="container">
       <div class="cabecera">
+        <p class="etiqueta-seccion">{txt.publicos.eyebrow}</p>
         <h2 class="h2" id="publicos-titulo">{txt.publicos.titulo}</h2>
         <p class="prosa">{txt.publicos.prosa}</p>
       </div>
@@ -175,6 +178,7 @@ const jsonLd = [
 
   <Banda foto={fotoEdificio} encuadre="centro" rotulo="pruebas-titulo">
     <div class="cabecera">
+      <p class="etiqueta-seccion">{txt.pruebas.eyebrow}</p>
       <h2 class="h2" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
     </div>
 
@@ -196,6 +200,7 @@ const jsonLd = [
   <section class="section" aria-labelledby="proceso-titulo">
     <div class="container">
       <div class="cabecera">
+        <p class="etiqueta-seccion">{txt.pasos.eyebrow}</p>
         <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
       </div>
 
@@ -215,6 +220,7 @@ const jsonLd = [
 
   <section class="section section--surface section--tight" id="marcas" aria-labelledby="marcas-titulo">
     <div class="container cabecera">
+      <p class="etiqueta-seccion">{txt.marcas.eyebrow}</p>
       <h2 class="h2" id="marcas-titulo">{txt.marcas.titulo}</h2>
       <p class="prosa">{txt.marcas.prosa}</p>
     </div>
@@ -229,7 +235,8 @@ const jsonLd = [
     rotulo="cobertura-titulo"
     clase="banda-cobertura"
   >
-    <div class="cobertura__cabecera">
+    <div class="cabecera cabecera--centro cobertura__cabecera">
+      <p class="etiqueta-seccion">{txt.cobertura.eyebrow}</p>
       <h2 class="h2" id="cobertura-titulo">{txt.cobertura.titulo}</h2>
       <p class="prosa">{txt.cobertura.prosa}</p>
     </div>
@@ -238,6 +245,7 @@ const jsonLd = [
   <section class="section" aria-labelledby="faq-titulo">
     <div class="container">
       <div class="cabecera">
+        <p class="etiqueta-seccion">{txt.faq.eyebrow}</p>
         <h2 class="h2" id="faq-titulo">{txt.faq.titulo}</h2>
         <p class="prosa">{txt.faq.prosa}</p>
       </div>
@@ -264,7 +272,7 @@ const jsonLd = [
     .ventajas {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 0.5rem 1.75rem;
     }
   }
@@ -276,12 +284,12 @@ const jsonLd = [
     gap: 0.5rem;
     font-size: var(--fs-small);
     font-weight: 600;
-    color: var(--ink-2);
+    color: rgba(255, 255, 255, 0.86);
   }
 
   .ventajas :global(svg) {
     margin-top: 0.15rem;
-    color: var(--amarillo-texto);
+    color: var(--amarillo);
     flex: none;
   }
 
@@ -291,6 +299,36 @@ const jsonLd = [
     justify-content: center;
     gap: var(--s-3);
     margin-top: var(--s-2);
+  }
+
+  /* En escritorio los botones y la valoración comparten una sola fila, con la
+     nota separada a la derecha por un filo. Compacta el pie de la portada y
+     deja la valoración como un dato al margen, no como otro bloque más. */
+  @media (min-width: 55rem) {
+    .acciones {
+      justify-content: flex-start;
+      align-items: center;
+      gap: var(--s-4);
+      margin-top: var(--s-2);
+    }
+  }
+
+  @media (max-width: 54.99rem) {
+    .ventajas {
+      gap: 0.3rem;
+    }
+
+    .acciones {
+      gap: var(--s-2);
+      margin-top: 0;
+    }
+
+    .acciones .btn--lg {
+      --btn-py: 0.6875rem;
+      --btn-px: 1.125rem;
+      min-height: 2.75rem;
+      font-size: 0.875rem;
+    }
   }
 
   /* ---------- Servicios ---------- */
@@ -311,61 +349,110 @@ const jsonLd = [
     }
   }
 
-  /* Sin caja: foto, titular y texto sueltos sobre el fondo de la sección.
-     La tarjeta con borde y esquinas redondas restaba seriedad. */
+  /* El texto va encima de la fotografía, no debajo. Con el recorte vertical y
+     el título dentro, cada servicio se lee como una pieza cerrada en vez de
+     como una foto con un pie: es el cambio que quita de en medio la sensación
+     de rejilla de tarjetas todas iguales. */
   .servicio__enlace {
-    display: grid;
-    grid-template-rows: auto 1fr;
+    position: relative;
+    display: block;
     height: 100%;
+    overflow: hidden;
+    background: var(--noche);
     text-decoration: none;
-    color: inherit;
+    color: var(--on-oscuro);
   }
 
   .servicio__foto {
     display: block;
-    overflow: hidden;
-    background: var(--surface-2);
+    height: 100%;
   }
 
   .servicio__foto :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    height: 100%;
+    /* Vertical, no apaisado: el retrato es lo que da el aire de portada. */
+    aspect-ratio: 4 / 5;
     object-fit: cover;
-    transition: transform 600ms cubic-bezier(0.2, 0.6, 0.2, 1);
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .servicio__enlace:hover .servicio__foto :global(img) {
-    transform: scale(1.05);
+  /* Velo que solo pesa abajo, donde vive el texto: la mitad superior de la
+     foto se ve limpia. */
+  .servicio__enlace::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(4, 18, 27, 0.94) 0%,
+      rgba(4, 18, 27, 0.76) 30%,
+      rgba(4, 18, 27, 0.18) 62%,
+      rgba(4, 18, 27, 0.06) 100%
+    );
+    transition: opacity var(--t-medio);
   }
 
   .servicio__cuerpo {
+    position: absolute;
+    z-index: 1;
+    inset: auto 0 0 0;
     display: grid;
-    gap: 0.4375rem;
-    align-content: start;
-    padding-top: var(--s-4);
+    gap: 0.375rem;
+    align-content: end;
+    padding: var(--s-5);
   }
 
-  /* Solo las tarjetas que son enlace. La de "¿No sabes cuál te toca?" tiene el
-     fondo azul, así que teñir su titular de azul lo hacía desaparecer. */
   .servicio__enlace .h3 {
-    transition: color var(--t-rapido);
+    color: var(--on-oscuro);
   }
 
-  .servicio__enlace:hover .h3 {
-    color: var(--azul);
+  .servicio__enlace .servicio__resumen {
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .servicio__resumen {
     font-size: var(--fs-small);
+    line-height: 1.5;
     color: var(--ink-3);
   }
 
   .servicio__mas {
     margin-top: var(--s-2);
+    color: var(--amarillo);
   }
 
+  .servicio__enlace:hover .servicio__mas,
+  .servicio__enlace:focus-visible .servicio__mas {
+    color: var(--amarillo);
+  }
+
+  @media (hover: hover) {
+    .servicio__enlace:hover .servicio__foto :global(img) {
+      transform: scale(1.06);
+    }
+  }
+
+  /* La pieza de cierre no lleva foto: es un hueco de noche en la rejilla, con
+     los mismos anillos de señal que la portada. Rompe la repetición de seis
+     fotos y deja la llamada a la acción respirando. */
   .servicio--cta {
-    background: var(--azul);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--noche);
+  }
+
+  .servicio--cta::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -30%;
+    right: -30%;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(17, 146, 203, 0.32) 0%, rgba(4, 18, 27, 0) 70%);
   }
 
   .servicio__cta {
@@ -379,10 +466,11 @@ const jsonLd = [
 
   .servicio--cta .h3 {
     color: var(--on-oscuro);
+    font-size: 1.5rem;
   }
 
   .servicio--cta .servicio__resumen {
-    color: rgba(255, 255, 255, 0.86);
+    color: var(--sobre-noche);
   }
 
   /* ---------- Para quién ---------- */
@@ -406,10 +494,24 @@ const jsonLd = [
     gap: 0.375rem;
   }
 
+  /* Las tres columnas no arrancan a la misma altura: la del medio baja. Es un
+     desajuste deliberado, el mismo recurso que usa una revista para que una
+     fila de tres no se lea como una tabla. Aquí además diferencia esta sección
+     de la rejilla de servicios, que va a ras. */
+  @media (min-width: 55rem) {
+    .publico:nth-child(2) {
+      margin-top: var(--s-8);
+    }
+
+    .publico:nth-child(3) {
+      margin-top: var(--s-6);
+    }
+  }
+
   .publico__foto {
     display: block;
     overflow: hidden;
-    margin-bottom: var(--s-3);
+    margin-bottom: var(--s-4);
     background: var(--surface-2);
   }
 
@@ -419,9 +521,20 @@ const jsonLd = [
     width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  @media (hover: hover) {
+    .publico:hover .publico__foto :global(img) {
+      transform: scale(1.04);
+    }
+  }
+
+  /* Filo sobre el título: ata el texto a su foto y da la retícula fina que
+     sostiene toda la sección. */
   .publico__titulo {
+    padding-top: var(--s-3);
+    border-top: 2px solid var(--ink);
     font-size: 1.125rem;
   }
 
@@ -450,37 +563,34 @@ const jsonLd = [
     }
   }
 
+  /* Cada prueba cuelga de un filo, con el icono suelto arriba. Antes el icono
+     iba dentro de un disco gris a la izquierda: cuatro discos en fila pesaban
+     más que el texto que acompañaban, y el disco es justo la forma que se
+     quitó del resto de la web. */
   .prueba {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.25rem 0.875rem;
-    align-items: start;
+    gap: 0.375rem;
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--noche-linea);
   }
 
   .prueba__icono {
-    grid-row: span 2;
-    display: grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    margin-bottom: var(--s-3);
     color: var(--amarillo);
   }
 
   .prueba__titulo {
-    align-self: end;
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 700;
     letter-spacing: -0.015em;
     color: var(--on-oscuro);
   }
 
   .prueba__texto {
-    grid-column: 2;
     font-size: var(--fs-small);
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.76);
+    line-height: 1.55;
+    color: var(--sobre-noche);
   }
 
   /* ---------- Proceso ---------- */
@@ -499,19 +609,24 @@ const jsonLd = [
     }
   }
 
+  /* Aquí el número sí manda: son cuatro pasos en orden, y el orden es la
+     información. Grande y en azul claro hace de mojón visual y deja el filo
+     de arriba como la línea que los enhebra. */
   .paso {
     display: grid;
     align-content: start;
     gap: 0.25rem;
-    padding-top: 0.875rem;
+    padding-top: var(--s-3);
     border-top: 2px solid var(--line);
   }
 
   .paso__numero {
-    font-size: 0.8125rem;
+    margin-bottom: var(--s-2);
+    font-size: var(--fs-indice);
     font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--azul);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--azul-vivo);
     font-variant-numeric: tabular-nums;
   }
 

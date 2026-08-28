@@ -1,13 +1,20 @@
 ---
-// Portada a sangre: foto de ancho completo, velo claro y titular centrado
-// encima. La usan la home y todas las páginas interiores, así que el gesto de
-// entrada es el mismo en todo el sitio y solo cambian la foto y la altura.
+// Portada a sangre: foto de ancho completo, velo y titular encima. La usan la
+// home y todas las páginas interiores, así que el gesto de entrada es el mismo
+// en todo el sitio y solo cambian la foto, la altura y el texto.
+//
+// En escritorio el contenido va anclado abajo a la izquierda, no centrado: el
+// bloque de texto pesa a un lado y el otro queda despejado para que se vea la
+// fotografía. Es lo que separa una portada de una diapositiva con un título en
+// medio.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
   titulo: string;
   texto?: string;
+  /** Nombra la página o la promesa. Va encima del titular, en versales. */
+  etiqueta?: string;
   foto: ImageMetadata;
   alt: string;
   /** `alta` es la home; `media` las interiores. */
@@ -22,6 +29,7 @@ interface Props {
 const {
   titulo,
   texto,
+  etiqueta,
   foto,
   alt,
   alto = 'media',
@@ -33,7 +41,7 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
 ---
 
 <section class:list={['portada', `portada--${alto}`, `enc-${encuadre}`]}>
-  <div class="portada__fondo">
+  <div class="portada__fondo parallax">
     <Image
       src={foto}
       alt={alt}
@@ -45,7 +53,19 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     />
   </div>
 
+  {
+    principal && (
+      <svg class="portada__senal" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <circle cx="212" cy="26" r="24" />
+        <circle cx="212" cy="26" r="62" />
+        <circle cx="212" cy="26" r="102" />
+        <circle cx="212" cy="26" r="150" />
+      </svg>
+    )
+  }
+
   <div class="container portada__contenido">
+    {etiqueta && <p class="etiqueta-seccion portada__etiqueta">{etiqueta}</p>}
     <h1 class:list={[principal ? 'display-xl' : 'display-l']}>{titulo}</h1>
     {texto && <p class="lede portada__lede">{texto}</p>}
     <slot />
@@ -61,22 +81,25 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     justify-content: center;
     overflow: hidden;
     padding-block: clamp(3rem, 7vw, 5.5rem);
-    border-bottom: var(--hairline);
+    background: var(--noche);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .portada--alta {
-    min-height: min(48rem, 94svh);
+    min-height: min(50rem, 96svh);
     align-items: flex-end;
   }
 
   .portada--media {
-    min-height: min(26rem, 62svh);
+    min-height: min(19rem, 46svh);
+    padding-block: clamp(2rem, 5vw, 3.25rem);
   }
 
   .portada__fondo {
     position: absolute;
     inset: 0;
     z-index: -2;
+    overflow: hidden;
   }
 
   .portada__fondo :global(img) {
@@ -99,8 +122,13 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     object-position: 50% 68%;
   }
 
-  /* Velo claro: un foco blanco detrás del texto y un lavado vertical suave.
-     Deja ver el cielo alrededor en lugar de tapar la foto entera. */
+  /* Velo de noche.
+     Antes era un velo blanco con el texto en tinta. El problema es que para
+     que un titular oscuro se lea sobre un cielo azul de mediodía hay que subir
+     tanto el blanco que la fotografía desaparece debajo: se acababa viendo un
+     rectángulo casi liso. Al revés funciona solo. Oscurecer el cielo lo lleva
+     al mismo azul profundo de la marca, la foto se sigue viendo entera, y el
+     texto en blanco pasa de 12:1 sin tener que tapar nada. */
   .portada::before {
     content: '';
     position: absolute;
@@ -108,71 +136,102 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     z-index: -1;
     background:
       radial-gradient(
-        76% 58% at 50% 56%,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.88) 52%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.7));
-  }
-
-  /* En la home el texto vive abajo, así que el velo se concentra ahí y el
-     tercio superior queda despejado para que se vea la antena contra el cielo. */
-  .portada--alta::before {
-    background:
-      radial-gradient(
-        80% 60% at 50% 68%,
-        rgba(255, 255, 255, 0.99) 0%,
-        rgba(255, 255, 255, 0.97) 55%,
-        rgba(255, 255, 255, 0) 100%
+        110% 80% at 50% 40%,
+        rgba(17, 146, 203, 0.2) 0%,
+        rgba(4, 18, 27, 0) 62%
       ),
       linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.2) 26%,
-        rgba(255, 255, 255, 0.78) 56%,
-        rgba(255, 255, 255, 0.94) 84%
+        rgba(4, 18, 27, 0.78) 0%,
+        rgba(4, 18, 27, 0.66) 45%,
+        rgba(4, 18, 27, 0.86) 100%
       );
   }
 
-  /* En vertical una foto apaisada no cabe detrás del texto: o se tapaba entera
-     con velo y solo se veía cielo, o el titular caía sobre el azul y no se
-     leía. Así que en móvil no se superponen: la foto va arriba, a su altura, y
-     el texto debajo sobre blanco, con un degradado que une las dos. */
+  /* En la home el texto vive abajo a la izquierda, así que el velo pesa en ese
+     lado y se aligera hacia la derecha: el cielo y las antenas se ven de
+     verdad en la mitad que queda libre. */
+  @media (min-width: 55rem) {
+    .portada--alta::before {
+      background:
+        radial-gradient(
+          90% 70% at 72% 30%,
+          rgba(17, 146, 203, 0.26) 0%,
+          rgba(4, 18, 27, 0) 60%
+        ),
+        linear-gradient(
+          98deg,
+          rgba(4, 18, 27, 0.94) 0%,
+          rgba(4, 18, 27, 0.88) 34%,
+          rgba(4, 18, 27, 0.58) 62%,
+          rgba(4, 18, 27, 0.34) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(4, 18, 27, 0.5) 0%,
+          rgba(4, 18, 27, 0.12) 32%,
+          rgba(4, 18, 27, 0.55) 100%
+        );
+    }
+  }
+
+  /* En vertical el texto va encima de la foto, igual que en escritorio. Con el
+     velo claro esto no era posible: para que un titular oscuro se leyera había
+     que blanquear la imagen entera, así que la foto iba arriba y el texto
+     debajo, apilados. Al pasar a velo de noche desaparece el problema, y
+     superponerlos devuelve toda la altura que se iba en apilar.
+     La sección no tiene alto mínimo: la marca el contenido, y así la
+     valoración y los dos botones caben siempre en la primera pantalla. */
   @media (max-width: 54.99rem) {
     .portada--alta {
-      display: block;
       min-height: 0;
-      padding-block: 0 clamp(2rem, 7vw, 3rem);
-      background: var(--paper);
-    }
-
-    .portada--alta .portada__fondo {
-      position: relative;
-      z-index: 0;
-      height: 34svh;
-      min-height: 13rem;
-    }
-
-    .portada--alta::before {
-      top: 0;
-      bottom: auto;
-      z-index: 1;
-      height: 34svh;
-      min-height: 13rem;
-      background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.8) 86%,
-        var(--paper) 100%
-      );
+      align-items: center;
+      padding-block: clamp(1.75rem, 6vw, 2.75rem);
     }
 
     .portada--alta .portada__contenido {
-      position: relative;
-      z-index: 2;
-      margin-top: calc(var(--s-4) * -1);
+      gap: var(--s-3);
     }
+  }
+
+  /* Móviles de pantalla corta (p.ej. iPhone SE): se quita la lista de ventajas,
+     que se repite entera más abajo en "Por qué fiarte", para que los botones y
+     la valoración no bajen de la primera pantalla. */
+  @media (max-width: 54.99rem) and (max-height: 45rem) {
+    .portada--alta {
+      padding-block: var(--s-5);
+    }
+
+    .portada--alta :global(.ventajas) {
+      display: none;
+    }
+  }
+
+  /* Marca de la portada principal: los mismos anillos de señal del diagrama
+     de internet comunitario, aquí como agua marcada en la esquina de la
+     home. Solo en escritorio: en móvil el hueco es demasiado justo. */
+  .portada__senal {
+    display: none;
+  }
+
+  @media (min-width: 55rem) {
+    .portada--alta .portada__senal {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1;
+      width: min(34rem, 48vw);
+      height: auto;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+  }
+
+  .portada__senal circle {
+    fill: none;
+    stroke: var(--azul-vivo);
+    stroke-width: 1.1;
   }
 
   .portada__contenido {
@@ -189,39 +248,123 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
     max-width: 100%;
   }
 
-  .portada__contenido h1 {
-    max-width: 18ch;
-  }
-
-  .portada--media .portada__contenido h1 {
-    max-width: 22ch;
-  }
-
   .portada__lede {
     max-width: 46ch;
+    color: var(--sobre-noche);
+  }
+
+  .portada h1 {
+    color: var(--on-oscuro);
+  }
+
+  .portada__etiqueta {
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  .portada__etiqueta::before {
+    background: var(--amarillo);
+  }
+
+  /* En móvil la portada va centrada y la etiqueta puede partir en dos líneas:
+     el filo se quedaba colgando a la izquierda del bloque, sin tocar nada.
+     Fuera. Las versales y el espaciado ya la marcan como etiqueta. */
+  @media (max-width: 54.99rem) {
+    .portada__etiqueta {
+      justify-content: center;
+    }
+
+    .portada__etiqueta::before {
+      display: none;
+    }
+  }
+
+  /* La valoración deja de ser una pastilla blanca pegada encima y pasa a
+     cristal: se apoya en la foto en lugar de taparla. */
+  .portada :global(.valoracion) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow: none;
+    color: var(--sobre-noche);
+  }
+
+  .portada :global(.valoracion__nota strong) {
+    color: var(--on-oscuro);
+  }
+
+  .portada :global(.valoracion__estrella) {
+    color: var(--amarillo);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .portada :global(.valoracion) {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  }
+
+  /* A partir de tableta el contenido se descentra: pesa a la izquierda y deja
+     respirar la fotografía a la derecha. */
+  @media (min-width: 55rem) {
+    .portada__contenido {
+      justify-items: start;
+      justify-content: start;
+      text-align: left;
+      gap: var(--s-5);
+    }
+
+    .portada--alta .portada__contenido {
+      max-width: 60rem;
+      margin-inline: 0 auto;
+    }
+
+    .portada__contenido h1 {
+      max-width: 15ch;
+    }
+
+    .portada--media .portada__contenido h1 {
+      max-width: 20ch;
+    }
+
+    .portada--media .portada__contenido {
+      gap: var(--s-4);
+    }
+  }
+
+  @media (max-width: 54.99rem) {
+    .portada__contenido h1 {
+      max-width: 18ch;
+    }
+
+    .portada--media .portada__contenido h1 {
+      max-width: 22ch;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .portada__contenido > * {
-      animation: subir 640ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation: subir 720ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
 
     .portada__contenido > *:nth-child(2) {
-      animation-delay: 70ms;
+      animation-delay: 90ms;
     }
 
     .portada__contenido > *:nth-child(3) {
-      animation-delay: 140ms;
+      animation-delay: 180ms;
     }
 
     .portada__contenido > *:nth-child(4) {
-      animation-delay: 210ms;
+      animation-delay: 270ms;
+    }
+
+    .portada__contenido > *:nth-child(5) {
+      animation-delay: 360ms;
     }
 
     @keyframes subir {
       from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(14px);
       }
     }
   }

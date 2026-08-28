@@ -195,33 +195,140 @@ a {
   padding-block: clamp(2.25rem, 4vw, 3.25rem);
 }
 
+/* Sección de noche: fondo azul casi negro, sin foto. Sirve para dar un
+   respiro oscuro entre dos secciones de lectura sin gastar otra fotografía. */
+.section--noche {
+  background: var(--noche);
+  color: var(--sobre-noche);
+}
+
+.section--noche .h2,
+.section--noche .h3,
+.section--noche .display-l,
+.section--noche strong {
+  color: var(--on-oscuro);
+}
+
+.section--noche .prosa,
+.section--noche .lede,
+.section--noche .small {
+  color: var(--sobre-noche);
+}
+
+.section--noche .etiqueta-seccion {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.section--noche .etiqueta-seccion::before {
+  background: var(--amarillo);
+}
+
 .rule {
   border: 0;
   border-top: var(--hairline);
 }
 
-/* Cabecera de sección: titular grande y centrado, descripción debajo. Sin
-   barritas ni etiquetas encima del titular: el peso y el aire ya ordenan. */
+/* Cabecera de sección, en dos columnas desiguales: el titular grande a la
+   izquierda y la entradilla en una columna más estrecha a la derecha, alineada
+   con la última línea del titular. Antes todo iba centrado, y nueve secciones
+   centradas seguidas es exactamente lo que hace que una web parezca una
+   sucesión de diapositivas. La asimetría es lo que le da aire editorial. */
 .cabecera {
   display: grid;
-  justify-items: center;
-  gap: var(--s-3);
-  margin-bottom: clamp(2rem, 4vw, 3.25rem);
-  text-align: center;
+  gap: var(--s-4);
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
 }
 
-/* Ancho suficiente para que la mayoría de titulares quepan en una línea,
-   sin que los compuestos largos del alemán se estiren de lado a lado. */
+@media (min-width: 55rem) {
+  .cabecera {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    column-gap: var(--s-7);
+    align-items: end;
+  }
+
+  .cabecera .etiqueta-seccion {
+    grid-column: 1 / -1;
+  }
+
+  /* La entradilla baja hasta la línea base del titular en vez de flotar
+     arriba: es lo que hace que las dos columnas se lean como una sola pieza. */
+  .cabecera .prosa,
+  .cabecera .lede {
+    padding-bottom: 0.35em;
+  }
+
+  /* Cuando la sección no lleva entradilla, la segunda columna se quedaría
+     vacía y el titular partido en cuatro líneas contra un hueco. En ese caso
+     ocupa el ancho entero y respira. */
+  .cabecera .h2:last-child,
+  .cabecera .display-l:last-child {
+    grid-column: 1 / -1;
+    max-width: 26ch;
+  }
+}
+
 .cabecera .h2,
 .cabecera .display-l {
-  max-width: min(100%, 24ch);
+  max-width: min(100%, 18ch);
 }
 
 .cabecera .prosa,
 .cabecera .lede {
-  max-width: 54ch;
-  margin-inline: auto;
+  max-width: 46ch;
   color: var(--ink-3);
+}
+
+/* Algunos momentos sí piden el centro: el cierre de página, donde el teléfono
+   manda y no compite con nada, y la banda de cobertura. */
+.cabecera--centro {
+  justify-items: center;
+  text-align: center;
+}
+
+@media (min-width: 55rem) {
+  .cabecera--centro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cabecera--centro .prosa,
+  .cabecera--centro .lede {
+    padding-bottom: 0;
+  }
+}
+
+.cabecera--centro .h2,
+.cabecera--centro .display-l {
+  max-width: min(100%, 22ch);
+}
+
+.cabecera--centro .prosa,
+.cabecera--centro .lede {
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+/* Etiqueta que nombra la sección, con un filo amarillo delante. El amarillo
+   solo aparece en trazos cortos como este y en el botón de llamar: usarlo con
+   cuentagotas es lo que lo mantiene como acento y no como decoración. */
+.etiqueta-seccion {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-family: var(--font-base);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.etiqueta-seccion::before {
+  content: '';
+  flex: none;
+  width: clamp(1.5rem, 4vw, 2.75rem);
+  height: 2px;
+  background: var(--amarillo-osc);
 }
 
 /* ---------- Botones ---------- */
@@ -236,7 +343,7 @@ a {
   min-height: 2.75rem;
   padding: var(--btn-py) var(--btn-px);
   border: 1px solid transparent;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-btn);
   font-family: var(--font-base);
   font-size: var(--fs-small);
   font-weight: 700;
@@ -263,27 +370,30 @@ a {
   box-shadow: none;
 }
 
-/* Llamar. Amarillo del logo con tinta oscura: 9.8:1. */
+/* Llamar. Amarillo del logo con tinta oscura: 9.8:1. El leve degradado y el
+   filo claro superior dan la sensación de una superficie real, no un
+   rectángulo plano. */
 .btn--principal {
-  background: var(--amarillo);
+  background: linear-gradient(180deg, #f6cd68 0%, var(--amarillo) 65%);
   color: var(--ink);
-  border-color: var(--amarillo);
-  box-shadow: var(--sombra-sm);
+  border-color: var(--amarillo-osc);
+  box-shadow: var(--sombra-sm), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .btn--principal:hover {
-  background: var(--amarillo-osc);
+  background: linear-gradient(180deg, #f0c157 0%, var(--amarillo-osc) 65%);
   border-color: var(--amarillo-osc);
 }
 
 .btn--azul {
-  background: var(--azul);
+  background: linear-gradient(180deg, var(--azul-vivo) 0%, var(--azul) 65%);
   color: var(--on-oscuro);
-  border-color: var(--azul);
+  border-color: var(--azul-osc);
+  box-shadow: var(--sombra-sm), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .btn--azul:hover {
-  background: var(--azul-osc);
+  background: linear-gradient(180deg, var(--azul) 0%, var(--azul-osc) 65%);
   border-color: var(--azul-osc);
 }
 

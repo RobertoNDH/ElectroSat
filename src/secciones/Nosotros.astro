@@ -39,6 +39,7 @@ const jsonLd = [
   <Portada
     titulo={n.titulo}
     texto={n.lede}
+    etiqueta={n.eyebrow}
     foto={fotoPortada}
     alt="Antenas de televisión sobre los tejados de un pueblo del sur de Tenerife"
     encuadre="centro"
@@ -143,14 +144,14 @@ const jsonLd = [
     color: rgba(255, 255, 255, 0.78);
   }
 
-  /* Texto a una columna centrada y la foto ancha debajo: antes iba a un lado
-     y la foto al otro, que es justo lo que no queremos. */
+  /* Texto a una columna y la foto ancha debajo: antes iba a un lado y la foto
+     al otro, que es justo lo que no queremos. Alineado a la izquierda, como el
+     resto de las secciones: un párrafo largo centrado se lee peor, porque cada
+     línea empieza en un sitio distinto. */
   .historia {
     display: grid;
-    gap: var(--s-3);
+    gap: var(--s-4);
     max-width: 58ch;
-    margin-inline: auto;
-    text-align: center;
     text-wrap: pretty;
   }
 

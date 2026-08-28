@@ -75,6 +75,7 @@ const jsonLd = [
   <Portada
     titulo={data.titulo}
     texto={data.entradilla}
+    etiqueta={txt.nav.servicios}
     foto={fotoDeServicio(servicio.id)}
     alt={data.corto}
     encuadre="centro"
@@ -298,13 +299,12 @@ const jsonLd = [
     color: var(--ink-2);
   }
 
+  /* La marca de la lista es solo el visto, sin disco detrás: igual que las
+     ventajas de la portada. */
   .incluye__marca {
     display: grid;
     place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    background: var(--amarillo-tinte);
+    margin-top: 0.2rem;
     color: var(--amarillo-texto);
     flex: none;
   }

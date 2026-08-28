@@ -165,11 +165,21 @@ const enlaces = [
     z-index: 40;
     background: var(--paper);
     border-bottom: var(--hairline);
-    transition: box-shadow var(--t-rapido);
+    transition: box-shadow var(--t-rapido), background-color var(--t-rapido);
   }
 
+  /* Al fijarse arriba, cristal esmerilado en vez de blanco plano: separa la
+     cabecera del contenido que pasa por debajo sin caer en un borde duro. */
   .cab.is-fija {
+    background: rgba(255, 255, 255, 0.86);
     box-shadow: var(--sombra);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .cab.is-fija {
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+    }
   }
 
   .cab__fila {

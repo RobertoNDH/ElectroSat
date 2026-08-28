@@ -34,7 +34,7 @@ const {
   id={id}
   aria-labelledby={rotulo}
 >
-  <div class="banda__fondo">
+  <div class="banda__fondo parallax">
     <Image src={foto} alt={alt} widths={[900, 1400, 2000, 2400]} sizes="100vw" loading="lazy" quality={70} />
   </div>
 
@@ -62,7 +62,8 @@ const {
     position: absolute;
     inset: 0;
     z-index: -2;
-    background: var(--ink);
+    background: var(--noche);
+    overflow: hidden;
   }
 
   .banda__fondo :global(img) {
@@ -83,19 +84,35 @@ const {
     object-position: 50% 72%;
   }
 
+  /* Dos capas de velo en vez de una. La primera es el degradado que garantiza
+     el contraste; la segunda es un halo tenue en el centro, que es lo que hace
+     que la banda se lea como un espacio con profundidad y no como una foto con
+     un rectángulo gris encima. Con las dos, el texto blanco pasa de 9:1
+     incluso sobre las zonas más claras de la imagen. */
   .banda::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
-    /* Con este velo el texto blanco pasa de 9:1 incluso sobre las zonas más
-       claras de la foto, y la imagen se sigue reconociendo. */
-    background: linear-gradient(
-      to bottom,
-      rgba(9, 20, 28, 0.86) 0%,
-      rgba(9, 20, 28, 0.76) 55%,
-      rgba(9, 20, 28, 0.88) 100%
-    );
+    background:
+      radial-gradient(
+        120% 80% at 50% 42%,
+        rgba(17, 146, 203, 0.16) 0%,
+        rgba(4, 18, 27, 0) 62%
+      ),
+      var(--velo-noche);
+  }
+
+  /* Filos de luz arriba y abajo: separan la banda de la sección clara que
+     tiene encima o debajo sin recurrir a un borde duro. */
+  .banda::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   /* El contenido llega por slot, así que no lleva el identificador de ámbito
@@ -108,7 +125,15 @@ const {
 
   .banda :global(.prosa),
   .banda :global(.lede) {
-    color: rgba(255, 255, 255, 0.78);
+    color: var(--sobre-noche);
+  }
+
+  .banda :global(.etiqueta-seccion) {
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .banda :global(.etiqueta-seccion)::before {
+    background: var(--amarillo);
   }
 
   .banda :global(.cabecera) {

@@ -155,5 +155,46 @@
     .anima-hijos.is-visible > *:nth-child(5) { transition-delay: 280ms; }
     .anima-hijos.is-visible > *:nth-child(6) { transition-delay: 350ms; }
     .anima-hijos.is-visible > *:nth-child(n + 7) { transition-delay: 420ms; }
+
+    /* El filo de la etiqueta se dibuja al entrar la sección. Es un detalle
+       pequeño y por eso funciona: anuncia la sección sin robar atención. */
+    .cabecera.va-a-animar .etiqueta-seccion::before {
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .cabecera.is-visible .etiqueta-seccion::before {
+      transform: scaleX(1);
+      transform-origin: left;
+      transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+    }
+  }
+
+  /* Parallax de las fotos a sangre.
+     Va con animaciones ligadas al scroll del propio navegador: no hay ni un
+     listener de scroll en JavaScript, así que el movimiento va siempre a la
+     tasa de refresco de la pantalla y no se atasca. Donde el navegador no las
+     soporta simplemente no hay parallax y la foto se queda quieta, que es un
+     resultado perfectamente bueno. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .parallax img {
+        /* La escala de más es el margen que se consume al desplazar la foto:
+           sin ella asomaría el borde por arriba o por abajo. */
+        animation: deriva linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+        will-change: transform;
+      }
+
+      @keyframes deriva {
+        from {
+          transform: translate3d(0, -7%, 0) scale(1.16);
+        }
+        to {
+          transform: translate3d(0, 7%, 0) scale(1.16);
+        }
+      }
+    }
   }
 </style>
