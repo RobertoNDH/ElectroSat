@@ -66,7 +66,7 @@ const legales = [
       </ul>
     </nav>
 
-    <div class="pie__col">
+    <div class="pie__col pie__col--contacto">
       <h2 class="pie__titulo">{txt.pie.contacto}</h2>
       <a class="pie__tel" href={telHref()}>
         <Icono nombre="telefono" tamano={18} />
@@ -124,22 +124,35 @@ const legales = [
     border-top: 3px solid var(--azul);
   }
 
+  /* En móvil, Servicios y Empresa van en paralelo porque son listas cortas;
+     la marca y el bloque de contacto ocupan el ancho entero. Así el pie deja
+     de ser una columna interminable. */
   .pie__rejilla {
     display: grid;
-    gap: var(--s-6);
-    grid-template-columns: 1fr;
+    gap: var(--s-5) var(--s-4);
+    grid-template-columns: repeat(2, 1fr);
     padding-block: clamp(2.25rem, 4vw, 3.25rem);
+  }
+
+  .pie__marca,
+  .pie__col--contacto {
+    grid-column: 1 / -1;
   }
 
   @media (min-width: 40rem) {
     .pie__rejilla {
-      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-6);
     }
   }
 
   @media (min-width: 62rem) {
     .pie__rejilla {
       grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+    }
+
+    .pie__marca,
+    .pie__col--contacto {
+      grid-column: auto;
     }
   }
 

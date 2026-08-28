@@ -7,6 +7,7 @@ import BloqueContacto from '../components/BloqueContacto.astro';
 import Portada from '../components/Portada.astro';
 import fotoPortada from '../assets/antena-tejado.jpg';
 import { fotoDeServicio } from '../data/imagenes';
+import { empresa, telHref, waHref } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
@@ -41,7 +42,18 @@ const jsonLd = [
     foto={fotoPortada}
     alt="Antenas y parabólicas instaladas en la azotea de un edificio"
     encuadre="alto"
-  />
+  >
+    <div class="portada__acciones">
+      <a class="btn btn--principal btn--lg" href={telHref()}>
+        <Icono nombre="telefono" tamano={18} />
+        {txt.acciones.llamarA(empresa.telefono.display)}
+      </a>
+      <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+        <Icono nombre="whatsapp" tamano={18} />
+        {txt.acciones.whatsapp}
+      </a>
+    </div>
+  </Portada>
 
   <section class="section section--tight">
     <div class="container">
@@ -82,6 +94,14 @@ const jsonLd = [
 </Base>
 
 <style>
+  .portada__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+    margin-top: var(--s-2);
+  }
+
   /* En columnas y sin caja: antes era una fila con borde por servicio, que
      ocupaba una pantalla entera en escritorio y parecía un listado de fichas. */
   .lista {

@@ -116,14 +116,6 @@ export const TEXTOS = {
           titulo: 'Precio cerrado',
           texto: 'Si aparece algo no previsto, paramos y te consultamos.',
         },
-        {
-          titulo: 'Material de marca',
-          texto: 'Con repuesto disponible durante años, no de usar y tirar.',
-        },
-        {
-          titulo: 'Seguimos aquí',
-          texto: 'Si algo falla después, te atiende quien lo montó.',
-        },
       ],
     },
     marcas: {
@@ -136,7 +128,7 @@ export const TEXTOS = {
       eyebrow: 'Dónde trabajamos',
       titulo: 'Todo el sur de Tenerife',
       prosa:
-        'Estamos en Valle San Lorenzo y nos movemos por toda la comarca sur. Si estás por la zona, ir a verlo no te cuesta nada.',
+        'Estamos en Valle San Lorenzo y nos movemos por toda la comarca sur. Vamos nosotros a verlo, sin coste ni compromiso.',
     },
     opiniones: {
       eyebrow: 'Clientes',
@@ -309,14 +301,6 @@ export const TEXTOS = {
           titulo: 'Fixed price',
           texto: 'If something unexpected turns up, we stop and ask you first.',
         },
-        {
-          titulo: 'Proper equipment',
-          texto: 'Brands that keep spare parts available for years.',
-        },
-        {
-          titulo: 'We are still here',
-          texto: 'If something fails later, you deal with the people who fitted it.',
-        },
       ],
     },
     marcas: {
@@ -329,7 +313,7 @@ export const TEXTOS = {
       eyebrow: 'Where we work',
       titulo: 'All across southern Tenerife',
       prosa:
-        'We are based in Valle San Lorenzo and cover the whole southern area. If you are anywhere nearby, coming to look at it costs you nothing.',
+        'We are based in Valle San Lorenzo and cover the whole southern area. We come out to you, at no cost and with no obligation.',
     },
     opiniones: {
       eyebrow: 'Customers',
@@ -503,14 +487,6 @@ export const TEXTOS = {
           titulo: 'Festpreis',
           texto: 'Taucht etwas Unvorhergesehenes auf, halten wir an und fragen nach.',
         },
-        {
-          titulo: 'Markenmaterial',
-          texto: 'Hersteller, die über Jahre Ersatzteile liefern.',
-        },
-        {
-          titulo: 'Wir bleiben erreichbar',
-          texto: 'Fällt später etwas aus, hilft Ihnen der Betrieb, der es eingebaut hat.',
-        },
       ],
     },
     marcas: {
@@ -523,7 +499,7 @@ export const TEXTOS = {
       eyebrow: 'Wo wir arbeiten',
       titulo: 'Im gesamten Süden Teneriffas',
       prosa:
-        'Wir sitzen in Valle San Lorenzo und sind in der ganzen Region Süd unterwegs. Sind Sie in der Nähe, kostet Sie die Besichtigung nichts.',
+        'Wir sitzen in Valle San Lorenzo und sind in der ganzen Region Süd unterwegs. Wir kommen zu Ihnen, kostenlos und unverbindlich.',
     },
     opiniones: {
       eyebrow: 'Kunden',

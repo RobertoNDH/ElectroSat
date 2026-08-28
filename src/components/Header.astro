@@ -69,12 +69,9 @@ const enlaces = [
     </nav>
 
     <div class="cab__acciones">
-      <a class="cab__tel" href={telHref()}>
-        <span class="cab__tel-icono"><Icono nombre="telefono" tamano={18} /></span>
-        <span class="cab__tel-texto">
-          <span class="cab__tel-etiqueta">{txt.acciones.llamanos}</span>
-          <span class="cab__tel-num tel-num">{empresa.telefono.display}</span>
-        </span>
+      <a class="btn btn--principal cab__tel" href={telHref()}>
+        <Icono nombre="telefono" tamano={17} />
+        <span class="tel-num">{empresa.telefono.display}</span>
       </a>
 
       <a class="btn btn--azul cab__cta" href={waHref(lang)} rel="noopener noreferrer">
@@ -229,48 +226,10 @@ const enlaces = [
     gap: var(--s-4);
   }
 
+  /* Llamar va en amarillo, igual que en el resto de la web, y WhatsApp en azul
+     al lado. Antes era un icono suelto y no se leía como acción. */
   .cab__tel {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
-  .cab__tel-icono {
-    display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    background: var(--azul-tinte);
-    color: var(--azul);
-    flex: none;
-    transition: background var(--t-rapido), color var(--t-rapido);
-  }
-
-  .cab__tel:hover .cab__tel-icono {
-    background: var(--azul);
-    color: var(--on-oscuro);
-  }
-
-  .cab__tel-texto {
-    display: grid;
-    gap: 0.0625rem;
-    line-height: 1.15;
-  }
-
-  .cab__tel-etiqueta {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-
-  .cab__tel-num {
-    font-size: 1.0625rem;
-    font-weight: 700;
+    font-size: 1rem;
   }
 
   .cab__icono {

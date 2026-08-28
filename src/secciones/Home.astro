@@ -35,7 +35,7 @@ const servicios = (await getCollection('servicios'))
 
 // Una foto por tipo de cliente: edificio, zona hotelera y vivienda suelta.
 const fotosPublicos = [fotoEdificio, fotoSur, fotoAntena];
-const iconosPruebas = ['documento', 'escudo', 'check', 'euro', 'herramienta', 'telefono'] as const;
+const iconosPruebas = ['documento', 'escudo', 'check', 'euro'] as const;
 
 const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
 
@@ -159,8 +159,8 @@ const jsonLd = [
                 <Image
                   src={fotosPublicos[i]}
                   alt=""
-                  widths={[300, 460, 620]}
-                  sizes="(min-width: 55rem) 19rem, 100vw"
+                  widths={[420, 640, 860, 1100]}
+                  sizes="(min-width: 55rem) 23rem, 100vw"
                   loading="lazy"
                 />
               </span>
@@ -334,7 +334,7 @@ const jsonLd = [
     transition: transform 600ms cubic-bezier(0.2, 0.6, 0.2, 1);
   }
 
-  .servicio:hover .servicio__foto :global(img) {
+  .servicio__enlace:hover .servicio__foto :global(img) {
     transform: scale(1.05);
   }
 
@@ -345,11 +345,13 @@ const jsonLd = [
     padding-top: var(--s-4);
   }
 
-  .servicio .h3 {
+  /* Solo las tarjetas que son enlace. La de "¿No sabes cuál te toca?" tiene el
+     fondo azul, así que teñir su titular de azul lo hacía desaparecer. */
+  .servicio__enlace .h3 {
     transition: color var(--t-rapido);
   }
 
-  .servicio:hover .h3 {
+  .servicio__enlace:hover .h3 {
     color: var(--azul);
   }
 
@@ -411,9 +413,11 @@ const jsonLd = [
     background: var(--surface-2);
   }
 
+  /* 16/10 en vez de una franja muy estrecha: con 5/2 el recorte se comía tanto
+     de la foto que en escritorio no se distinguía qué era. */
   .publico__foto :global(img) {
     width: 100%;
-    aspect-ratio: 5 / 2;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
   }
 
@@ -433,16 +437,16 @@ const jsonLd = [
     gap: var(--s-5);
   }
 
-  @media (min-width: 48rem) {
+  @media (min-width: 34rem) {
     .pruebas {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-5) var(--s-7);
+      gap: var(--s-5) var(--s-6);
     }
   }
 
   @media (min-width: 72rem) {
     .pruebas {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
