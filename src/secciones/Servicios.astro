@@ -39,7 +39,6 @@ const jsonLd = [
   <Portada
     titulo={txt.servicios.titulo}
     texto={txt.servicios.prosa}
-    etiqueta={txt.nav.servicios}
     foto={fotoPortada}
     alt="Antenas y parabólicas instaladas en la azotea de un edificio"
     encuadre="alto"
@@ -66,8 +65,8 @@ const jsonLd = [
                 <Image
                   src={fotoDeServicio(s.id)}
                   alt=""
-                  widths={[280, 420]}
-                  sizes="(min-width: 55rem) 14rem, 100vw"
+                  widths={[340, 460, 620, 880]}
+                  sizes="(min-width: 66rem) 23rem, (min-width: 44rem) 42vw, 100vw"
                   loading="lazy"
                 />
               </a>

@@ -7,7 +7,7 @@ import Portada from '../components/Portada.astro';
 import Banda from '../components/Banda.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import DiagramaPortal from '../components/DiagramaPortal.astro';
-import fotoCasos from '../assets/portada-servicios.jpg';
+import fotoCasos from '../assets/edificio.jpg';
 import { fotoDeServicio } from '../data/imagenes';
 import { empresa, telHref, waHref } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
@@ -75,7 +75,6 @@ const jsonLd = [
   <Portada
     titulo={data.titulo}
     texto={data.entradilla}
-    etiqueta={txt.nav.servicios}
     foto={fotoDeServicio(servicio.id)}
     alt={data.corto}
     encuadre="centro"

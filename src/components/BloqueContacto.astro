@@ -29,7 +29,6 @@ const txt = t(lang);
 
 <Banda foto={foto} encuadre="centro" rotulo="cta-titulo">
   <div class="cta__contenido">
-    <p class="etiqueta-seccion">{txt.contacto.eyebrow}</p>
     <h2 class="h2" id="cta-titulo">{titulo ?? txt.contacto.titulo}</h2>
     <p class="lede cta__lede">{texto ?? txt.contacto.texto}</p>
 
@@ -64,17 +63,11 @@ const txt = t(lang);
 </Banda>
 
 <style>
-  /* El cierre sí va centrado, y es de los pocos sitios donde toca: aquí el
-     teléfono es lo único que importa y no compite con ninguna columna. */
   .cta__contenido {
     display: grid;
     justify-items: center;
     gap: var(--s-3);
     text-align: center;
-  }
-
-  .cta__contenido .etiqueta-seccion {
-    margin-bottom: var(--s-2);
   }
 
   .cta__contenido .h2 {

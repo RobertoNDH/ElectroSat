@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Portada from '../components/Portada.astro';
 import Banda from '../components/Banda.astro';
 import fotoPortada from '../assets/portada-contacto.jpg';
-import fotoDatos from '../assets/internet-comunitario.jpg';
+import fotoDatos from '../assets/portada-servicios.jpg';
 import Icono from '../components/Icono.astro';
 import EstadoHorario from '../components/EstadoHorario.astro';
 import {
@@ -43,7 +43,6 @@ const jsonLd = [
   <Portada
     titulo={txt.contacto.titulo}
     texto={txt.contacto.texto}
-    etiqueta={txt.contacto.eyebrow}
     foto={fotoPortada}
     alt="Tejados con antenas de televisión bajo el cielo del sur de Tenerife"
     encuadre="centro"

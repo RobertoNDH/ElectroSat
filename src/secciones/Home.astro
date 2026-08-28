@@ -20,6 +20,9 @@ import { seo } from '../i18n/seo';
 import fotoAntena from '../assets/portada-servicios.jpg';
 import fotoSur from '../assets/cobertura-sur.jpg';
 import fotoEdificio from '../assets/edificio.jpg';
+import fotoTejado from '../assets/antena-tejado.jpg';
+import fotoBandaPruebas from '../assets/portada-nosotros.jpg';
+import fotoBandaCobertura from '../assets/portada-contacto.jpg';
 
 interface Props {
   lang: Idioma;
@@ -34,7 +37,8 @@ const servicios = (await getCollection('servicios'))
   .sort((a, b) => a.data.orden - b.data.orden);
 
 // Una foto por tipo de cliente: edificio, zona hotelera y vivienda suelta.
-const fotosPublicos = [fotoEdificio, fotoSur, fotoAntena];
+// Ninguna se repite con la portada ni con las demás secciones de la página.
+const fotosPublicos = [fotoEdificio, fotoSur, fotoTejado];
 const iconosPruebas = ['documento', 'escudo', 'check', 'euro'] as const;
 
 const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
@@ -62,7 +66,6 @@ const jsonLd = [
   <Portada
     titulo={txt.hero.titulo}
     texto={txt.hero.lede}
-    etiqueta={txt.hero.eyebrow}
     foto={fotoAntena}
     alt="Antena de televisión instalada en el tejado de una vivienda del sur de Tenerife"
     alto="alta"
@@ -97,7 +100,6 @@ const jsonLd = [
   <section class="section" id="servicios" aria-labelledby="servicios-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="etiqueta-seccion">{txt.servicios.eyebrow}</p>
         <h2 class="h2" id="servicios-titulo">{txt.servicios.titulo}</h2>
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
@@ -113,8 +115,8 @@ const jsonLd = [
                     <Image
                       src={fotoDeServicio(s.id)}
                       alt={s.data.corto}
-                      widths={[400, 600, 800]}
-                      sizes="(min-width: 66rem) 22rem, (min-width: 44rem) 45vw, 100vw"
+                      widths={[500, 760, 1000, 1300]}
+                      sizes="(min-width: 66rem) 26rem, (min-width: 44rem) 46vw, 100vw"
                       loading="lazy"
                     />
                   </span>
@@ -149,7 +151,6 @@ const jsonLd = [
   <section class="section section--surface" aria-labelledby="publicos-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="etiqueta-seccion">{txt.publicos.eyebrow}</p>
         <h2 class="h2" id="publicos-titulo">{txt.publicos.titulo}</h2>
         <p class="prosa">{txt.publicos.prosa}</p>
       </div>
@@ -176,9 +177,8 @@ const jsonLd = [
     </div>
   </section>
 
-  <Banda foto={fotoEdificio} encuadre="centro" rotulo="pruebas-titulo">
+  <Banda foto={fotoBandaPruebas} encuadre="centro" rotulo="pruebas-titulo">
     <div class="cabecera">
-      <p class="etiqueta-seccion">{txt.pruebas.eyebrow}</p>
       <h2 class="h2" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
     </div>
 
@@ -200,7 +200,6 @@ const jsonLd = [
   <section class="section" aria-labelledby="proceso-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="etiqueta-seccion">{txt.pasos.eyebrow}</p>
         <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
       </div>
 
@@ -220,7 +219,6 @@ const jsonLd = [
 
   <section class="section section--surface section--tight" id="marcas" aria-labelledby="marcas-titulo">
     <div class="container cabecera">
-      <p class="etiqueta-seccion">{txt.marcas.eyebrow}</p>
       <h2 class="h2" id="marcas-titulo">{txt.marcas.titulo}</h2>
       <p class="prosa">{txt.marcas.prosa}</p>
     </div>
@@ -228,15 +226,14 @@ const jsonLd = [
   </section>
 
   <Banda
-    foto={fotoSur}
+    foto={fotoBandaCobertura}
     encuadre="centro"
     alto="apretada"
     id="cobertura"
     rotulo="cobertura-titulo"
     clase="banda-cobertura"
   >
-    <div class="cabecera cabecera--centro cobertura__cabecera">
-      <p class="etiqueta-seccion">{txt.cobertura.eyebrow}</p>
+    <div class="cabecera cobertura__cabecera">
       <h2 class="h2" id="cobertura-titulo">{txt.cobertura.titulo}</h2>
       <p class="prosa">{txt.cobertura.prosa}</p>
     </div>
@@ -245,7 +242,6 @@ const jsonLd = [
   <section class="section" aria-labelledby="faq-titulo">
     <div class="container">
       <div class="cabecera">
-        <p class="etiqueta-seccion">{txt.faq.eyebrow}</p>
         <h2 class="h2" id="faq-titulo">{txt.faq.titulo}</h2>
         <p class="prosa">{txt.faq.prosa}</p>
       </div>
@@ -272,7 +268,7 @@ const jsonLd = [
     .ventajas {
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-start;
+      justify-content: center;
       gap: 0.5rem 1.75rem;
     }
   }
@@ -284,12 +280,12 @@ const jsonLd = [
     gap: 0.5rem;
     font-size: var(--fs-small);
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.86);
+    color: var(--ink-2);
   }
 
   .ventajas :global(svg) {
     margin-top: 0.15rem;
-    color: var(--amarillo);
+    color: var(--amarillo-texto);
     flex: none;
   }
 
@@ -299,18 +295,6 @@ const jsonLd = [
     justify-content: center;
     gap: var(--s-3);
     margin-top: var(--s-2);
-  }
-
-  /* En escritorio los botones y la valoración comparten una sola fila, con la
-     nota separada a la derecha por un filo. Compacta el pie de la portada y
-     deja la valoración como un dato al margen, no como otro bloque más. */
-  @media (min-width: 55rem) {
-    .acciones {
-      justify-content: flex-start;
-      align-items: center;
-      gap: var(--s-4);
-      margin-top: var(--s-2);
-    }
   }
 
   @media (max-width: 54.99rem) {
@@ -371,8 +355,10 @@ const jsonLd = [
   .servicio__foto :global(img) {
     width: 100%;
     height: 100%;
-    /* Vertical, no apaisado: el retrato es lo que da el aire de portada. */
-    aspect-ratio: 4 / 5;
+    /* 4/3, no un retrato muy cerrado: con un recorte más vertical la foto
+       perdía el asunto y se quedaba solo con fondo. Así se ve la cámara, el
+       telefonillo o la antena entera, no un trozo de pared. */
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -492,20 +478,6 @@ const jsonLd = [
     display: grid;
     align-content: start;
     gap: 0.375rem;
-  }
-
-  /* Las tres columnas no arrancan a la misma altura: la del medio baja. Es un
-     desajuste deliberado, el mismo recurso que usa una revista para que una
-     fila de tres no se lea como una tabla. Aquí además diferencia esta sección
-     de la rejilla de servicios, que va a ras. */
-  @media (min-width: 55rem) {
-    .publico:nth-child(2) {
-      margin-top: var(--s-8);
-    }
-
-    .publico:nth-child(3) {
-      margin-top: var(--s-6);
-    }
   }
 
   .publico__foto {
