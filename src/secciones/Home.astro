@@ -8,6 +8,7 @@ import Valoracion from '../components/Valoracion.astro';
 import Marquesina from '../components/Marquesina.astro';
 import Portada from '../components/Portada.astro';
 import Banda from '../components/Banda.astro';
+import FlechasCarrusel from '../components/FlechasCarrusel.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import { fotoDeServicio } from '../data/imagenes';
 import { marcas } from '../data/marcas';
@@ -18,9 +19,6 @@ import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
 
 import fotoAntena from '../assets/portada-servicios.jpg';
-import fotoSur from '../assets/cobertura-sur.jpg';
-import fotoEdificio from '../assets/edificio.jpg';
-import fotoTejado from '../assets/antena-tejado.jpg';
 import fotoBandaPruebas from '../assets/portada-nosotros.jpg';
 import fotoBandaCobertura from '../assets/portada-contacto.jpg';
 
@@ -36,9 +34,6 @@ const servicios = (await getCollection('servicios'))
   .filter((s) => s.id.startsWith(`${lang}/`))
   .sort((a, b) => a.data.orden - b.data.orden);
 
-// Una foto por tipo de cliente: edificio, zona hotelera y vivienda suelta.
-// Ninguna se repite con la portada ni con las demás secciones de la página.
-const fotosPublicos = [fotoEdificio, fotoSur, fotoTejado];
 const iconosPruebas = ['documento', 'escudo', 'check', 'euro'] as const;
 
 const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
@@ -103,82 +98,65 @@ const jsonLd = [
         <h2 class="h2" id="servicios-titulo">{txt.servicios.titulo}</h2>
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
-
-      <ul class="servicios">
-        {
-          servicios.map((s) => {
-            const slug = s.id.split('/')[1];
-            return (
-              <li class="servicio">
-                <a class="servicio__enlace" href={ruta(lang, `/servicios/${slug}/`)}>
-                  <span class="servicio__foto">
-                    <Image
-                      src={fotoDeServicio(s.id)}
-                      alt={s.data.corto}
-                      widths={[500, 760, 1000, 1300]}
-                      sizes="(min-width: 66rem) 26rem, (min-width: 44rem) 46vw, 100vw"
-                      loading="lazy"
-                    />
-                  </span>
-                  <span class="servicio__cuerpo">
-                    <span class="h3">{s.data.titulo}</span>
-                    <span class="servicio__resumen">{s.data.resumen}</span>
-                    <span class="enlace-flecha servicio__mas">
-                      {txt.acciones.verServicio}
-                      <Icono nombre="flecha" tamano={16} />
-                    </span>
-                  </span>
-                </a>
-              </li>
-            );
-          })
-        }
-
-        <li class="servicio servicio--cta">
-          <div class="servicio__cta">
-            <span class="h3">{txt.servicios.ctaTitulo}</span>
-            <span class="servicio__resumen">{txt.servicios.ctaTexto}</span>
-            <a class="btn btn--principal" href={telHref()}>
-              <Icono nombre="telefono" tamano={17} />
-              {txt.acciones.llamarA(empresa.telefono.display)}
-            </a>
-          </div>
-        </li>
-      </ul>
     </div>
-  </section>
 
-  <section class="section section--surface" aria-labelledby="publicos-titulo">
-    <div class="container">
-      <div class="cabecera">
-        <h2 class="h2" id="publicos-titulo">{txt.publicos.titulo}</h2>
-        <p class="prosa">{txt.publicos.prosa}</p>
-      </div>
-
-      <ul class="publicos">
+    <div class="carrusel carrusel--servicios">
+      <div class="carrusel__vista">
         {
-          txt.publicos.items.map((p, i) => (
-            <li class="publico">
-              <span class="publico__foto">
-                <Image
-                  src={fotosPublicos[i]}
-                  alt=""
-                  widths={[420, 640, 860, 1100]}
-                  sizes="(min-width: 55rem) 23rem, 100vw"
-                  loading="lazy"
-                />
-              </span>
-              <h3 class="h3 publico__titulo">{p.titulo}</h3>
-              <p class="publico__texto">{p.texto}</p>
-            </li>
+          [false, true].map((copia) => (
+            <ul class="servicios carrusel__pista" aria-hidden={copia ? 'true' : undefined}>
+              {servicios.map((s) => {
+                const slug = s.id.split('/')[1];
+                return (
+                  <li class="servicio">
+                    <a
+                      class="servicio__enlace"
+                      href={ruta(lang, `/servicios/${slug}/`)}
+                      tabindex={copia ? -1 : undefined}
+                    >
+                      <span class="servicio__foto">
+                        <Image
+                          src={fotoDeServicio(s.id)}
+                          alt={copia ? '' : s.data.corto}
+                          widths={[500, 760, 1000]}
+                          sizes="(min-width: 30rem) 22rem, 74vw"
+                          loading="lazy"
+                        />
+                      </span>
+                      <span class="servicio__cuerpo">
+                        <span class="h3">{s.data.titulo}</span>
+                        <span class="servicio__resumen">{s.data.resumen}</span>
+                        <span class="enlace-flecha servicio__mas">
+                          {txt.acciones.verServicio}
+                          <Icono nombre="flecha" tamano={16} />
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+
+              <li class="servicio servicio--cta">
+                <div class="servicio__cta">
+                  <span class="h3">{txt.servicios.ctaTitulo}</span>
+                  <span class="servicio__resumen">{txt.servicios.ctaTexto}</span>
+                  <a class="btn btn--principal" href={telHref()} tabindex={copia ? -1 : undefined}>
+                    <Icono nombre="telefono" tamano={17} />
+                    {txt.acciones.llamarA(empresa.telefono.display)}
+                  </a>
+                </div>
+              </li>
+            </ul>
           ))
         }
-      </ul>
+      </div>
+
+      <FlechasCarrusel anterior={txt.acciones.anterior} siguiente={txt.acciones.siguiente} />
     </div>
   </section>
 
-  <Banda foto={fotoBandaPruebas} encuadre="centro" rotulo="pruebas-titulo">
-    <div class="cabecera">
+  <Banda foto={fotoBandaPruebas} encuadre="centro" alto="apretada" rotulo="pruebas-titulo" clase="banda-pruebas">
+    <div class="cabecera cabecera--corta">
       <h2 class="h2" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
     </div>
 
@@ -197,9 +175,9 @@ const jsonLd = [
     </ul>
   </Banda>
 
-  <section class="section" aria-labelledby="proceso-titulo">
+  <section class="section section--tight" aria-labelledby="proceso-titulo">
     <div class="container">
-      <div class="cabecera">
+      <div class="cabecera cabecera--corta">
         <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
       </div>
 
@@ -316,21 +294,12 @@ const jsonLd = [
   }
 
   /* ---------- Servicios ---------- */
-  .servicios {
-    display: grid;
-    gap: var(--s-4);
-  }
-
-  @media (min-width: 44rem) {
-    .servicios {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 66rem) {
-    .servicios {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  /* Una sola fila que desfila, en vez de la rejilla de seis tarjetas: ocupa un
+     tercio del alto y la página deja de leerse como un tablón quieto. Las
+     reglas del carrusel viven en base.css; aquí solo la cadencia. */
+  .carrusel--servicios {
+    --vuelta: 64s;
+    margin-top: calc(var(--s-2) * -1);
   }
 
   /* El texto va encima de la fotografía, no debajo. Con el recorte vertical y
@@ -459,79 +428,25 @@ const jsonLd = [
     color: var(--sobre-noche);
   }
 
-  /* ---------- Para quién ---------- */
-  .publicos {
-    display: grid;
-    gap: var(--s-4);
-  }
-
-  @media (min-width: 55rem) {
-    .publicos {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--s-5);
-    }
-  }
-
-  /* Sin caja ni icono en disco: una foto ancha y baja, el título y dos líneas.
-     Ocupa mucho menos alto que la tarjeta que había antes. */
-  .publico {
-    display: grid;
-    align-content: start;
-    gap: 0.375rem;
-  }
-
-  .publico__foto {
-    display: block;
-    overflow: hidden;
-    margin-bottom: var(--s-4);
-    background: var(--surface-2);
-  }
-
-  /* 16/10 en vez de una franja muy estrecha: con 5/2 el recorte se comía tanto
-     de la foto que en escritorio no se distinguía qué era. */
-  .publico__foto :global(img) {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @media (hover: hover) {
-    .publico:hover .publico__foto :global(img) {
-      transform: scale(1.04);
-    }
-  }
-
-  /* Filo sobre el título: ata el texto a su foto y da la retícula fina que
-     sostiene toda la sección. */
-  .publico__titulo {
-    padding-top: var(--s-3);
-    border-top: 2px solid var(--ink);
-    font-size: 1.125rem;
-  }
-
-  .publico__texto {
-    font-size: var(--fs-small);
-    line-height: 1.5;
-    color: var(--ink-3);
+  /* Cabecera de titular suelto, sin frase debajo: no necesita el hueco
+     completo que reserva la cabecera normal para separar del cuerpo. */
+  .cabecera.cabecera--corta {
+    margin-bottom: clamp(1.25rem, 2.5vw, 1.875rem);
   }
 
   /* ---------- Por qué fiarte ---------- */
+  /* Dos columnas desde el móvil más estrecho: en una sola columna las cuatro
+     pruebas se comían una pantalla entera para cuatro frases cortas. */
   .pruebas {
     display: grid;
-    gap: var(--s-5);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-4) var(--s-4);
   }
 
-  @media (min-width: 34rem) {
-    .pruebas {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-5) var(--s-6);
-    }
-  }
-
-  @media (min-width: 72rem) {
+  @media (min-width: 62rem) {
     .pruebas {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-5) var(--s-6);
     }
   }
 
@@ -543,12 +458,22 @@ const jsonLd = [
     display: grid;
     gap: 0.375rem;
     align-content: start;
-    padding-top: var(--s-4);
+    padding-top: var(--s-3);
     border-top: 1px solid var(--noche-linea);
   }
 
+  /* En móvil todo va al eje central, igual que el titular de la sección: con
+     dos columnas estrechas el texto alineado a la izquierda dejaba banderas
+     muy irregulares. */
+  @media (max-width: 61.99rem) {
+    .prueba {
+      justify-items: center;
+      text-align: center;
+    }
+  }
+
   .prueba__icono {
-    margin-bottom: var(--s-3);
+    margin-bottom: var(--s-2);
     color: var(--amarillo);
   }
 
@@ -571,7 +496,7 @@ const jsonLd = [
   .pasos {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--s-4) var(--s-4);
+    gap: var(--s-4);
   }
 
   @media (min-width: 62rem) {
@@ -593,7 +518,7 @@ const jsonLd = [
   }
 
   .paso__numero {
-    margin-bottom: var(--s-2);
+    margin-bottom: var(--s-1);
     font-size: var(--fs-indice);
     font-weight: 700;
     line-height: 0.9;
@@ -629,6 +554,13 @@ const jsonLd = [
 
   .cobertura__cabecera :global(.prosa) {
     max-width: 52ch;
+  }
+
+  /* Sin el hueco de debajo del titular la tira queda centrada de verdad:
+     antes sobraba abajo el margen que la cabecera reserva para el contenido
+     que aquí no existe. */
+  .cabecera.cobertura__cabecera {
+    margin-bottom: 0;
   }
 
   /* ---------- Preguntas ---------- */

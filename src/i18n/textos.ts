@@ -34,6 +34,8 @@ export const TEXTOS = {
       verComoLoHacemos: 'Ver cómo lo hacemos',
       abrirMapa: 'Ver cómo llegar',
       verMasArriba: 'Volver al inicio',
+      anterior: 'Ver los anteriores',
+      siguiente: 'Ver los siguientes',
       correoCopiado: (correo: string) => `Correo copiado: ${correo}`,
     },
     hero: {
@@ -54,29 +56,6 @@ export const TEXTOS = {
       { dato: 'Con garantía', texto: 'Por escrito, en material y mano de obra' },
       { dato: 'Somos de aquí', texto: 'Estamos en Valle San Lorenzo, Arona' },
     ],
-    publicos: {
-      eyebrow: 'Por dónde empezar',
-      titulo: 'Dinos qué eres y vamos al grano',
-      prosa:
-        'No es lo mismo una avería en una casa que una instalación para todo un edificio. Elige el caso que se parece al tuyo.',
-      items: [
-        {
-          titulo: 'Comunidades de vecinos',
-          texto:
-            'Antena de todo el edificio, portero, cámaras e internet para todas las viviendas. Con un presupuesto claro para llevar a la junta.',
-        },
-        {
-          titulo: 'Hoteles y negocios',
-          texto:
-            'Canales de televisión internacionales, cámaras, wifi que llega a todas las habitaciones y alguien que responde cuando algo falla.',
-        },
-        {
-          titulo: 'Casas particulares',
-          texto:
-            'Antena, parabólica, cámaras, telefonillo y averías. Vamos, lo miramos y te decimos qué pasa antes de tocar nada.',
-        },
-      ],
-    },
     servicios: {
       eyebrow: 'Qué hacemos',
       titulo: 'Telecomunicaciones de principio a fin',
@@ -219,6 +198,8 @@ export const TEXTOS = {
       verComoLoHacemos: 'See how we do it',
       abrirMapa: 'Get directions',
       verMasArriba: 'Back to top',
+      anterior: 'See previous',
+      siguiente: 'See next',
       correoCopiado: (correo: string) => `Email copied: ${correo}`,
     },
     hero: {
@@ -239,29 +220,6 @@ export const TEXTOS = {
       { dato: 'Guaranteed', texto: 'In writing, parts and labour' },
       { dato: "We're local", texto: 'Based in Valle San Lorenzo, Arona' },
     ],
-    publicos: {
-      eyebrow: 'Where to start',
-      titulo: 'Tell us who you are and we get to the point',
-      prosa:
-        'A fault in one home is not the same as an installation for a whole building. Pick the case that looks like yours.',
-      items: [
-        {
-          titulo: 'Residents associations',
-          texto:
-            'One aerial for the whole building, door entry, cameras and internet for every flat. With a clear quote you can take to the owners meeting.',
-        },
-        {
-          titulo: 'Hotels and businesses',
-          texto:
-            'International TV channels, cameras, wifi that reaches every room, and someone who answers when something goes wrong.',
-        },
-        {
-          titulo: 'Private homes',
-          texto:
-            'Aerial, satellite dish, cameras, door phone and faults. We come, we check it and we tell you what is wrong before touching anything.',
-        },
-      ],
-    },
     servicios: {
       eyebrow: 'What we do',
       titulo: 'Telecoms from end to end',
@@ -405,6 +363,8 @@ export const TEXTOS = {
       verComoLoHacemos: 'So gehen wir vor',
       abrirMapa: 'Route anzeigen',
       verMasArriba: 'Nach oben',
+      anterior: 'Vorherige ansehen',
+      siguiente: 'Nächste ansehen',
       correoCopiado: (correo: string) => `E-Mail kopiert: ${correo}`,
     },
     hero: {
@@ -425,29 +385,6 @@ export const TEXTOS = {
       { dato: 'Mit Garantie', texto: 'Schriftlich, auf Material und Arbeit' },
       { dato: 'Aus der Gegend', texto: 'Wir sitzen in Valle San Lorenzo, Arona' },
     ],
-    publicos: {
-      eyebrow: 'Wo anfangen',
-      titulo: 'Sagen Sie uns, worum es geht',
-      prosa:
-        'Eine Störung in einer Wohnung ist etwas anderes als eine Anlage für ein ganzes Haus. Wählen Sie den Fall, der zu Ihnen passt.',
-      items: [
-        {
-          titulo: 'Wohnungseigentümer',
-          texto:
-            'Gemeinschaftsantenne, Türsprechanlage, Kameras und Internet für alle Wohnungen. Mit einem klaren Angebot für die Eigentümerversammlung.',
-        },
-        {
-          titulo: 'Hotels und Betriebe',
-          texto:
-            'Internationale Fernsehsender, Kameras, WLAN in allen Zimmern und jemand, der ans Telefon geht, wenn etwas ausfällt.',
-        },
-        {
-          titulo: 'Privathaushalte',
-          texto:
-            'Antenne, Satellitenschüssel, Kameras, Türsprechanlage und Störungen. Wir kommen, sehen nach und sagen Ihnen, was los ist.',
-        },
-      ],
-    },
     servicios: {
       eyebrow: 'Was wir machen',
       titulo: 'Telekommunikation von A bis Z',

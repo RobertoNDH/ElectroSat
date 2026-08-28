@@ -1,0 +1,86 @@
+---
+// Mando manual del carrusel. El bucle es una animación lineal e infinita, así
+// que para mover la fila basta con adelantar o atrasar su reloj: un salto en
+// `animation-delay` desplaza la pista justo una tarjeta y el bucle sigue sin
+// costura, sin tener que parar la animación ni llevar la posición a mano.
+import Icono from './Icono.astro';
+
+interface Props {
+  anterior: string;
+  siguiente: string;
+}
+const { anterior, siguiente } = Astro.props;
+---
+
+<div class="flechas">
+  <button class="flecha flecha--atras" type="button" data-carrusel="-1" aria-label={anterior}>
+    <Icono nombre="flecha" tamano={20} />
+  </button>
+  <button class="flecha" type="button" data-carrusel="1" aria-label={siguiente}>
+    <Icono nombre="flecha" tamano={20} />
+  </button>
+</div>
+
+<script>
+  for (const boton of document.querySelectorAll<HTMLElement>('[data-carrusel]')) {
+    boton.addEventListener('click', () => {
+      const carrusel = boton.closest<HTMLElement>('.carrusel');
+      const pista = carrusel?.querySelector<HTMLElement>('.carrusel__pista');
+      if (!carrusel || !pista) return;
+
+      // Lo que tarda en pasar una tarjeta: la vuelta entera entre las que hay.
+      const vuelta = parseFloat(getComputedStyle(pista).animationDuration);
+      if (!vuelta) return;
+      const paso = vuelta / pista.children.length;
+
+      const actual = parseFloat(carrusel.style.getPropertyValue('--desfase')) || 0;
+      const sentido = Number(boton.dataset.carrusel);
+
+      // El retraso tiene que quedarse siempre en negativo y dentro de una
+      // vuelta: en positivo la animación no ha empezado todavía y la fila se
+      // queda parada esperando en lugar de retroceder.
+      const bruto = actual - paso * sentido;
+      const desfase = -((((-bruto % vuelta) + vuelta) % vuelta));
+      carrusel.style.setProperty('--desfase', `${desfase}s`);
+    });
+  }
+</script>
+
+<style>
+  /* Debajo de la fila y no encima: en móvil una tarjeta ocupa casi el ancho
+     entero y los botones flotando tapaban justo el título del servicio. Al
+     enfocarlos o pasar por encima el carrusel se para solo, así que se puede
+     ir pieza a pieza sin pelearse con el movimiento. */
+  .flechas {
+    display: flex;
+    justify-content: center;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+
+  .flecha {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: var(--hairline);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--sombra-sm);
+    cursor: pointer;
+    transition: background var(--t-rapido), color var(--t-rapido),
+      border-color var(--t-rapido);
+  }
+
+  .flecha:hover,
+  .flecha:focus-visible {
+    background: var(--azul);
+    border-color: var(--azul);
+    color: var(--on-oscuro);
+  }
+
+  .flecha--atras :global(svg) {
+    transform: rotate(180deg);
+  }
+</style>

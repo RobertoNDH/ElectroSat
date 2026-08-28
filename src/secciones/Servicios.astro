@@ -5,8 +5,11 @@ import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import Portada from '../components/Portada.astro';
+import Marquesina from '../components/Marquesina.astro';
+import FlechasCarrusel from '../components/FlechasCarrusel.astro';
 import fotoPortada from '../assets/antena-tejado.jpg';
 import { fotoDeServicio } from '../data/imagenes';
+import { marcas } from '../data/marcas';
 import { empresa, telHref, waHref } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
@@ -22,6 +25,8 @@ const meta = seo(lang).servicios;
 const servicios = (await getCollection('servicios'))
   .filter((s) => s.id.startsWith(`${lang}/`))
   .sort((a, b) => a.data.orden - b.data.orden);
+
+const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
 
 const sitio = Astro.site!;
 const jsonLd = [
@@ -56,38 +61,59 @@ const jsonLd = [
   </Portada>
 
   <section class="section section--tight">
-    <div class="container">
-      <ul class="lista">
+    <div class="carrusel carrusel--servicios">
+      <div class="carrusel__vista">
         {
-          servicios.map((s) => (
-            <li class="fila">
-              <a class="fila__foto" href={ruta(lang, `/servicios/${s.id.split('/')[1]}/`)} tabindex="-1" aria-hidden="true">
-                <Image
-                  src={fotoDeServicio(s.id)}
-                  alt=""
-                  widths={[340, 460, 620, 880]}
-                  sizes="(min-width: 66rem) 23rem, (min-width: 44rem) 42vw, 100vw"
-                  loading="lazy"
-                />
-              </a>
-              <div class="fila__texto">
-                <h2 class="h3">
-                  <a href={ruta(lang, `/servicios/${s.id.split('/')[1]}/`)}>{s.data.titulo}</a>
-                </h2>
-                <p class="fila__resumen">{s.data.resumen}</p>
-                <ul class="fila__puntos">
-                  {s.data.puntos.map((p) => <li>{p}</li>)}
-                </ul>
-              </div>
-              <a class="enlace-flecha fila__enlace" href={ruta(lang, `/servicios/${s.id.split('/')[1]}/`)}>
-                {txt.acciones.verServicio}
-                <Icono nombre="flecha" tamano={16} />
-              </a>
-            </li>
+          [false, true].map((copia) => (
+            <ul class="lista carrusel__pista" aria-hidden={copia ? 'true' : undefined}>
+              {servicios.map((s) => {
+                const url = ruta(lang, `/servicios/${s.id.split('/')[1]}/`);
+                return (
+                  <li class="fila">
+                    <a class="fila__foto" href={url} tabindex="-1" aria-hidden="true">
+                      <Image
+                        src={fotoDeServicio(s.id)}
+                        alt=""
+                        widths={[340, 460, 620]}
+                        sizes="(min-width: 30rem) 22rem, 74vw"
+                        loading="lazy"
+                      />
+                    </a>
+                    <div class="fila__texto">
+                      <h2 class="h3">
+                        <a href={url} tabindex={copia ? -1 : undefined}>
+                          {s.data.titulo}
+                        </a>
+                      </h2>
+                      <p class="fila__resumen">{s.data.resumen}</p>
+                      <ul class="fila__puntos">
+                        {s.data.puntos.map((p) => (
+                          <li>{p}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <a class="enlace-flecha fila__enlace" href={url} tabindex={copia ? -1 : undefined}>
+                      {txt.acciones.verServicio}
+                      <Icono nombre="flecha" tamano={16} />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           ))
         }
-      </ul>
+      </div>
+
+      <FlechasCarrusel anterior={txt.acciones.anterior} siguiente={txt.acciones.siguiente} />
     </div>
+  </section>
+
+  <section class="section section--surface section--tight" aria-labelledby="marcas-titulo">
+    <div class="container cabecera">
+      <h2 class="h2" id="marcas-titulo">{txt.marcas.titulo}</h2>
+      <p class="prosa">{txt.marcas.prosa}</p>
+    </div>
+    <Marquesina items={marcasTira} variante="marcas" etiqueta={txt.marcas.titulo} duracion={52} />
   </section>
 
   <BloqueContacto lang={lang} titulo={txt.servicios.ctaTitulo} texto={txt.servicios.ctaTexto} />
@@ -102,23 +128,11 @@ const jsonLd = [
     margin-top: var(--s-2);
   }
 
-  /* En columnas y sin caja: antes era una fila con borde por servicio, que
-     ocupaba una pantalla entera en escritorio y parecía un listado de fichas. */
-  .lista {
-    display: grid;
-    gap: var(--s-6) var(--s-5);
-  }
-
-  @media (min-width: 44rem) {
-    .lista {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 66rem) {
-    .lista {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  /* Una fila que desfila, igual que en la portada: los seis servicios en
+     rejilla ocupaban dos pantallas para lo mismo que se lee de un vistazo
+     pasando. Las reglas del carrusel están en base.css. */
+  .carrusel--servicios {
+    --vuelta: 64s;
   }
 
   .fila {

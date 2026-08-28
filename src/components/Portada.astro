@@ -75,7 +75,7 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
   }
 
   .portada--alta {
-    min-height: min(42rem, 86svh);
+    min-height: min(37rem, 78svh);
     align-items: flex-end;
   }
 
@@ -173,11 +173,14 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
       z-index: 1;
       height: 21svh;
       min-height: 7.5rem;
+      /* El blanco tiene que ser sólido antes de que empiece el titular: si el
+         degradado sigue abierto ahí, los mástiles de la foto asoman a los
+         lados del título y se leen como rayas negras. */
       background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.8) 86%,
-        var(--paper) 100%
+        rgba(255, 255, 255, 0) 34%,
+        rgba(255, 255, 255, 0.72) 66%,
+        var(--paper) 88%
       );
     }
 
@@ -185,6 +188,14 @@ const anchos = alto === 'alta' ? [900, 1400, 2000, 2600, 3200] : [900, 1400, 200
       position: relative;
       z-index: 2;
       margin-top: calc(var(--s-3) * -1);
+    }
+
+    /* En la franja de móvil la foto se baja: con el encuadre de escritorio
+       asomaba el tejado por debajo del velo y las antenas se cortaban por
+       arriba. Así el blanco tapa la cubierta y quedan las antenas contra el
+       cielo, que es lo que tiene que verse. */
+    .portada--alta.enc-alto .portada__fondo :global(img) {
+      object-position: 50% 62%;
     }
   }
 

@@ -426,3 +426,67 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Carrusel a sangre ---------- */
+/* Fila única que desfila sin parar. Sustituye a las rejillas de servicios: una
+   sola fila ocupa mucho menos alto y el movimiento quita la sensación de
+   página estática. La pista va duplicada para que el bucle no dé el salto; la
+   copia queda fuera del árbol de accesibilidad. */
+.carrusel {
+  --vuelta: 60s;
+  position: relative;
+}
+
+/* El desvanecido de los extremos va aquí y no en el carrusel entero: si no,
+   la máscara se comería también las flechas, que viven justo en esa franja. */
+.carrusel__vista {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+}
+
+.carrusel__pista {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: var(--s-4);
+  padding-right: var(--s-4);
+  animation: desfilar var(--vuelta) linear infinite;
+  /* El punto del bucle en el que va la fila. Las flechas lo mueven. */
+  animation-delay: var(--desfase, 0s);
+}
+
+/* Se para al pasar por encima o al llegar con el tabulador: dentro hay
+   enlaces, y no se puede pedir que se pinche sobre algo en movimiento. */
+.carrusel:hover .carrusel__pista,
+.carrusel:focus-within .carrusel__pista {
+  animation-play-state: paused;
+}
+
+@keyframes desfilar {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.carrusel__pista > * {
+  flex: none;
+  width: clamp(15.5rem, 74vw, 22rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel__vista {
+    overflow-x: auto;
+    mask-image: none;
+    scrollbar-width: thin;
+  }
+
+  .carrusel__pista {
+    animation: none;
+  }
+
+  .carrusel__pista[aria-hidden] {
+    display: none;
+  }
+}
