@@ -26,6 +26,7 @@ Requiere Node 22.12 o superior.
 | Preguntas frecuentes | `src/data/faq.ts` |
 | Marcas | `src/data/marcas.ts` |
 | Fotos de cada servicio | `src/data/imagenes.ts` y `src/assets/` |
+| Fotos de portada, bandas y cabeceras | `src/assets/`, ver `FOTOGRAFIAS.md` |
 | Textos de un servicio | `src/content/servicios/<idioma>/<servicio>.md` |
 | Secciones de la home | `src/secciones/Home.astro` |
 | Colores, tipografía, espaciado | `src/styles/tokens.css` |
@@ -74,15 +75,42 @@ un campo el build falla en lugar de publicar una página incompleta.
 
 ## Diseño
 
-Base clara con gris azulado. Los tres colores del logo tienen cada uno su función:
+Base clara con dos bandas oscuras. Los dos colores del logo tienen cada uno su función:
 
-- **Azul**: estructura. Franja superior, enlaces, iconos y pie.
-- **Naranja**: acción. Botón de llamada, numeración de pasos y antetítulos.
-- **Amarillo**: detalle. Estrellas de las opiniones, indicador de horario abierto y el
-  remate del antetítulo.
+- **Azul**: estructura. Iconos, enlaces, sellos y las bandas de noche, que son ese mismo
+  azul llevado casi al negro para que las fotos se fundan con el fondo.
+- **Amarillo**: acción y acento. Botón de llamar, numeración de los pasos y estrellas
+  de la valoración.
 
-Tipografías Barlow Condensed para titulares y Barlow para el resto, servidas desde el
-propio dominio.
+Titulares en Archivo Variable, aprovechando su eje de anchura para que vayan anchos sin
+recurrir a una condensada, que en alemán sería ilegible. Texto en Schibsted Grotesk.
+Las dos se sirven desde el propio dominio.
+
+### Estructura de la home
+
+Portada con carrusel de cuatro diapositivas (la primera lleva el titular de marca y es
+la única que se pinta como `<h1>`, para SEO) → tira de ventajas montada sobre la
+portada → rejilla de servicios → bloque de nosotros con fotos solapadas y sello de
+años → banda oscura con los cuatro pasos → marquesina de marcas → preguntas frecuentes
+→ banda de contacto → mapa → pie oscuro de cuatro columnas.
+
+Las páginas interiores abren todas con `PortadaPagina`: foto con velo, miga de pan y
+titular. El detalle de servicio lleva columna lateral pegajosa con el resto de servicios,
+las marcas y el teléfono.
+
+### Movimiento
+
+Todo va en JavaScript propio, sin librerías, y se apaga entero con
+`prefers-reduced-motion`. Las entradas al hacer scroll se piden con el atributo
+`data-anima` (o `data-anima="hijos"` para escalonar los hijos de una rejilla), así que
+una sección nueva no obliga a tocar `components/Animaciones.astro`.
+
+### Trampa conocida de las rejillas
+
+Una rejilla de una sola columna sin `grid-template-columns` usa una pista implícita
+`auto`, que se dimensiona a `max-content`: un párrafo largo la ensancha por encima del
+contenedor y saca barra horizontal en móvil. Por eso todas las rejillas de una columna
+de este proyecto declaran `grid-template-columns: minmax(0, 1fr)`.
 
 ## Decisiones que conviene conocer
 
@@ -101,9 +129,10 @@ Si algo deja de verse, revisar la consola.
 **El contenido no depende de JavaScript.** Si el script no carga, la página se lee entera.
 Lo único que se pierde es el trazado animado del diagrama del portal.
 
-**Fotografía provisional.** Las imágenes de `src/assets/` son de Unsplash y sirven de
+**Fotografía provisional.** Las imágenes de `src/assets/` son de Pexels y sirven de
 marcador hasta que haya fotos reales de instalaciones. Para sustituirlas basta con
-reemplazar el archivo manteniendo el nombre.
+reemplazar el archivo manteniendo el nombre. El listado de qué es cada una y qué recorte
+aguanta está en `src/assets/FOTOGRAFIAS.md`.
 
 ## Desplegar
 

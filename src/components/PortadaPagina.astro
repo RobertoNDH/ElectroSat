@@ -1,0 +1,204 @@
+---
+// Cabecera de las páginas interiores: foto con velo, miga de pan y titular.
+// Es la pieza que le da a servicios, nosotros, contacto y 404 el mismo arranque
+// y evita que una página interior empiece con un título suelto sobre blanco.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icono from './Icono.astro';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Miga {
+  texto: string;
+  /** La última miga es la página actual y va sin enlace. */
+  href?: string;
+}
+
+interface Props {
+  lang: Idioma;
+  titulo: string;
+  texto?: string;
+  foto: ImageMetadata;
+  /** Vacío a propósito: la foto de cabecera es decorativa y el titular que
+      lleva encima ya dice de qué va la página. Describirla solo añadiría ruido
+      al lector de pantalla. */
+  alt?: string;
+  migas?: Miga[];
+  encuadre?: 'alto' | 'centro' | 'bajo';
+  /** Título y entradilla centrados en vez del bloque a la izquierda. */
+  centrado?: boolean;
+  /** Cabecera más baja: para contacto, donde las tarjetas de debajo tienen
+      que caber en la pantalla sin desplazar. */
+  compacta?: boolean;
+}
+
+const {
+  lang,
+  titulo,
+  texto,
+  foto,
+  alt = '',
+  migas = [],
+  encuadre = 'centro',
+  centrado = false,
+  compacta = false,
+} = Astro.props;
+
+const txt = t(lang);
+const camino: Miga[] = [{ texto: txt.nav.inicio, href: ruta(lang, '/') }, ...migas];
+---
+
+<section
+  class:list={['portada sobre-noche', centrado && 'portada--centrada', compacta && 'portada--compacta']}
+>
+  <Image
+    class:list={['portada__foto', `portada__foto--${encuadre}`]}
+    src={foto}
+    alt={alt}
+    widths={[760, 1200, 1800, 2400]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="portada__velo"></div>
+
+  <div class:list={['container portada__contenido', centrado && 'portada__contenido--centrado']}>
+    <nav class="migas" aria-label={txt.nav.migas}>
+      <ol>
+        {
+          camino.map((m, i) => (
+            <li>
+              {m.href && i < camino.length - 1 ? (
+                <a href={m.href}>{m.texto}</a>
+              ) : (
+                <span aria-current="page">{m.texto}</span>
+              )}
+              {i < camino.length - 1 && (
+                <Icono nombre="flecha" tamano={14} class="migas__flecha" />
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <h1 class="display-l">{titulo}</h1>
+    {texto && <p class="lede portada__lede">{texto}</p>}
+  </div>
+</section>
+
+<style>
+  .portada {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: var(--portada-h);
+    background: var(--noche);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .portada__foto {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portada__foto--alto {
+    object-position: 50% 28%;
+  }
+
+  .portada__foto--centro {
+    object-position: 50% 50%;
+  }
+
+  .portada__foto--bajo {
+    object-position: 50% 78%;
+  }
+
+  .portada__velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grano), var(--velo-portada);
+    background-size: 180px 180px, cover;
+    background-repeat: repeat, no-repeat;
+  }
+
+  .portada__contenido {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .portada__contenido .display-l {
+    max-width: 20ch;
+  }
+
+  .portada__lede {
+    color: rgba(255, 255, 255, 0.84);
+    max-width: 54ch;
+  }
+
+  /* Centrado: título y entradilla al medio, migas incluidas. Se usa en
+     páginas sin columna de texto debajo, donde un bloque a la izquierda
+     queda descolgado del resto de la portada. */
+  .portada__contenido--centrado {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .portada__contenido--centrado .display-l,
+  .portada__contenido--centrado .portada__lede {
+    margin-inline: auto;
+  }
+
+  .portada__contenido--centrado .migas ol {
+    justify-content: center;
+  }
+
+  /* Compacta: portada más baja para que lo que va justo debajo quepa en la
+     pantalla sin desplazar. */
+  .portada--compacta {
+    min-height: clamp(11rem, 26vw, 15rem);
+  }
+
+  /* ---------- Miga de pan ---------- */
+
+  .migas ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    font-size: var(--fs-small);
+  }
+
+  .migas li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .migas a {
+    color: rgba(255, 255, 255, 0.76);
+    text-decoration: none;
+  }
+
+  .migas a:hover {
+    color: var(--amarillo);
+    text-decoration: underline;
+  }
+
+  .migas [aria-current] {
+    color: var(--on-oscuro);
+    font-weight: 600;
+  }
+
+  .migas__flecha {
+    color: rgba(255, 255, 255, 0.42);
+  }
+</style>

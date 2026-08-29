@@ -13,7 +13,8 @@ export const NOSOTROS = {
       areas: 'áreas de trabajo',
       municipios: 'municipios del sur',
     },
-    historiaTitulo: 'Conocemos los edificios porque llevamos años subiendo a ellos',
+    historiaTitulo: 'Conocemos estos edificios de memoria',
+    altTorre: 'Técnico subido a una torre de telecomunicaciones ajustando una antena parabólica',
     historia: [
       'Empezamos con antenas de televisión, que es de donde viene el nombre. Con los años, los mismos edificios nos fueron pidiendo cámaras, porteros y, más tarde, internet para todas las viviendas.',
       'Hoy hacemos las cinco cosas, porque en un portal comparten el mismo cable y el mismo cuarto. Cuando lo lleva una sola empresa, no hay dos instalaciones peleándose ni nadie a quien echarle la culpa.',
@@ -54,7 +55,8 @@ export const NOSOTROS = {
       areas: 'areas of work',
       municipios: 'towns in the south',
     },
-    historiaTitulo: 'We know these buildings because we have been climbing them for years',
+    historiaTitulo: 'We know these buildings inside out',
+    altTorre: 'Technician up a telecommunications tower adjusting a satellite dish',
     historia: [
       'We started with television aerials, which is where the name comes from. Over the years the same buildings began asking us for cameras, door entry and, later on, internet for every flat.',
       'Today we do all five, because in a building they share the same cabling and the same services room. With one company handling it, there are no two installations fighting each other and nobody to pass the blame to.',
@@ -95,7 +97,8 @@ export const NOSOTROS = {
       areas: 'Arbeitsbereiche',
       municipios: 'Orte im Süden',
     },
-    historiaTitulo: 'Wir kennen diese Häuser, weil wir seit Jahren auf ihre Dächer steigen',
+    historiaTitulo: 'Wir kennen diese Häuser in- und auswendig',
+    altTorre: 'Techniker auf einem Sendemast beim Ausrichten einer Satellitenschüssel',
     historia: [
       'Angefangen haben wir mit Fernsehantennen, daher der Name. Mit den Jahren fragten dieselben Häuser nach Kameras, Sprechanlagen und später nach Internet für alle Wohnungen.',
       'Heute machen wir alle fünf Bereiche, denn im Haus teilen sie sich dieselbe Verkabelung und denselben Technikraum. Wenn ein Betrieb alles betreut, behindern sich zwei Anlagen nicht und niemand schiebt die Schuld weiter.',

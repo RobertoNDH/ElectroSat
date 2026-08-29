@@ -1,50 +1,55 @@
 ---
-// Cierre de página. Se repite al final de la home, de cada servicio y de
-// nosotros porque el visitante decide llamar en momentos distintos.
-// Banda oscura con foto: es el único momento en que el teléfono manda sobre
-// todo lo demás, así que no compite con ninguna columna al lado.
-import Banda from './Banda.astro';
+// Banda final de llamada a la acción. Cierra todas las páginas.
+//
+// El teléfono va a tamaño de titular y es el propio enlace: en móvil es el
+// gesto más corto que existe entre leer la página y hablar con alguien.
+import { Image } from 'astro:assets';
 import Icono from './Icono.astro';
 import EstadoHorario from './EstadoHorario.astro';
-import foto from '../assets/equipo.jpg';
-import {
-  empresa,
-  telHref,
-  waHref,
-  correoHref,
-  direccionUnaLinea,
-} from '../data/empresa';
+import { empresa, telHref, waHref, correoHref } from '../data/empresa';
 import type { Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 
+import foto from '../assets/banda-cta.jpg';
+
 interface Props {
   lang: Idioma;
+  /** Cada página puede cambiar el titular y la entradilla de la banda. */
   titulo?: string;
   texto?: string;
 }
-
 const { lang, titulo, texto } = Astro.props;
 const txt = t(lang);
+const encabezado = titulo ?? txt.contacto.titulo;
+const entradilla = texto ?? txt.contacto.texto;
 ---
 
-<Banda foto={foto} encuadre="centro" rotulo="cta-titulo">
-  <div class="cta__contenido">
-    <h2 class="h2" id="cta-titulo">{titulo ?? txt.contacto.titulo}</h2>
-    <p class="lede cta__lede">{texto ?? txt.contacto.texto}</p>
+<section class="section cta sobre-noche parallax" aria-labelledby="cta-titulo">
+  <Image
+    class="cta__foto"
+    src={foto}
+    alt=""
+    widths={[760, 1200, 1800, 2400]}
+    sizes="100vw"
+    loading="lazy"
+  />
+  <div class="cta__velo"></div>
 
-    <a class="cta__numero" href={telHref()}>
-      <Icono nombre="telefono" tamano={26} />
+  <div class="container cta__contenido" data-anima>
+    <h2 class="h2" id="cta-titulo">{encabezado}</h2>
+    <p class="lede cta__lede">{entradilla}</p>
+
+    <a class="cta__tel" href={telHref()}>
+      <span class="cta__tel-icono">
+        <Icono nombre="telefono" tamano={22} />
+      </span>
       <span class="tel-num">{empresa.telefono.display}</span>
     </a>
 
     <div class="cta__acciones">
-      <a class="btn btn--principal btn--lg" href={telHref()}>
-        <Icono nombre="telefono" tamano={18} />
-        {txt.acciones.llamarAhora}
-      </a>
       <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={18} />
-        {txt.acciones.whatsapp}
+        {txt.acciones.escribirWhatsapp}
       </a>
       <a class="btn btn--claro btn--lg" href={correoHref(lang)}>
         <Icono nombre="email" tamano={18} />
@@ -52,55 +57,103 @@ const txt = t(lang);
       </a>
     </div>
 
-    <ul class="cta__datos">
-      <li><EstadoHorario lang={lang} /></li>
-      <li>
-        <Icono nombre="mapa" tamano={16} />
-        <span>{direccionUnaLinea}</span>
-      </li>
-    </ul>
+    <div class="cta__horario">
+      <EstadoHorario lang={lang} />
+    </div>
   </div>
-</Banda>
+</section>
 
 <style>
-  .cta__contenido {
-    display: grid;
-    justify-items: center;
-    gap: var(--s-3);
+  .cta {
+    position: relative;
+    background: var(--noche);
+    isolation: isolate;
+    overflow: hidden;
     text-align: center;
   }
 
+  .cta__foto {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 55%;
+  }
+
+  .cta__velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grano), var(--velo-noche);
+    background-size: 180px 180px, cover;
+    background-repeat: repeat, no-repeat;
+  }
+
+  .cta__contenido {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--s-4);
+  }
+
   .cta__contenido .h2 {
-    color: var(--on-oscuro);
     max-width: 20ch;
   }
 
   .cta__lede {
+    color: rgba(255, 255, 255, 0.84);
     max-width: 52ch;
-    color: rgba(255, 255, 255, 0.78);
   }
 
-  .cta__numero {
+  /* ---------- Teléfono ---------- */
+
+  .cta__tel {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: var(--s-3);
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    gap: var(--s-4);
+    margin-top: var(--s-4);
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: clamp(1.75rem, 5vw, 3.25rem);
     font-weight: 800;
-    letter-spacing: -0.035em;
     line-height: 1;
-    color: var(--on-oscuro);
+    letter-spacing: -0.03em;
+    color: var(--on-oscuro) !important;
     text-decoration: none;
     transition: color var(--t-rapido);
   }
 
-  .cta__numero :global(svg) {
-    color: var(--amarillo);
-    flex: none;
+  .cta__tel:hover {
+    color: var(--amarillo) !important;
   }
 
-  .cta__numero:hover {
-    color: var(--amarillo);
+  .cta__tel-icono {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    flex: none;
+    border-radius: var(--r-pill);
+    background: var(--amarillo);
+    color: var(--ink);
+    box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.55);
+    animation: latido 2.6s ease-out infinite;
+  }
+
+  /* Un pulso lento alrededor del icono. Es el único elemento de la página que
+     se mueve solo, y por eso funciona: si hubiera dos, no llamaría ninguno. */
+  @keyframes latido {
+    0% {
+      box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 18px rgba(242, 193, 78, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(242, 193, 78, 0);
+    }
   }
 
   .cta__acciones {
@@ -108,31 +161,16 @@ const txt = t(lang);
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--s-3);
-    margin-top: var(--s-3);
+    margin-top: var(--s-5);
   }
 
-  .cta__datos {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--s-3) var(--s-5);
+  .cta__horario {
     margin-top: var(--s-4);
-    padding-top: var(--s-4);
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-    width: min(100%, 44rem);
   }
 
-  .cta__datos li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--fs-small);
-    color: rgba(255, 255, 255, 0.78);
-  }
-
-  .cta__datos :global(svg) {
-    color: var(--amarillo);
-    flex: none;
+  @media (prefers-reduced-motion: reduce) {
+    .cta__tel-icono {
+      animation: none;
+    }
   }
 </style>

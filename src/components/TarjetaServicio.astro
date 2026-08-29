@@ -1,0 +1,156 @@
+---
+// Tarjeta de servicio: foto, icono flotante sobre el borde, título y resumen.
+// Se usa igual en la home, en la página de servicios y en el listado lateral
+// de un servicio, así que el recorte de la foto lo decide quien la coloca.
+import { Image } from 'astro:assets';
+import Icono from './Icono.astro';
+import type { NombreIcono } from './iconos';
+import { fotoDeServicio } from '../data/imagenes';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+  id: string;
+  titulo: string;
+  resumen: string;
+  icono: NombreIcono;
+  /** Anchura del hueco en la rejilla, para pedir la foto en su tamaño justo. */
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  lang,
+  id,
+  titulo,
+  resumen,
+  icono,
+  sizes = '(min-width: 62rem) 24rem, (min-width: 40rem) 45vw, 90vw',
+  loading = 'lazy',
+} = Astro.props;
+
+const txt = t(lang);
+const slug = id.includes('/') ? id.split('/')[1] : id;
+---
+
+<article class="tarjeta tarjeta--eleva servicio">
+  <a class="servicio__enlace" href={ruta(lang, `/servicios/${slug}/`)}>
+    <span class="servicio__cabecera">
+      <span class="marco marco--zoom servicio__marco">
+        <Image
+          src={fotoDeServicio(id)}
+          alt=""
+          widths={[400, 600, 900]}
+          sizes={sizes}
+          loading={loading}
+        />
+      </span>
+
+      <span class="pastilla pastilla--marca servicio__icono">
+        <Icono nombre={icono} tamano={24} />
+      </span>
+    </span>
+
+    <span class="servicio__cuerpo">
+      <span class="h3 servicio__titulo">{titulo}</span>
+      <span class="servicio__resumen">{resumen}</span>
+      <span class="enlace-flecha servicio__mas">
+        {txt.acciones.verServicio}
+        <Icono nombre="flecha" tamano={16} />
+      </span>
+    </span>
+  </a>
+</article>
+
+<style>
+  .servicio {
+    overflow: hidden;
+  }
+
+  .servicio__enlace {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* El icono se ancla al pie de la foto, no a la tarjeta: la tarjeta cambia de
+     alto según el largo del resumen, así que un porcentaje sobre ella dejaría
+     el icono encima del título en unas tarjetas y suelto en otras. */
+  .servicio__cabecera {
+    position: relative;
+    display: block;
+  }
+
+  .servicio__marco {
+    aspect-ratio: 4 / 3;
+  }
+
+  .servicio__icono {
+    position: absolute;
+    bottom: -1.75rem;
+    left: var(--s-5);
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 3px solid var(--paper);
+    box-shadow: var(--sombra);
+    transition: transform var(--t-medio);
+  }
+
+  .servicio__cuerpo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--s-3);
+    padding: calc(var(--s-6) + 0.75rem) var(--s-5) var(--s-5);
+  }
+
+  .servicio__titulo {
+    transition: color var(--t-rapido);
+  }
+
+  .servicio__resumen {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+
+  .servicio__mas {
+    margin-top: auto;
+    padding-top: var(--s-2);
+  }
+
+  /* Filete amarillo que crece de izquierda a derecha al pasar por encima:
+     repite el gesto del menú, así el sitio entero responde igual. */
+  .servicio::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 4px;
+    background: var(--amarillo);
+    transition: right var(--t-medio);
+    z-index: 1;
+  }
+
+  .servicio:hover::after,
+  .servicio:focus-within::after {
+    right: 0;
+  }
+
+  .servicio__enlace:hover .servicio__titulo,
+  .servicio__enlace:focus-visible .servicio__titulo {
+    color: var(--azul);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .servicio__enlace:hover .servicio__icono {
+      transform: translateY(-4px);
+    }
+  }
+</style>

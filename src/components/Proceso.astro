@@ -1,0 +1,189 @@
+---
+// Banda oscura con los cuatro pasos del trabajo.
+//
+// La línea que une los números se dibuja cuando el bloque entra en pantalla.
+// Va como pseudoelemento del propio <ol>, así que no añade ni un nodo al HTML
+// ni una línea de JavaScript: reaprovecha la clase que ya pone Animaciones.
+import { Image } from 'astro:assets';
+import Icono from './Icono.astro';
+import { empresa, telHref } from '../data/empresa';
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+import foto from '../assets/banda-proceso.jpg';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang);
+---
+
+<section class="section proceso sobre-noche parallax" aria-labelledby="proceso-titulo">
+  <Image
+    class="proceso__foto"
+    src={foto}
+    alt=""
+    widths={[760, 1200, 1800, 2400]}
+    sizes="100vw"
+    loading="lazy"
+  />
+  <div class="proceso__velo"></div>
+
+  <div class="container proceso__contenido">
+    <div class="cabecera" data-anima>
+      <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
+      <p class="prosa">{txt.pasos.prosa}</p>
+    </div>
+
+    <ol class="pasos" data-anima="hijos">
+      {
+        txt.pasos.items.map((p, i) => (
+          <li class="paso">
+            <span class="paso__numero">{String(i + 1).padStart(2, '0')}</span>
+            <strong class="paso__titulo">{p.titulo}</strong>
+            <span class="paso__texto">{p.texto}</span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="proceso__pie">
+      <a class="btn btn--principal btn--lg" href={telHref()}>
+        <Icono nombre="telefono" tamano={18} />
+        {txt.acciones.llamarA(empresa.telefono.display)}
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .proceso {
+    position: relative;
+    padding-block: clamp(2.25rem, 3.5vw, 3rem);
+    background: var(--noche);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .proceso__foto {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+  }
+
+  .proceso__velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grano), var(--velo-noche);
+    background-size: 180px 180px, cover;
+    background-repeat: repeat, no-repeat;
+  }
+
+  .proceso__contenido {
+    position: relative;
+  }
+
+  /* ---------- Pasos ---------- */
+
+  .pasos {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    margin-top: var(--s-2);
+  }
+
+  .paso {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--s-2);
+  }
+
+  .paso__numero {
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    /* Cifra hueca: pesa lo justo para ordenar la lectura sin competir con el
+       titular de la sección, que es lo que pasa si va en amarillo macizo. */
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--amarillo);
+    margin-bottom: 0.125rem;
+  }
+
+  .paso__titulo {
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--on-oscuro);
+  }
+
+  .paso__texto {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--sobre-noche);
+    max-width: 30ch;
+  }
+
+  .proceso__pie {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  @media (min-width: 48rem) {
+    .pasos {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-7) var(--s-6);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .pasos {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* La línea que cose los cuatro pasos. Arranca y termina dentro de la fila
+       de números, no de lado a lado, para que no parezca un separador. */
+    .pasos::before {
+      content: '';
+      position: absolute;
+      top: 0.9rem;
+      left: 8%;
+      right: 8%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--amarillo) 12%,
+        var(--amarillo) 88%,
+        transparent
+      );
+      opacity: 0.45;
+      transform-origin: left;
+      transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 180ms;
+    }
+
+    /* Igual que el resto de entradas: el estado de partida solo lo pone el
+       script. Sin JavaScript la línea se ve dibujada desde el principio. */
+    .pasos.va-a-animar::before {
+      transform: scaleX(0);
+    }
+
+    .pasos.is-visible::before {
+      transform: scaleX(1);
+    }
+  }
+</style>

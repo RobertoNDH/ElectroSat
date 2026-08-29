@@ -32,19 +32,25 @@ const enlaces = [
 
 <div class="barra-sup">
   <div class="container barra-sup__fila">
-    <p class="barra-sup__dato">
-      <Icono nombre="reloj" tamano={14} />
-      {txt.datos.horario}
-    </p>
-    <div class="barra-sup__derecha">
-      <a class="barra-sup__enlace" href={emailHref}>
-        <Icono nombre="email" tamano={14} />
-        {empresa.email}
-      </a>
+    <div class="barra-sup__izquierda">
       <span class="barra-sup__zona">
         <Icono nombre="mapa" tamano={14} />
         {txt.datos.zona}
       </span>
+      <p class="barra-sup__dato">
+        <Icono nombre="reloj" tamano={14} />
+        {txt.datos.horario}
+      </p>
+    </div>
+    <div class="barra-sup__derecha">
+      <a class="barra-sup__enlace" href={telHref()}>
+        <Icono nombre="telefono" tamano={14} />
+        <span class="tel-num">{empresa.telefono.display}</span>
+      </a>
+      <a class="barra-sup__enlace" href={emailHref}>
+        <Icono nombre="email" tamano={14} />
+        {empresa.email}
+      </a>
       <SelectorIdioma />
     </div>
   </div>
@@ -108,9 +114,11 @@ const enlaces = [
 </script>
 
 <style>
+  /* Franja de datos en azul noche, no en el azul de marca: así el azul del
+     logotipo sigue siendo el único de ese tono en toda la cabecera. */
   .barra-sup {
-    background: var(--azul);
-    color: rgba(255, 255, 255, 0.9);
+    background: var(--noche);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.8125rem;
   }
 
@@ -122,6 +130,13 @@ const enlaces = [
     min-height: var(--barra-sup-h);
   }
 
+  .barra-sup__izquierda,
+  .barra-sup__derecha {
+    display: flex;
+    align-items: center;
+    gap: var(--s-5);
+  }
+
   .barra-sup__dato,
   .barra-sup__zona,
   .barra-sup__enlace {
@@ -130,32 +145,39 @@ const enlaces = [
     gap: 0.4375rem;
   }
 
-  .barra-sup__derecha {
-    display: flex;
-    align-items: center;
-    gap: var(--s-5);
+  .barra-sup__zona svg,
+  .barra-sup__dato svg,
+  .barra-sup__enlace svg {
+    color: var(--amarillo);
   }
 
   .barra-sup__enlace {
     color: inherit;
     text-decoration: none;
+    transition: color var(--t-rapido);
   }
 
   .barra-sup__enlace:hover {
     color: var(--on-oscuro);
-    text-decoration: underline;
+  }
+
+  /* La franja se estrecha en pantallas medias: primero cae el horario, luego
+     el correo, y al final solo queda el idioma. */
+  @media (max-width: 74.99rem) {
+    .barra-sup__dato {
+      display: none;
+    }
   }
 
   @media (max-width: 61.99rem) {
-    .barra-sup__dato,
-    .barra-sup__enlace,
-    .barra-sup__zona {
+    .barra-sup__izquierda,
+    .barra-sup__enlace {
       display: none;
     }
 
     .barra-sup__fila {
       justify-content: center;
-      min-height: 2rem;
+      min-height: 2.125rem;
     }
   }
 

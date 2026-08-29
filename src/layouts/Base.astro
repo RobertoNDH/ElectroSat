@@ -1,5 +1,7 @@
 ---
 import '@fontsource-variable/schibsted-grotesk/wght.css';
+// Archivo con los dos ejes, peso y anchura: los titulares van anchos.
+import '@fontsource-variable/archivo/wdth.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
 
@@ -114,6 +116,7 @@ const avisoCorreoCopiado = txt.acciones.correoCopiado(empresa.email);
       <slot />
     </main>
     <Footer lang={lang} />
+    <slot name="tras-pie" />
     <BarraLlamada lang={lang} />
     <Animaciones />
 

@@ -50,8 +50,7 @@ export const empresa = {
 
   // TODO: inscripción en el Registro de Empresas Instaladoras de Telecomunicación.
   registroInstalador: '00000',
-  // TODO: año de inicio de actividad.
-  anioFundacion: 2005,
+  anioFundacion: 2004,
 
   /** Municipios donde se presta servicio. Solo el sur de la isla. */
   cobertura: [

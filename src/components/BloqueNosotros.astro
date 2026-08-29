@@ -1,0 +1,208 @@
+---
+// Bloque "por qué nosotros": composición de dos fotos con sello de años a un
+// lado y los argumentos comprobables al otro.
+//
+// Las formas decorativas van en CSS, no en imágenes: pesan cero, se recolorean
+// solas y no hay que servir un PNG por cada esquina.
+import { Image } from 'astro:assets';
+import Icono from './Icono.astro';
+import type { NombreIcono } from './iconos';
+import { aniosActividad } from '../data/empresa';
+import { ruta, type Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+import fotoPrincipal from '../assets/nosotros-trabajo.jpg';
+import fotoSecundaria from '../assets/nosotros-equipo.jpg';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang);
+
+const ICONOS: NombreIcono[] = ['documento', 'escudo', 'check', 'herramienta'];
+---
+
+<section class="section section--surface nosotros" aria-labelledby="nosotros-titulo">
+  <div class="container nosotros__rejilla">
+    <div class="nosotros__fotos" data-anima>
+      <span class="forma forma--puntos nosotros__puntos" aria-hidden="true"></span>
+
+      <span class="marco nosotros__principal">
+        <Image
+          src={fotoPrincipal}
+          alt={txt.pruebas.altPrincipal}
+          widths={[420, 640, 900]}
+          sizes="(min-width: 62rem) 26rem, 70vw"
+          loading="lazy"
+        />
+      </span>
+
+      <span class="marco nosotros__secundaria">
+        <Image
+          src={fotoSecundaria}
+          alt={txt.pruebas.altSecundaria}
+          widths={[300, 460, 640]}
+          sizes="(min-width: 62rem) 16rem, 42vw"
+          loading="lazy"
+        />
+      </span>
+
+      <p class="sello nosotros__sello">
+        <span class="sello__cifra" data-cuenta={aniosActividad}>{aniosActividad}</span>
+        <span class="sello__texto">{txt.pruebas.sello}</span>
+      </p>
+    </div>
+
+    <div class="nosotros__texto">
+      <div class="cabecera cabecera--izq">
+        <h2 class="h2" id="nosotros-titulo">{txt.pruebas.titulo}</h2>
+        <p class="prosa">{txt.pruebas.prosa}</p>
+      </div>
+
+      <ul class="comprobables" data-anima="hijos">
+        {
+          txt.pruebas.items.map((p, i) => (
+            <li class="comprobable">
+              <span class="pastilla comprobable__icono">
+                <Icono nombre={ICONOS[i]} tamano={20} />
+              </span>
+              <span>
+                <strong class="comprobable__titulo">{p.titulo}</strong>
+                <span class="comprobable__texto">{p.texto}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="btn btn--azul btn--lg nosotros__cta" href={ruta(lang, '/nosotros/')}>
+        {txt.acciones.conocernos}
+        <Icono nombre="flecha" tamano={17} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nosotros__rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  /* ---------- Composición de fotos ---------- */
+
+  .nosotros__fotos {
+    position: relative;
+    /* Sitio reservado para que la foto pequeña y el sello puedan salirse por
+       abajo y por la derecha sin recortarse. */
+    padding: 0 3.5rem 5rem 0;
+  }
+
+  .nosotros__principal {
+    display: block;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-card);
+    box-shadow: var(--sombra-alta);
+  }
+
+  .nosotros__principal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nosotros__secundaria {
+    position: absolute;
+    right: 0;
+    bottom: 1.5rem;
+    width: 46%;
+    aspect-ratio: 1 / 1;
+    border: 6px solid var(--paper);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sombra-flotante);
+  }
+
+  .nosotros__secundaria img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nosotros__puntos {
+    top: -1.25rem;
+    left: -1.25rem;
+    width: 7.5rem;
+    height: 7.5rem;
+    z-index: -1;
+  }
+
+  .nosotros__sello {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+  }
+
+  /* ---------- Argumentos ---------- */
+
+  .comprobables {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    margin-top: var(--s-6);
+  }
+
+  .comprobable {
+    display: flex;
+    align-items: start;
+    gap: var(--s-4);
+  }
+
+  .comprobable__icono {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--r-md);
+  }
+
+  .comprobable__titulo {
+    display: block;
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 0.125rem;
+  }
+
+  .comprobable__texto {
+    display: block;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+
+  .nosotros__cta {
+    margin-top: var(--s-6);
+  }
+
+  @media (min-width: 40rem) {
+    .comprobables {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-5) var(--s-6);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .nosotros__rejilla {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .nosotros__fotos {
+      padding-right: 4.5rem;
+    }
+  }
+</style>

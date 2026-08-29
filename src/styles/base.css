@@ -27,6 +27,9 @@ body {
   font-size: var(--fs-body);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  /* Ninguna sección puede sacar barra horizontal. Las formas decorativas y las
+     fotos desbordadas se recortan aquí. */
+  overflow-x: clip;
 }
 
 img,
@@ -63,6 +66,11 @@ a {
   border-radius: 2px;
 }
 
+/* Sobre fondo oscuro el azul del foco no se ve. */
+.sobre-noche :focus-visible {
+  outline-color: var(--amarillo);
+}
+
 ::selection {
   background: var(--azul);
   color: var(--on-oscuro);
@@ -89,11 +97,12 @@ a {
 
 /* ---------- Titulares ---------- */
 
-.display-xl,
+.hero-titulo,
 .display-l,
 .h2,
 .h3 {
   font-family: var(--font-display);
+  font-stretch: var(--wdth-display);
   color: var(--ink);
   text-wrap: balance;
   /* Red de seguridad: una palabra larga nunca debe ensanchar su contenedor y
@@ -102,36 +111,42 @@ a {
   overflow-wrap: break-word;
 }
 
-.display-xl {
-  font-size: var(--fs-display-xl);
+.hero-titulo {
+  font-size: var(--fs-hero);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 0.98;
   letter-spacing: -0.035em;
 }
 
 .display-l {
   font-size: var(--fs-display-l);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.04;
   letter-spacing: -0.032em;
 }
 
 .h2 {
   font-size: var(--fs-h2);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.028em;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 
 .h3 {
   font-size: var(--fs-h3);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.28;
   letter-spacing: -0.018em;
 }
 
+/* Una palabra del titular en amarillo. Se usa una sola vez por página: si se
+   repite deja de subrayar nada. */
+.acento {
+  color: var(--amarillo);
+}
+
 .lede {
-  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
   line-height: 1.6;
   color: var(--ink-2);
   max-width: 56ch;
@@ -169,6 +184,11 @@ a {
   color: var(--ink-3);
 }
 
+.mini {
+  font-size: var(--fs-mini);
+  line-height: 1.5;
+}
+
 .tel-num {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
@@ -183,6 +203,10 @@ a {
   padding-inline: var(--gutter);
 }
 
+.container--estrecho {
+  max-width: var(--container-estrecho);
+}
+
 .section {
   padding-block: var(--section-y);
 }
@@ -192,27 +216,38 @@ a {
 }
 
 .section--tight {
-  padding-block: clamp(2.25rem, 4vw, 3.25rem);
+  padding-block: clamp(1.75rem, 3vw, 2.75rem);
 }
 
-/* Sección de noche: fondo azul casi negro, sin foto. Sirve para dar un
-   respiro oscuro entre dos secciones de lectura sin gastar otra fotografía. */
+/* Fondo azul casi negro. Sirve para dar un respiro oscuro entre dos secciones
+   de lectura sin gastar otra fotografía. */
 .section--noche {
   background: var(--noche);
+}
+
+/* Todo lo que vive sobre noche hereda el color claro desde aquí, así ninguna
+   sección tiene que repetir la lista de excepciones. */
+.sobre-noche {
   color: var(--sobre-noche);
 }
 
-.section--noche .h2,
-.section--noche .h3,
-.section--noche .display-l,
-.section--noche strong {
+.sobre-noche .hero-titulo,
+.sobre-noche .display-l,
+.sobre-noche .h2,
+.sobre-noche .h3,
+.sobre-noche strong {
   color: var(--on-oscuro);
 }
 
-.section--noche .prosa,
-.section--noche .lede,
-.section--noche .small {
+.sobre-noche .prosa,
+.sobre-noche .lede,
+.sobre-noche .small,
+.sobre-noche .etiqueta {
   color: var(--sobre-noche);
+}
+
+.sobre-noche a {
+  color: var(--on-oscuro);
 }
 
 .rule {
@@ -220,41 +255,76 @@ a {
   border-top: var(--hairline);
 }
 
-/* Cabecera de sección: titular grande y centrado, descripción debajo. Sin
-   barritas ni etiquetas encima del titular: el peso y el aire ya ordenan, y
-   todas las secciones comparten el mismo eje central. */
+/* Cabecera de sección. Por defecto centrada; con --izq se alinea a la
+   izquierda, que es lo que piden las secciones de dos columnas. */
+/* `minmax(0, 1fr)` en vez de dejar la pista implícita: una columna `auto` se
+   dimensiona a max-content, así que un párrafo largo ensancharía la rejilla por
+   encima del contenedor y sacaría barra horizontal en móvil. Es el motivo por
+   el que toda rejilla de una sola columna de este sitio declara su pista. */
+.pila,
 .cabecera {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cabecera {
   justify-items: center;
-  gap: var(--s-3);
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  gap: var(--s-4);
+  margin-bottom: clamp(2rem, 3.5vw, 3rem);
   text-align: center;
 }
 
-/* Ancho suficiente para que la mayoría de titulares quepan en una línea,
+.cabecera--izq {
+  justify-items: start;
+  text-align: left;
+  margin-bottom: var(--s-6);
+}
+
+/* Ancho suficiente para que la mayoría de titulares quepan en dos líneas,
    sin que los compuestos largos del alemán se estiren de lado a lado. */
 .cabecera .h2,
 .cabecera .display-l {
-  max-width: min(100%, 24ch);
+  max-width: min(100%, 22ch);
+}
+
+.cabecera--izq .h2,
+.cabecera--izq .display-l {
+  max-width: min(100%, 22ch);
 }
 
 .cabecera .prosa,
 .cabecera .lede {
-  max-width: 54ch;
+  max-width: 56ch;
   margin-inline: auto;
   color: var(--ink-3);
+}
+
+.cabecera--izq .prosa,
+.cabecera--izq .lede {
+  margin-inline: 0;
+}
+
+/* Cabecera con el titular a la izquierda y un enlace o botón a la derecha. */
+.cabecera-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
 /* ---------- Botones ---------- */
 
 .btn {
   --btn-py: 0.8125rem;
-  --btn-px: 1.375rem;
+  --btn-px: 1.5rem;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-height: 2.75rem;
+  min-height: 2.875rem;
   padding: var(--btn-py) var(--btn-px);
   border: 1px solid transparent;
   border-radius: var(--r-btn);
@@ -288,15 +358,43 @@ a {
    filo claro superior dan la sensación de una superficie real, no un
    rectángulo plano. */
 .btn--principal {
-  background: linear-gradient(180deg, #f6cd68 0%, var(--amarillo) 65%);
+  background: var(--grad-amarillo);
   color: var(--ink);
   border-color: var(--amarillo-osc);
   box-shadow: var(--sombra-sm), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  overflow: hidden;
 }
 
 .btn--principal:hover {
   background: linear-gradient(180deg, #f0c157 0%, var(--amarillo-osc) 65%);
   border-color: var(--amarillo-osc);
+}
+
+/* Un filo de luz cruza el botón al pasar por encima. Un solo elemento, sin
+   JavaScript: una franja ancha e inclinada que vive fuera del botón por la
+   izquierda y se desplaza con transform, así que no reflow ni repinta nada
+   más que su propia capa. Solo en el botón principal, para que siga
+   leyéndose como el gesto de una sola acción y no como un tic repetido por
+   toda la página. */
+.btn--principal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 60%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn--principal:hover::after {
+    transform: translateX(130%);
+    transition: transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 .btn--azul {
@@ -325,21 +423,26 @@ a {
 /* Contorneado para fondos oscuros: el borde blanco sobre la banda de contacto
    da 8:1 largos, así que se lee sin necesidad de relleno. */
 .btn--claro {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   color: var(--on-oscuro);
   border-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
 }
 
 .btn--claro:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.16);
   border-color: var(--on-oscuro);
 }
 
 .btn--lg {
-  --btn-py: 1rem;
-  --btn-px: 1.75rem;
-  min-height: 3.25rem;
+  --btn-py: 1.0625rem;
+  --btn-px: 1.875rem;
+  min-height: 3.375rem;
   font-size: 1rem;
+}
+
+.btn--bloque {
+  width: 100%;
 }
 
 /* ---------- Enlace con flecha ---------- */
@@ -366,6 +469,10 @@ a {
   transform: translateX(3px);
 }
 
+.sobre-noche .enlace-flecha {
+  color: var(--amarillo);
+}
+
 /* ---------- Icono en pastilla ---------- */
 
 .pastilla {
@@ -378,6 +485,168 @@ a {
   color: var(--azul);
   flex: none;
 }
+
+.pastilla--marca {
+  background: var(--grad-marca);
+  color: var(--on-oscuro);
+}
+
+.pastilla--amarilla {
+  background: var(--amarillo-tinte);
+  color: var(--amarillo-texto);
+}
+
+.sobre-noche .pastilla {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--amarillo);
+}
+
+/* ---------- Foco de luz sobre tarjetas oscuras ---------- */
+/* El elemento con data-brillo solo necesita position:relative y overflow
+   propios; Animaciones.astro mueve --mx/--my con el puntero y este ::before
+   pinta el resplandor. Pensado para tarjetas de fondo oscuro: sobre blanco
+   apenas se distinguiría. */
+[data-brillo] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-brillo]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    28rem circle at var(--mx, 50%) var(--my, 0%),
+    rgba(255, 255, 255, 0.08),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--t-medio);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  [data-brillo]:hover::before {
+    opacity: 1;
+  }
+}
+
+[data-brillo] > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Tarjeta ---------- */
+
+.tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Una tarjeta no puede ensancharse por culpa de una palabra larga dentro. */
+  min-width: 0;
+  background: var(--paper);
+  border: var(--hairline);
+  border-radius: var(--r-card);
+  box-shadow: var(--sombra-sm);
+  transition: box-shadow var(--t-medio), transform var(--t-medio),
+    border-color var(--t-medio);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tarjeta--eleva:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-alta);
+    border-color: transparent;
+  }
+}
+
+/* ---------- Marco de foto ---------- */
+/* Cualquier foto que tenga que recortarse a una proporción va aquí dentro. El
+   zoom lento al pasar por encima es el único movimiento de las tarjetas. */
+
+.marco {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-lento);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .marco--zoom:hover img,
+  a:hover > .marco--zoom img,
+  a:hover .marco--zoom img {
+    transform: scale(1.06);
+  }
+}
+
+/* ---------- Sello ---------- */
+/* La pastilla de años de actividad que se monta sobre las fotos del bloque de
+   nosotros. Es la única pieza que usa el degradado de marca a tamaño grande. */
+
+.sello {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  gap: 0.125rem;
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--grad-marca);
+  color: var(--on-oscuro);
+  box-shadow: var(--sombra-flotante);
+  text-align: center;
+}
+
+.sello__cifra {
+  font-family: var(--font-display);
+  font-stretch: var(--wdth-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sello__texto {
+  font-size: var(--fs-mini);
+  font-weight: 600;
+  line-height: 1.3;
+  /* Suficiente para "años en el sur de la isla" en dos o tres líneas. Más
+     estrecho lo parte en cuatro y el sello se convierte en una columna. */
+  max-width: 13ch;
+  text-wrap: balance;
+}
+
+/* ---------- Formas decorativas ---------- */
+/* Cuadrícula de puntos y arco. Van en CSS puro, no en imágenes: pesan cero y
+   se recolorean solas. Siempre decorativas y siempre detrás del contenido. */
+
+.forma {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.forma--puntos {
+  background-image: radial-gradient(var(--azul-vivo) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+  opacity: 0.28;
+}
+
+.forma--marco {
+  border: 3px solid var(--amarillo);
+  border-radius: var(--r-lg);
+}
+
+/* La aparición al hacer scroll vive en components/Animaciones.astro. Se pide
+   con el atributo data-anima; aquí no hay nada que declarar. */
 
 /* ---------- Accesibilidad ---------- */
 
@@ -427,11 +696,11 @@ a {
   }
 }
 
-/* ---------- Carrusel a sangre ---------- */
-/* Fila única que desfila sin parar. Sustituye a las rejillas de servicios: una
-   sola fila ocupa mucho menos alto y el movimiento quita la sensación de
-   página estática. La pista va duplicada para que el bucle no dé el salto; la
-   copia queda fuera del árbol de accesibilidad. */
+/* ---------- Marquesina ---------- */
+/* Fila única que desfila sin parar, para las marcas. La pista va duplicada
+   para que el bucle no dé el salto; la copia queda fuera del árbol de
+   accesibilidad. */
+
 .carrusel {
   --vuelta: 60s;
   position: relative;
@@ -462,6 +731,10 @@ a {
 .carrusel:hover .carrusel__pista,
 .carrusel:focus-within .carrusel__pista {
   animation-play-state: paused;
+}
+
+.carrusel--inverso .carrusel__pista {
+  animation-direction: reverse;
 }
 
 @keyframes desfilar {

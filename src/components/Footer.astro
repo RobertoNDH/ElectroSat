@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Logotipo from './Logotipo.astro';
 import Icono from './Icono.astro';
-import Mapa from './Mapa.astro';
 import {
   empresa,
   telHref,
@@ -36,11 +35,15 @@ const legales = [
 ];
 ---
 
-<footer class="pie">
+<footer class="pie sobre-noche">
   <div class="container pie__rejilla">
     <div class="pie__marca">
-      <Logotipo />
+      <span class="pie__logo"><Logotipo /></span>
       <p class="small">{txt.pie.lema}</p>
+      <p class="pie__registro">
+        <Icono nombre="escudo" tamano={16} />
+        {txt.pie.registro}
+      </p>
     </div>
 
     <nav class="pie__col" aria-label={txt.pie.servicios}>
@@ -97,12 +100,6 @@ const legales = [
     </div>
   </div>
 
-  <div class="pie__mapa">
-    <div class="container">
-      <Mapa lang={lang} />
-    </div>
-  </div>
-
   <div class="pie__legal">
     <div class="container pie__legal-fila">
       <p class="small">© {anio} {empresa.razonSocial}</p>
@@ -119,9 +116,12 @@ const legales = [
 </footer>
 
 <style>
+  /* Pie en azul noche. Cierra la página con el mismo fondo que la banda de
+     llamada que va justo encima, así el final del sitio es un solo bloque
+     oscuro y no dos franjas pegadas de colores distintos. */
   .pie {
-    background: var(--surface);
-    border-top: 3px solid var(--azul);
+    background: var(--noche);
+    border-top: 3px solid var(--amarillo);
   }
 
   /* En móvil, Servicios y Empresa van en paralelo porque son listas cortas;
@@ -162,8 +162,28 @@ const legales = [
     align-content: start;
   }
 
+  /* El logotipo lleva bloques de color propios, así que sobre el fondo oscuro
+     necesita una base clara para no quedar flotando sobre la nada. */
+  .pie__logo {
+    display: inline-block;
+    justify-self: start;
+    padding: 0.5rem 0.75rem;
+    background: var(--paper);
+    border-radius: var(--r-md);
+  }
+
   .pie__marca .small {
-    max-width: 28ch;
+    max-width: 30ch;
+    color: var(--sobre-noche);
+  }
+
+  .pie__registro {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--fs-mini);
+    font-weight: 600;
+    color: var(--amarillo);
   }
 
   .pie__col {
@@ -178,7 +198,7 @@ const legales = [
     font-weight: 700;
     letter-spacing: 0.11em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--on-oscuro);
   }
 
   .pie__col ul {
@@ -189,26 +209,33 @@ const legales = [
   .pie__col a:not(.btn) {
     font-size: var(--fs-small);
     text-decoration: none;
-    color: var(--ink-2);
+    color: var(--sobre-noche);
+    transition: color var(--t-rapido);
   }
 
   .pie__col a:not(.btn):hover {
-    color: var(--azul);
-    text-decoration: underline;
+    color: var(--amarillo);
   }
 
   .pie__tel {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.375rem !important;
-    font-weight: 700;
-    color: var(--ink) !important;
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1.5rem !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--on-oscuro) !important;
     text-decoration: none;
   }
 
+  .pie__tel:hover {
+    color: var(--amarillo) !important;
+  }
+
   .pie__tel svg {
-    color: var(--amarillo-texto);
+    color: var(--amarillo);
   }
 
   .pie__datos {
@@ -222,11 +249,11 @@ const legales = [
     gap: 0.5rem;
     font-size: var(--fs-small);
     line-height: 1.45;
-    color: var(--ink-2);
+    color: var(--sobre-noche);
   }
 
   .pie__datos svg {
-    color: var(--azul);
+    color: var(--amarillo);
     margin-top: 0.1875rem;
     flex: none;
   }
@@ -236,17 +263,9 @@ const legales = [
     margin-top: var(--s-1);
   }
 
-  /* "Dónde estamos" en gris, un tono más oscuro que el resto del pie: separa
-     el mapa de las columnas de enlaces sin salirse de la paleta clara. */
-  .pie__mapa {
-    background: var(--surface-2);
-    border-top: var(--hairline);
-    padding-block: clamp(2rem, 4vw, 3rem);
-  }
-
   .pie__legal {
-    border-top: var(--hairline);
-    background: var(--surface-2);
+    border-top: 1px solid var(--noche-linea);
+    background: rgba(0, 0, 0, 0.24);
   }
 
   .pie__legal-fila {
@@ -266,13 +285,17 @@ const legales = [
 
   .pie__legal-enlaces a {
     font-size: var(--fs-small);
-    color: var(--ink-3);
+    color: rgba(255, 255, 255, 0.68);
     text-decoration: none;
   }
 
   .pie__legal-enlaces a:hover {
-    color: var(--azul);
+    color: var(--amarillo);
     text-decoration: underline;
+  }
+
+  .pie__legal .small {
+    color: rgba(255, 255, 255, 0.68);
   }
 
   .pie__nota {

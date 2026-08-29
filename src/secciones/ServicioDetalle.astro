@@ -3,11 +3,9 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import Faq from '../components/Faq.astro';
-import Portada from '../components/Portada.astro';
-import Banda from '../components/Banda.astro';
+import PortadaPagina from '../components/PortadaPagina.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import DiagramaPortal from '../components/DiagramaPortal.astro';
-import fotoCasos from '../assets/edificio.jpg';
 import { fotoDeServicio } from '../data/imagenes';
 import { empresa, telHref, waHref } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
@@ -64,357 +62,389 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={data.tituloSeo} descripcion={data.descripcion} jsonLd={jsonLd}>
-  <nav class="miga" aria-label={txt.nav.inicio}>
-    <ol class="container">
-      <li><a href={ruta(lang, '/')}>{txt.nav.inicio}</a></li>
-      <li><a href={ruta(lang, '/servicios/')}>{txt.nav.servicios}</a></li>
-      <li aria-current="page">{data.corto}</li>
-    </ol>
-  </nav>
-
-  <Portada
+  <PortadaPagina
+    lang={lang}
     titulo={data.titulo}
     texto={data.entradilla}
     foto={fotoDeServicio(servicio.id)}
-    alt={data.corto}
     encuadre="centro"
-  >
-    <div class="portada__acciones">
-      <a class="btn btn--principal btn--lg" href={telHref()}>
-        <Icono nombre="telefono" tamano={18} />
-        {txt.acciones.llamarA(empresa.telefono.display)}
-      </a>
-      <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
-        <Icono nombre="whatsapp" tamano={18} />
-        {txt.acciones.whatsapp}
-      </a>
-    </div>
-  </Portada>
+    migas={[
+      { texto: txt.nav.servicios, href: ruta(lang, '/servicios/') },
+      { texto: data.corto },
+    ]}
+  />
 
-  <section class="section section--tight">
-    <div class="container">
-      <div class="prosa detalle__texto">
-        <Content />
-      </div>
-
-      <div class="incluye">
-        <h2 class="incluye__titulo">
-          {lang === 'es'
-            ? 'Qué incluye el trabajo'
-            : lang === 'en'
-              ? "What the job includes"
-              : 'Was die Arbeit umfasst'}
-        </h2>
-        <ul class="incluye__lista">
-          {
-            data.incluye.map((linea) => (
-              <li>
-                <span class="incluye__marca">
-                  <Icono nombre="check" tamano={15} />
-                </span>
-                {linea}
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  {
-    slug === 'internet-comunitario' && (
-      <section class="section section--surface" aria-labelledby="diagrama-titulo">
-        <div class="container diagrama__rejilla">
-          <div class="diagrama__caja">
-            <DiagramaPortal />
-          </div>
-          <div class="diagrama__texto">
-            <h2 class="h2" id="diagrama-titulo">
-              {lang === 'es'
-                ? 'Así llega a cada vivienda'
-                : lang === 'en'
-                  ? 'How it reaches every flat'
-                  : 'So kommt es in jede Wohnung'}
-            </h2>
-            <p class="prosa">
-              {lang === 'es'
-                ? 'Desde la azotea baja una sola línea por el edificio y de ahí sale una toma a cada vivienda. Es el cable que ya está puesto, así que no hay obra.'
-                : lang === 'en'
-                  ? 'A single line runs down from the roof through the building, feeding one socket in each flat. It uses the cabling already in place, so there is no building work.'
-                  : 'Vom Dach führt eine einzige Leitung durch das Haus und versorgt in jeder Wohnung eine Dose. Genutzt wird die vorhandene Verkabelung, Bauarbeiten entfallen.'}
-            </p>
-          </div>
+  <div class="section detalle">
+    <div class="container detalle__rejilla">
+      <article class="detalle__cuerpo">
+        <div class="prosa detalle__texto">
+          <Content />
         </div>
-      </section>
-    )
-  }
 
-  <Banda foto={fotoCasos} encuadre="bajo" rotulo="publico-titulo">
-    <div class="cabecera">
-      <h2 class="h2" id="publico-titulo">
-        {lang === 'es'
-          ? 'Según tu caso'
-          : lang === 'en'
-            ? 'Depending on your case'
-            : 'Je nach Fall'}
-      </h2>
+        <section class="incluye" aria-labelledby="incluye-titulo">
+          <h2 class="h3 incluye__titulo" id="incluye-titulo">{txt.servicio.incluye}</h2>
+          <ul class="incluye__lista">
+            {
+              data.incluye.map((linea) => (
+                <li>
+                  <span class="incluye__marca">
+                    <Icono nombre="check" tamano={14} />
+                  </span>
+                  {linea}
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        {
+          slug === 'internet-comunitario' && (
+            <section class="diagrama" aria-labelledby="diagrama-titulo">
+              <div class="diagrama__caja">
+                <DiagramaPortal lang={lang} />
+              </div>
+              <div class="diagrama__texto">
+                <h2 class="h3" id="diagrama-titulo">{txt.servicio.diagramaTitulo}</h2>
+                <p class="prosa">{txt.servicio.diagramaTexto}</p>
+              </div>
+            </section>
+          )
+        }
+
+        <section class="casos" aria-labelledby="publico-titulo">
+          <h2 class="h3 casos__titulo" id="publico-titulo">{txt.servicio.publico}</h2>
+          <ul class="casos__lista" data-anima="hijos">
+            {
+              data.publico.map((p) => (
+                <li class="tarjeta caso">
+                  <h3 class="caso__tipo">{p.tipo}</h3>
+                  <p class="caso__texto">{p.texto}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </article>
+
+      <aside class="lateral" aria-label={txt.servicio.otros}>
+        <nav class="tarjeta lateral__caja">
+          <h2 class="lateral__titulo">{txt.servicio.otros}</h2>
+          <ul class="otros">
+            {
+              otros.map((o) => (
+                <li>
+                  <a href={ruta(lang, `/servicios/${o.id.split('/')[1]}/`)}>
+                    <Icono nombre={o.data.icono} tamano={19} />
+                    <span>{o.data.corto}</span>
+                    <Icono nombre="flecha" tamano={15} class="otros__flecha" />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <a class="btn btn--linea btn--bloque lateral__todos" href={ruta(lang, '/servicios/')}>
+            {txt.acciones.verTodos}
+          </a>
+        </nav>
+
+        {
+          data.marcas.length > 0 && (
+            <div class="tarjeta lateral__caja">
+              <h2 class="lateral__titulo">{txt.servicio.material}</h2>
+              <ul class="marcas-lista">
+                {data.marcas.map((m) => (
+                  <li>{m}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        <div class="lateral__ayuda" data-brillo>
+          <span class="pastilla pastilla--amarilla">
+            <Icono nombre="telefono" tamano={22} />
+          </span>
+          <p class="h3 lateral__ayuda-titulo">{txt.servicio.ayudaTitulo}</p>
+          <p class="lateral__ayuda-texto">{txt.servicio.ayudaTexto}</p>
+          <a class="btn btn--principal btn--bloque" href={telHref()}>
+            <Icono nombre="telefono" tamano={17} />
+            <span class="tel-num">{empresa.telefono.display}</span>
+          </a>
+          <a class="btn btn--azul btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
+            <Icono nombre="whatsapp" tamano={17} />
+            {txt.acciones.whatsapp}
+          </a>
+        </div>
+      </aside>
     </div>
-
-    <ul class="casos">
-      {
-        data.publico.map((p) => (
-          <li class="caso">
-            <h3 class="h3">{p.tipo}</h3>
-            <p>{p.texto}</p>
-          </li>
-        ))
-      }
-    </ul>
-
-    {
-      data.marcas.length > 0 && (
-        <p class="marcas-linea">
-          <Icono nombre="herramienta" tamano={17} />
-          <span>{data.marcas.join(' · ')}</span>
-        </p>
-      )
-    }
-  </Banda>
+  </div>
 
   <section class="section section--surface" aria-labelledby="faq-servicio">
-    <div class="container">
-      <div class="cabecera">
+    <div class="container container--estrecho">
+      <div class="cabecera" data-anima>
         <h2 class="h2" id="faq-servicio">{data.corto}</h2>
       </div>
-      <div class="faq-lista">
+      <div data-anima>
         <Faq items={data.faq} />
       </div>
     </div>
   </section>
 
   <BloqueContacto lang={lang} />
-
-  <section class="section section--tight otros">
-    <div class="container">
-      <h2 class="otros__titulo">{txt.nav.todosServicios}</h2>
-      <ul class="otros__lista">
-        {
-          otros.map((o) => (
-            <li>
-              <a href={ruta(lang, `/servicios/${o.id.split('/')[1]}/`)}>
-                <Icono nombre={o.data.icono} tamano={20} />
-                <span>{o.data.corto}</span>
-                <Icono nombre="flecha" tamano={16} />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
 </Base>
 
 <style>
-  .miga {
-    background: var(--surface);
-    border-bottom: var(--hairline);
+  .detalle__rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
   }
 
-  .miga ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding-block: 0.75rem;
-    font-size: 0.8125rem;
-    color: var(--ink-3);
+  .detalle__cuerpo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+    min-width: 0;
   }
 
-  .miga li + li::before {
-    content: '/';
-    margin-right: 0.5rem;
-    color: var(--control);
-  }
-
-  .miga a {
-    color: var(--ink-2);
-    text-decoration: none;
-  }
-
-  .miga a:hover {
-    color: var(--azul);
-    text-decoration: underline;
-  }
-
-  .portada__acciones {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--s-3);
-    margin-top: var(--s-2);
-  }
-
-  /* Texto a una columna centrada: antes iba a la izquierda y dejaba un hueco
-     enorme debajo. */
   .detalle__texto {
-    max-width: 60ch;
-    margin-inline: auto;
-    text-align: center;
+    font-size: 1.0625rem;
   }
 
+  /* ---------- Qué incluye ---------- */
+
+  /* Panel tintado sin filete lateral: la marca de color ya la ponen las
+     pastillas azules de cada línea, y una barra gruesa a un lado es el remate
+     más manido que existe en este tipo de bloque. */
   .incluye {
-    margin-top: clamp(2rem, 4vw, 3rem);
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--surface);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
+    padding: var(--s-6) var(--s-5);
+    background: var(--azul-tinte);
+    border-radius: var(--r-card);
   }
 
   .incluye__titulo {
-    font-family: var(--font-display);
-    font-size: 1.375rem;
-    font-weight: 700;
-    text-align: center;
-    color: var(--ink);
+    margin-bottom: var(--s-4);
   }
 
   .incluye__lista {
     display: grid;
-    gap: 0.875rem var(--s-6);
-    margin-top: var(--s-5);
-  }
-
-  @media (min-width: 48rem) {
-    .incluye__lista {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6875rem;
   }
 
   .incluye__lista li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.75rem;
+    display: flex;
     align-items: start;
+    gap: 0.6875rem;
     font-size: var(--fs-small);
+    line-height: 1.5;
     color: var(--ink-2);
   }
 
-  /* La marca de la lista es solo el visto, sin disco detrás: igual que las
-     ventajas de la portada. */
   .incluye__marca {
     display: grid;
     place-items: center;
-    margin-top: 0.2rem;
-    color: var(--amarillo-texto);
     flex: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    margin-top: 0.0625rem;
+    border-radius: var(--r-pill);
+    background: var(--azul);
+    color: var(--on-oscuro);
   }
 
-  .diagrama__rejilla {
+  @media (min-width: 40rem) {
+    .incluye__lista {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6875rem var(--s-5);
+    }
+  }
+
+  /* ---------- Diagrama ---------- */
+
+  .diagrama {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
     align-items: center;
   }
 
-  @media (min-width: 62rem) {
-    .diagrama__rejilla {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: var(--s-7);
-    }
-  }
-
   .diagrama__caja {
-    padding: var(--s-4);
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    background: var(--surface);
+    border-radius: var(--r-card);
   }
 
   .diagrama__texto {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-3);
   }
 
-  .casos {
-    display: grid;
-    gap: var(--s-4);
-  }
-
   @media (min-width: 48rem) {
-    .casos {
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    .diagrama {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-6);
     }
   }
 
-  .caso {
-    display: grid;
-    gap: var(--s-2);
-    align-content: start;
-    padding: var(--s-5);
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: var(--r-md);
+  /* ---------- Según tu caso ---------- */
+
+  .casos__titulo {
+    margin-bottom: var(--s-4);
   }
 
-  .caso p {
+  .casos__lista {
+    display: grid;
+    gap: var(--s-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  }
+
+  .caso {
+    gap: var(--s-2);
+    padding: var(--s-5);
+  }
+
+  .caso__tipo {
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .caso__texto {
     font-size: var(--fs-small);
     line-height: 1.55;
-    color: rgba(255, 255, 255, 0.76);
+    color: var(--ink-3);
   }
 
-  .marcas-linea {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem var(--s-3);
-    margin-top: var(--s-5);
-    padding-top: var(--s-5);
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-    font-size: var(--fs-small);
-    color: rgba(255, 255, 255, 0.76);
+  /* ---------- Columna lateral ---------- */
+
+  .lateral {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+    align-content: start;
   }
 
-  .marcas-linea :global(svg) {
-    color: var(--amarillo);
+  .lateral__caja {
+    padding: var(--s-5);
+    gap: var(--s-4);
   }
 
-  .faq-lista {
-    max-width: 52rem;
-    margin-inline: auto;
-  }
-
-  .otros__titulo {
+  .lateral__titulo {
     font-family: var(--font-base);
-    font-size: 0.8125rem;
+    font-size: var(--fs-eyebrow);
     font-weight: 700;
-    letter-spacing: 0.11em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-3);
   }
 
-  .otros__lista {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-    margin-top: var(--s-4);
+  .otros {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .otros__lista a {
-    display: inline-flex;
+  .otros a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.6875rem 1rem;
-    background: var(--paper);
-    border: var(--hairline);
-    border-radius: var(--r-sm);
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+    border-bottom: var(--hairline);
     font-size: var(--fs-small);
     font-weight: 600;
-    text-decoration: none;
     color: var(--ink);
-    transition: border-color var(--t-rapido), box-shadow var(--t-rapido);
+    text-decoration: none;
+    transition: color var(--t-rapido);
   }
 
-  .otros__lista a:hover {
-    border-color: var(--azul);
-    box-shadow: var(--sombra-sm);
+  .otros li:last-child a {
+    border-bottom: 0;
+  }
+
+  .otros a svg {
+    color: var(--azul);
+  }
+
+  .otros__flecha {
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--t-rapido), transform var(--t-rapido);
+  }
+
+  .otros a:hover {
+    color: var(--azul);
+  }
+
+  .otros a:hover .otros__flecha {
+    opacity: 1;
+    transform: none;
+  }
+
+  .marcas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .marcas-lista li {
+    padding: 0.375rem 0.75rem;
+    background: var(--surface);
+    border: var(--hairline);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-mini);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Tarjeta de ayuda ---------- */
+
+  .lateral__ayuda {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
+    padding: var(--s-6) var(--s-5);
+    background: var(--noche);
+    border-radius: var(--r-card);
+    color: var(--sobre-noche);
+    text-align: center;
+    justify-items: center;
+  }
+
+  .lateral__ayuda .pastilla {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--r-pill);
+  }
+
+  .lateral__ayuda-titulo {
+    color: var(--on-oscuro);
+  }
+
+  .lateral__ayuda-texto {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+
+  .lateral__ayuda .btn {
+    margin-top: var(--s-1);
+  }
+
+  @media (min-width: 62rem) {
+    .detalle__rejilla {
+      grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+
+    /* La columna se queda a la vista mientras se lee el texto: el teléfono
+       nunca se pierde por arriba, que es el motivo de que exista. */
+    .lateral {
+      position: sticky;
+      top: calc(var(--header-h) + var(--s-5));
+    }
   }
 </style>

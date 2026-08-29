@@ -22,6 +22,7 @@ export const TEXTOS = {
       saltar: 'Saltar al contenido',
       idioma: 'Idioma',
       cambiarIdioma: 'Cambiar de idioma',
+      migas: 'Estás aquí',
     },
     acciones: {
       llamanos: 'Llámanos',
@@ -31,31 +32,71 @@ export const TEXTOS = {
       escribirWhatsapp: 'Escribir por WhatsApp',
       escribirCorreo: 'Escribir un correo',
       verServicio: 'Ver servicio',
-      verComoLoHacemos: 'Ver cómo lo hacemos',
       abrirMapa: 'Ver cómo llegar',
-      verMasArriba: 'Volver al inicio',
       anterior: 'Ver los anteriores',
       siguiente: 'Ver los siguientes',
+      conocernos: 'Conócenos mejor',
+      verTodos: 'Ver todos los servicios',
       correoCopiado: (correo: string) => `Correo copiado: ${correo}`,
     },
     hero: {
-      eyebrow: 'Instalador registrado · Sur de Tenerife',
-      titulo: 'Especialistas en telecomunicaciones en el sur de Tenerife',
-      lede:
-        'ElectroSat TV lleva la antena, las cámaras, el portero y el internet de tu casa, tu comunidad o tu negocio en el sur de Tenerife.',
-      ventajas: [
-        'Instalador registrado en el sur de Tenerife',
-        'Te decimos el precio antes de empezar',
-        'Garantía por escrito en todo lo que montamos',
+      carrusel: 'Carrusel',
+      carruselEtiqueta: 'Lo que hacemos',
+      diapositiva: 'Diapositiva',
+      deTotal: (n: number, total: number) => `${n} de ${total}`,
+      irA: (n: number) => `Ir a la diapositiva ${n}`,
+      slides: [
+        {
+          titulo: 'Especialistas en telecomunicaciones en el sur de Tenerife',
+          texto:
+            'Antenas, cámaras, porteros e internet para tu casa, tu comunidad o tu negocio. Una sola empresa para todo.',
+          alt: 'Vista aérea de la costa del sur de Tenerife',
+        },
+        {
+          antetitulo: 'Antenas y satélite',
+          titulo: 'Señal perfecta en toda tu comunidad',
+          texto:
+            'Montamos, orientamos y certificamos antenas de TDT y parabólicas en viviendas, comunidades y hoteles del sur de Tenerife.',
+          alt: 'Antenas de televisión en la azotea de un edificio del sur de Tenerife',
+        },
+        {
+          antetitulo: 'Videovigilancia',
+          titulo: 'Cámaras que de verdad se ven',
+          texto:
+            'Grabación con imagen útil también de noche y acceso desde el móvil, montada conforme a la ley de protección de datos.',
+          alt: 'Cámara de seguridad tipo domo instalada en la fachada de un edificio',
+        },
+        {
+          antetitulo: 'Internet y redes',
+          titulo: 'Internet estable hasta el último piso',
+          texto:
+            'Llevamos cobertura a portales, sótanos y garajes con cableado, fibra y wifi bien repartido por todo el edificio.',
+          alt: 'Cableado de red y fibra óptica conectado en un armario de comunicaciones',
+        },
       ],
-      sello: 'Empresa instaladora registrada',
     },
+    confianzaTitulo: 'Por qué llamarnos',
     confianza: [
       { dato: 'Sin coste', texto: 'La visita y el presupuesto no se cobran' },
       { dato: 'Precio cerrado', texto: 'Lo que te decimos es lo que pagas' },
       { dato: 'Con garantía', texto: 'Por escrito, en material y mano de obra' },
       { dato: 'Somos de aquí', texto: 'Estamos en Valle San Lorenzo, Arona' },
     ],
+    servicio: {
+      incluye: 'Qué incluye el trabajo',
+      publico: 'Según tu caso',
+      material: 'Material que montamos',
+      otros: 'Otros servicios',
+      ayudaTitulo: '¿Lo vemos juntos?',
+      ayudaTexto: 'Te decimos qué hace falta y cuánto cuesta antes de tocar nada.',
+      diagramaAlt: 'Sección de un edificio con la instalación de internet comunitario',
+      diagramaDesc:
+        'Una cabecera situada en la cubierta alimenta una única línea vertical que recorre el edificio y llega a una toma en cada una de las cuatro viviendas.',
+      diagramaRotulos: ['Cabecera en cubierta', 'El cable que ya existe', 'Una toma por vivienda'],
+      diagramaTitulo: 'Así llega a cada vivienda',
+      diagramaTexto:
+        'Desde la azotea baja una sola línea por el edificio y de ahí sale una toma a cada vivienda. Es el cable que ya está puesto, así que no hay obra.',
+    },
     servicios: {
       eyebrow: 'Qué hacemos',
       titulo: 'Telecomunicaciones de principio a fin',
@@ -68,6 +109,8 @@ export const TEXTOS = {
     pasos: {
       eyebrow: 'Cómo trabajamos',
       titulo: 'Cuatro pasos y ya está',
+      prosa:
+        'Ni letra pequeña ni visitas que no llevan a nada. Así va cada trabajo, desde que descuelgas el teléfono hasta el papel que te dejamos al terminar.',
       items: [
         { titulo: 'Llamas', texto: 'Te atiende alguien que conoce el trabajo.' },
         { titulo: 'Vamos a verlo', texto: 'Gratis y sin compromiso, en el sur de la isla.' },
@@ -78,6 +121,11 @@ export const TEXTOS = {
     pruebas: {
       eyebrow: 'Por qué fiarte',
       titulo: 'Esto lo puedes comprobar',
+      prosa:
+        'No hace falta que nos creas. Todo lo que decimos aquí se puede pedir por escrito antes de contratar nada.',
+      sello: 'años en el sur de la isla',
+      altPrincipal: 'Técnico instalando una antena parabólica subido a una escalera',
+      altSecundaria: 'Instalador junto a su furgoneta con la caja de herramientas',
       items: [
         {
           titulo: 'Empresa registrada',
@@ -108,11 +156,8 @@ export const TEXTOS = {
       titulo: 'Todo el sur de Tenerife',
       prosa:
         'Estamos en Valle San Lorenzo y nos movemos por toda la comarca sur. Vamos nosotros a verlo, sin coste ni compromiso.',
-    },
-    opiniones: {
-      eyebrow: 'Clientes',
-      titulo: 'Lo que dicen quienes ya nos han llamado',
-      valoracion: 'Valoración de cinco estrellas',
+      nota: '¿No ves tu municipio? Llámanos igual: si está en la comarca sur, lo normal es que lleguemos.',
+      alt: 'Vista aérea de la costa del sur de Tenerife',
     },
     faq: {
       eyebrow: 'Dudas frecuentes',
@@ -186,6 +231,7 @@ export const TEXTOS = {
       saltar: 'Skip to content',
       idioma: 'Language',
       cambiarIdioma: 'Change language',
+      migas: 'You are here',
     },
     acciones: {
       llamanos: 'Call us',
@@ -195,31 +241,71 @@ export const TEXTOS = {
       escribirWhatsapp: 'Message on WhatsApp',
       escribirCorreo: 'Send an email',
       verServicio: 'View service',
-      verComoLoHacemos: 'See how we do it',
       abrirMapa: 'Get directions',
-      verMasArriba: 'Back to top',
       anterior: 'See previous',
       siguiente: 'See next',
+      conocernos: 'Get to know us',
+      verTodos: 'See all services',
       correoCopiado: (correo: string) => `Email copied: ${correo}`,
     },
     hero: {
-      eyebrow: 'Registered installer · South Tenerife',
-      titulo: 'Telecommunications specialists in southern Tenerife',
-      lede:
-        'ElectroSat TV takes care of the aerial, the cameras, the door entry system and the internet in your home, your building or your business in the south of Tenerife.',
-      ventajas: [
-        'Registered installer, based in southern Tenerife',
-        'You get the price before we start',
-        'Written guarantee on everything we install',
+      carrusel: 'Carousel',
+      carruselEtiqueta: 'What we do',
+      diapositiva: 'Slide',
+      deTotal: (n: number, total: number) => `${n} of ${total}`,
+      irA: (n: number) => `Go to slide ${n}`,
+      slides: [
+        {
+          titulo: 'Telecommunications specialists in southern Tenerife',
+          texto:
+            'Aerials, cameras, door entry and internet for your home, your building or your business. One company for everything.',
+          alt: 'Aerial view of the southern coast of Tenerife',
+        },
+        {
+          antetitulo: 'Aerials and satellite',
+          titulo: 'Perfect signal across your whole building',
+          texto:
+            'We fit, align and certify TV aerials and satellite dishes for homes, apartment blocks and hotels across southern Tenerife.',
+          alt: 'Television aerials on the roof of a building in southern Tenerife',
+        },
+        {
+          antetitulo: 'CCTV',
+          titulo: 'Cameras you can actually see with',
+          texto:
+            'Recording that stays usable at night, viewable from your phone, and installed in line with data protection law.',
+          alt: 'Dome security camera fitted to the outside wall of a building',
+        },
+        {
+          antetitulo: 'Internet and networks',
+          titulo: 'Stable internet on every floor',
+          texto:
+            'We bring coverage to entrance halls, basements and garages with cabling, fibre and wifi spread properly through the building.',
+          alt: 'Network and fibre optic cabling connected inside a communications cabinet',
+        },
       ],
-      sello: 'Registered installation company',
     },
+    confianzaTitulo: 'Why call us',
     confianza: [
       { dato: 'No charge', texto: 'The visit and the quote are free' },
       { dato: 'Fixed price', texto: 'What we quote is what you pay' },
       { dato: 'Guaranteed', texto: 'In writing, parts and labour' },
       { dato: "We're local", texto: 'Based in Valle San Lorenzo, Arona' },
     ],
+    servicio: {
+      incluye: 'What the job includes',
+      publico: 'Depending on your case',
+      material: 'Equipment we install',
+      otros: 'Other services',
+      ayudaTitulo: 'Shall we take a look?',
+      ayudaTexto: 'We tell you what is needed and what it costs before touching anything.',
+      diagramaAlt: 'Cross-section of a building with the shared internet installation',
+      diagramaDesc:
+        'A headend on the roof feeds a single vertical line that runs down the building and reaches one socket in each of the four flats.',
+      diagramaRotulos: ['Headend on the roof', 'The cabling already there', 'One socket per flat'],
+      diagramaTitulo: 'How it reaches every flat',
+      diagramaTexto:
+        'A single line runs down from the roof through the building, feeding one socket in each flat. It uses the cabling already in place, so there is no building work.',
+    },
     servicios: {
       eyebrow: 'What we do',
       titulo: 'Telecoms from end to end',
@@ -232,6 +318,8 @@ export const TEXTOS = {
     pasos: {
       eyebrow: 'How we work',
       titulo: 'Four steps and done',
+      prosa:
+        'No small print and no visits that lead nowhere. This is how every job goes, from the moment you pick up the phone to the paperwork we hand over at the end.',
       items: [
         { titulo: 'You call', texto: 'You speak to someone who knows the job.' },
         { titulo: 'We come and look', texto: 'Free and with no obligation, across the south.' },
@@ -242,6 +330,11 @@ export const TEXTOS = {
     pruebas: {
       eyebrow: 'Why trust us',
       titulo: 'You can check all of this',
+      prosa:
+        'You do not have to take our word for it. Everything on this list can be requested in writing before you commit to anything.',
+      sello: 'years in the south of the island',
+      altPrincipal: 'Technician fitting a satellite dish from a ladder',
+      altSecundaria: 'Installer beside his van with his toolbox',
       items: [
         {
           titulo: 'Registered company',
@@ -272,11 +365,8 @@ export const TEXTOS = {
       titulo: 'All across southern Tenerife',
       prosa:
         'We are based in Valle San Lorenzo and cover the whole southern area. We come out to you, at no cost and with no obligation.',
-    },
-    opiniones: {
-      eyebrow: 'Customers',
-      titulo: 'What people who called us say',
-      valoracion: 'Five star rating',
+      nota: 'Cannot see your town? Call anyway: if it is in the southern area, chances are we cover it.',
+      alt: 'Aerial view of the southern coast of Tenerife',
     },
     faq: {
       eyebrow: 'Common questions',
@@ -351,6 +441,7 @@ export const TEXTOS = {
       saltar: 'Zum Inhalt springen',
       idioma: 'Sprache',
       cambiarIdioma: 'Sprache wechseln',
+      migas: 'Sie sind hier',
     },
     acciones: {
       llamanos: 'Rufen Sie an',
@@ -360,31 +451,71 @@ export const TEXTOS = {
       escribirWhatsapp: 'Per WhatsApp schreiben',
       escribirCorreo: 'E-Mail schreiben',
       verServicio: 'Leistung ansehen',
-      verComoLoHacemos: 'So gehen wir vor',
       abrirMapa: 'Route anzeigen',
-      verMasArriba: 'Nach oben',
       anterior: 'Vorherige ansehen',
       siguiente: 'Nächste ansehen',
+      conocernos: 'Mehr über uns',
+      verTodos: 'Alle Leistungen ansehen',
       correoCopiado: (correo: string) => `E-Mail kopiert: ${correo}`,
     },
     hero: {
-      eyebrow: 'Eingetragener Installateur · Süden Teneriffas',
-      titulo: 'Fachbetrieb für Telekommunikation im Süden Teneriffas',
-      lede:
-        'ElectroSat TV kümmert sich um Antenne, Kameras, Türsprechanlage und Internet in Ihrer Wohnung, Ihrer Wohnanlage oder Ihrem Betrieb im Süden Teneriffas.',
-      ventajas: [
-        'Eingetragener Installationsbetrieb im Süden Teneriffas',
-        'Sie kennen den Preis, bevor wir anfangen',
-        'Schriftliche Garantie auf alles, was wir einbauen',
+      carrusel: 'Karussell',
+      carruselEtiqueta: 'Was wir machen',
+      diapositiva: 'Folie',
+      deTotal: (n: number, total: number) => `${n} von ${total}`,
+      irA: (n: number) => `Zu Folie ${n}`,
+      slides: [
+        {
+          titulo: 'Fachbetrieb für Telekommunikation im Süden Teneriffas',
+          texto:
+            'Antennen, Kameras, Türsprechanlagen und Internet für Ihre Wohnung, Ihre Wohnanlage oder Ihren Betrieb. Ein Betrieb für alles.',
+          alt: 'Luftaufnahme der Südküste Teneriffas',
+        },
+        {
+          antetitulo: 'Antennen und Satellit',
+          titulo: 'Klares Bild im ganzen Haus',
+          texto:
+            'Wir montieren, richten aus und messen TV- und Satellitenanlagen für Wohnungen, Wohnanlagen und Hotels im Süden Teneriffas.',
+          alt: 'Fernsehantennen auf dem Dach eines Gebäudes im Süden Teneriffas',
+        },
+        {
+          antetitulo: 'Videoüberwachung',
+          titulo: 'Kameras, auf denen man etwas erkennt',
+          texto:
+            'Aufzeichnung, die auch nachts brauchbar bleibt, Zugriff vom Handy und Einbau nach den Regeln des Datenschutzes.',
+          alt: 'Dome-Überwachungskamera an der Außenwand eines Gebäudes',
+        },
+        {
+          antetitulo: 'Internet und Netzwerke',
+          titulo: 'Stabiles Internet bis in die oberste Etage',
+          texto:
+            'Wir bringen Empfang in Eingangsbereiche, Keller und Garagen, mit Verkabelung, Glasfaser und sauber verteiltem WLAN.',
+          alt: 'Netzwerk- und Glasfaserkabel in einem Kommunikationsschrank',
+        },
       ],
-      sello: 'Eingetragener Installationsbetrieb',
     },
+    confianzaTitulo: 'Warum Sie uns anrufen sollten',
     confianza: [
       { dato: 'Kostenlos', texto: 'Besichtigung und Angebot berechnen wir nicht' },
       { dato: 'Festpreis', texto: 'Was wir nennen, zahlen Sie' },
       { dato: 'Mit Garantie', texto: 'Schriftlich, auf Material und Arbeit' },
       { dato: 'Aus der Gegend', texto: 'Wir sitzen in Valle San Lorenzo, Arona' },
     ],
+    servicio: {
+      incluye: 'Was die Arbeit umfasst',
+      publico: 'Je nach Fall',
+      material: 'Material, das wir einbauen',
+      otros: 'Weitere Leistungen',
+      ayudaTitulo: 'Schauen wir es uns an?',
+      ayudaTexto: 'Wir sagen Ihnen, was nötig ist und was es kostet, bevor wir anfangen.',
+      diagramaAlt: 'Querschnitt eines Hauses mit der gemeinsamen Internetanlage',
+      diagramaDesc:
+        'Eine Kopfstation auf dem Dach speist eine einzige senkrechte Leitung, die durch das Haus führt und in jeder der vier Wohnungen eine Dose erreicht.',
+      diagramaRotulos: ['Kopfstation auf dem Dach', 'Die vorhandene Verkabelung', 'Eine Dose pro Wohnung'],
+      diagramaTitulo: 'So kommt es in jede Wohnung',
+      diagramaTexto:
+        'Vom Dach führt eine einzige Leitung durch das Haus und versorgt in jeder Wohnung eine Dose. Genutzt wird die vorhandene Verkabelung, Bauarbeiten entfallen.',
+    },
     servicios: {
       eyebrow: 'Was wir machen',
       titulo: 'Telekommunikation von A bis Z',
@@ -397,6 +528,8 @@ export const TEXTOS = {
     pasos: {
       eyebrow: 'So arbeiten wir',
       titulo: 'Vier Schritte, fertig',
+      prosa:
+        'Kein Kleingedrucktes und keine Termine, die zu nichts führen. So läuft jeder Auftrag, vom Anruf bis zu den Unterlagen, die Sie am Ende bekommen.',
       items: [
         { titulo: 'Sie rufen an', texto: 'Sie sprechen mit jemandem vom Fach.' },
         { titulo: 'Wir sehen nach', texto: 'Kostenlos und unverbindlich, im ganzen Süden.' },
@@ -407,6 +540,11 @@ export const TEXTOS = {
     pruebas: {
       eyebrow: 'Warum uns vertrauen',
       titulo: 'Das können Sie nachprüfen',
+      prosa:
+        'Sie müssen uns nicht einfach glauben. Alles auf dieser Liste können Sie schriftlich verlangen, bevor Sie irgendetwas beauftragen.',
+      sello: 'Jahre im Süden der Insel',
+      altPrincipal: 'Techniker montiert von einer Leiter aus eine Satellitenschüssel',
+      altSecundaria: 'Installateur mit Werkzeugkasten neben seinem Transporter',
       items: [
         {
           titulo: 'Eingetragener Betrieb',
@@ -437,11 +575,8 @@ export const TEXTOS = {
       titulo: 'Im gesamten Süden Teneriffas',
       prosa:
         'Wir sitzen in Valle San Lorenzo und sind in der ganzen Region Süd unterwegs. Wir kommen zu Ihnen, kostenlos und unverbindlich.',
-    },
-    opiniones: {
-      eyebrow: 'Kunden',
-      titulo: 'Was Kunden über uns sagen',
-      valoracion: 'Fünf von fünf Sternen',
+      nota: 'Ihr Ort fehlt? Rufen Sie trotzdem an: liegt er im Süden, kommen wir in der Regel auch dorthin.',
+      alt: 'Luftaufnahme der Südküste Teneriffas',
     },
     faq: {
       eyebrow: 'Häufige Fragen',

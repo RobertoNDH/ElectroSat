@@ -1,6 +1,10 @@
 ---
 // Entradas al hacer scroll para todo el sitio, desde un único punto.
 //
+// Se piden con un atributo, no con una lista de selectores: `data-anima` en un
+// bloque que entra entero, `data-anima="hijos"` en una rejilla cuyas piezas
+// entran escalonadas. Así una sección nueva no obliga a tocar este archivo.
+//
 // El truco para que no haya parpadeo: no se oculta nada desde el CSS. Es el
 // script el que, al arrancar, mira qué elementos quedan por debajo de la
 // primera pantalla y solo a esos les pone la clase que los esconde. Lo que ya
@@ -12,40 +16,7 @@
   const ANTES = 'va-a-animar';
   const DESPUES = 'is-visible';
 
-  /** Elementos que entran solos, con un desplazamiento corto. */
-  const SUELTOS = [
-    '.cabecera',
-    '.cobertura__cabecera',
-    '.historia',
-    '.historia__foto',
-    '.cobertura__foto',
-    '.faq-lista',
-    '.detalle__texto',
-    '.incluye',
-    '.diagrama__caja',
-    '.diagrama__texto',
-    '.marcas-linea',
-    '.mapa__datos',
-    '.mapa__lienzo',
-    '.cta__contenido',
-  ];
-
-  /** Rejillas cuyos hijos entran escalonados, uno detrás de otro. */
-  const REJILLAS = [
-    '.pasos',
-    '.pruebas',
-    '.casos',
-    '.compromisos',
-    '.datos',
-    '.tira__lista',
-    '.incluye__lista',
-    '.otros__lista',
-    '.canales',
-  ];
-
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (!reducido) {
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const observador = new IntersectionObserver(
       (entradas) => {
         for (const entrada of entradas) {
@@ -57,40 +28,40 @@
       { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
     );
 
-    const preparar = (el: Element, escalonado: boolean) => {
-      if (escalonado) el.classList.add('anima-hijos');
+    for (const el of document.querySelectorAll<HTMLElement>('[data-anima]')) {
+      if (el.dataset.anima === 'hijos') el.classList.add('anima-hijos');
       // Lo que ya está en pantalla se da por entrado: nada de esconderlo
       // para animarlo justo después, que es lo que se ve como un parpadeo.
       if (el.getBoundingClientRect().top < innerHeight * 0.92) {
         el.classList.add(DESPUES);
-        return;
+        continue;
       }
       el.classList.add(ANTES);
       observador.observe(el);
-    };
-
-    for (const sel of SUELTOS) {
-      for (const el of document.querySelectorAll(sel)) preparar(el, false);
-    }
-    for (const sel of REJILLAS) {
-      for (const el of document.querySelectorAll(sel)) preparar(el, true);
     }
   }
 
-  // Cifras que suben hasta su valor. Solo números enteros y cortos.
+  // Cifras que suben hasta su valor al entrar en pantalla. Solo la primera
+  // vez: una vez contada, se queda en el número final para siempre.
   const cifras = document.querySelectorAll<HTMLElement>('[data-cuenta]');
 
-  if (cifras.length && !reducido) {
+  if (cifras.length) {
     const contar = (nodo: HTMLElement) => {
       const destino = Number(nodo.dataset.cuenta);
       if (!Number.isFinite(destino)) return;
-      const DURACION = 1100;
+
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        nodo.textContent = String(destino);
+        return;
+      }
+
+      const DURACION = 1200;
       const inicio = performance.now();
 
       const paso = (ahora: number) => {
         const avance = Math.min((ahora - inicio) / DURACION, 1);
         // Frena al final en vez de cortar en seco.
-        const suave = 1 - Math.pow(1 - avance, 3);
+        const suave = 1 - (1 - avance) ** 3;
         nodo.textContent = String(Math.round(destino * suave));
         if (avance < 1) requestAnimationFrame(paso);
       };
@@ -106,10 +77,24 @@
           obsCifras.unobserve(entrada.target);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.6 }
     );
 
     for (const c of cifras) obsCifras.observe(c);
+  }
+
+  // Foco de luz que sigue al cursor sobre las tarjetas oscuras marcadas con
+  // data-brillo. Solo mueve dos variables CSS con cada puntero; el brillo en
+  // sí lo pinta un ::before en CSS, así que no hay nada que repintar desde
+  // JavaScript en cada fotograma.
+  if (matchMedia('(hover: hover)').matches) {
+    for (const tarjeta of document.querySelectorAll<HTMLElement>('[data-brillo]')) {
+      tarjeta.addEventListener('pointermove', (e) => {
+        const r = tarjeta.getBoundingClientRect();
+        tarjeta.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+        tarjeta.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
+      });
+    }
   }
 </script>
 
@@ -154,7 +139,7 @@
     .anima-hijos.is-visible > *:nth-child(n + 7) { transition-delay: 420ms; }
   }
 
-  /* Parallax de las fotos a sangre.
+  /* Parallax, solo en las dos bandas oscuras a sangre.
      Va con animaciones ligadas al scroll del propio navegador: no hay ni un
      listener de scroll en JavaScript, así que el movimiento va siempre a la
      tasa de refresco de la pantalla y no se atasca. Donde el navegador no las
@@ -173,10 +158,10 @@
 
       @keyframes deriva {
         from {
-          transform: translate3d(0, -7%, 0) scale(1.16);
+          transform: translate3d(0, -6%, 0) scale(1.14);
         }
         to {
-          transform: translate3d(0, 7%, 0) scale(1.16);
+          transform: translate3d(0, 6%, 0) scale(1.14);
         }
       }
     }

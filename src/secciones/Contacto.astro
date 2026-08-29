@@ -1,11 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import Portada from '../components/Portada.astro';
-import Banda from '../components/Banda.astro';
-import fotoPortada from '../assets/portada-contacto.jpg';
-import fotoDatos from '../assets/portada-servicios.jpg';
+import PortadaPagina from '../components/PortadaPagina.astro';
 import Icono from '../components/Icono.astro';
 import EstadoHorario from '../components/EstadoHorario.astro';
+import Mapa from '../components/Mapa.astro';
+import fotoPortada from '../assets/portada-contacto.jpg';
 import {
   empresa,
   telHref,
@@ -36,44 +35,62 @@ const jsonLd = [
     url: new URL(ruta(lang, '/contacto/'), sitio).href,
     about: { '@id': new URL('/#negocio', sitio).href },
   },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: txt.nav.inicio, item: new URL(ruta(lang, '/'), sitio).href },
+      { '@type': 'ListItem', position: 2, name: txt.nav.contacto, item: new URL(ruta(lang, '/contacto/'), sitio).href },
+    ],
+  },
 ];
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <Portada
+  <PortadaPagina
+    lang={lang}
     titulo={txt.contacto.titulo}
     texto={txt.contacto.texto}
     foto={fotoPortada}
-    alt="Tejados con antenas de televisión bajo el cielo del sur de Tenerife"
     encuadre="centro"
+    migas={[{ texto: txt.nav.contacto }]}
+    compacta
   />
 
-  <section class="section section--tight">
-    <div class="container canales">
-      <div class="canal canal--principal">
-        <p class="canal__etiqueta"><Icono nombre="telefono" tamano={15} />{txt.acciones.llamanos}</p>
+  <section class="section section--tight" aria-label={txt.nav.contacto}>
+    <div class="container canales" data-anima="hijos">
+      <div class="tarjeta canal">
+        <span class="pastilla pastilla--amarilla">
+          <Icono nombre="telefono" tamano={22} />
+        </span>
+        <p class="canal__etiqueta">{txt.acciones.llamanos}</p>
         <a class="canal__numero tel-num" href={telHref()}>{empresa.telefono.display}</a>
-        <a class="btn btn--principal btn--lg" href={telHref()}>
+        <a class="btn btn--principal btn--lg btn--bloque" href={telHref()}>
           <Icono nombre="telefono" tamano={18} />
           {txt.acciones.llamarAhora}
         </a>
       </div>
 
-      <div class="canal">
-        <p class="canal__etiqueta"><Icono nombre="whatsapp" tamano={15} />{txt.contacto.movil}</p>
+      <div class="tarjeta canal">
+        <span class="pastilla pastilla--marca">
+          <Icono nombre="whatsapp" tamano={22} />
+        </span>
+        <p class="canal__etiqueta">{txt.contacto.movil}</p>
         <a class="canal__numero canal__numero--sec tel-num" href={telHref(empresa.movil)}>
           {empresa.movil.display}
         </a>
-        <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+        <a class="btn btn--azul btn--lg btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
           <Icono nombre="whatsapp" tamano={18} />
           {txt.acciones.escribirWhatsapp}
         </a>
       </div>
 
-      <div class="canal">
-        <p class="canal__etiqueta"><Icono nombre="email" tamano={15} />{txt.contacto.correo}</p>
+      <div class="tarjeta canal">
+        <span class="pastilla pastilla--marca">
+          <Icono nombre="email" tamano={22} />
+        </span>
+        <p class="canal__etiqueta">{txt.contacto.correo}</p>
         <a class="canal__email" href={correoHref(lang)}>{empresa.email}</a>
-        <a class="btn btn--linea btn--lg" href={correoHref(lang)}>
+        <a class="btn btn--linea btn--lg btn--bloque" href={correoHref(lang)}>
           <Icono nombre="email" tamano={18} />
           {txt.acciones.escribirCorreo}
         </a>
@@ -81,88 +98,82 @@ const jsonLd = [
     </div>
   </section>
 
-  <Banda foto={fotoDatos} encuadre="centro">
-    <ul class="datos">
-      <li class="dato">
-        <span class="dato__icono"><Icono nombre="reloj" tamano={18} /></span>
-        <h2 class="dato__titulo">{txt.contacto.horario}</h2>
-        <p class="dato__fuerte">{txt.datos.horario}</p>
-        <EstadoHorario lang={lang} />
-      </li>
+  <section class="section datos-banda sobre-noche" aria-label={txt.contacto.datosEmpresa}>
+    <div class="container">
+      <ul class="datos" data-anima="hijos">
+        <li class="dato">
+          <span class="pastilla dato__icono"><Icono nombre="reloj" tamano={20} /></span>
+          <h2 class="dato__titulo">{txt.contacto.horario}</h2>
+          <p class="dato__fuerte">{txt.datos.horario}</p>
+          <EstadoHorario lang={lang} />
+        </li>
 
-      <li class="dato">
-        <span class="dato__icono"><Icono nombre="mapa" tamano={18} /></span>
-        <h2 class="dato__titulo">{txt.contacto.donde}</h2>
-        <p class="dato__fuerte">{empresa.razonSocial}</p>
-        <p class="dato__texto">{direccionUnaLinea}</p>
-        <a class="dato__enlace" href={empresa.mapsUrl} rel="noopener noreferrer">
-          {txt.acciones.abrirMapa}
-          <Icono nombre="flecha" tamano={16} />
-        </a>
-      </li>
+        <li class="dato">
+          <span class="pastilla dato__icono"><Icono nombre="mapa" tamano={20} /></span>
+          <h2 class="dato__titulo">{txt.contacto.donde}</h2>
+          <p class="dato__fuerte">{empresa.razonSocial}</p>
+          <p class="dato__texto">{direccionUnaLinea}</p>
+          <a class="enlace-flecha" href={empresa.mapsUrl} rel="noopener noreferrer">
+            {txt.acciones.abrirMapa}
+            <Icono nombre="flecha" tamano={16} />
+          </a>
+        </li>
 
-      <li class="dato">
-        <span class="dato__icono"><Icono nombre="check" tamano={18} /></span>
-        <h2 class="dato__titulo">{txt.contacto.zona}</h2>
-        <p class="dato__fuerte">{txt.datos.zona}</p>
-        <p class="dato__texto">{empresa.cobertura.join(' · ')}</p>
-      </li>
-    </ul>
-  </Banda>
+        <li class="dato">
+          <span class="pastilla dato__icono"><Icono nombre="check" tamano={20} /></span>
+          <h2 class="dato__titulo">{txt.contacto.zona}</h2>
+          <p class="dato__fuerte">{txt.datos.zona}</p>
+          <p class="dato__texto">{empresa.cobertura.join(' · ')}</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section slot="tras-pie" class="section section--surface">
+    <div class="container">
+      <Mapa lang={lang} />
+    </div>
+  </section>
 </Base>
 
 <style>
+  /* ---------- Canales ---------- */
+
   .canales {
     display: grid;
-    gap: var(--s-4);
+    gap: var(--s-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
   }
 
-  @media (min-width: 55rem) {
-    .canales {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  /* Sin caja ni esquinas redondas: cada canal cuelga de un filo, igual que los
-     pasos de la home y los públicos. La tarjeta con borde y radio era la forma
-     que se quitó del resto de la web y aquí quedaba como un resto del sistema
-     anterior. El canal preferente se distingue por su botón, no por el fondo. */
   .canal {
-    display: grid;
-    gap: var(--s-3);
     align-content: start;
-    justify-items: start;
-    padding-top: var(--s-4);
-    border-top: 2px solid var(--ink);
-    transition: border-color var(--t-rapido);
+    gap: var(--s-3);
+    padding: var(--s-5);
+    text-align: center;
+    justify-items: center;
   }
 
-  @media (hover: hover) {
-    .canal:hover {
-      border-color: var(--azul);
-    }
+  .canal .pastilla {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--r-pill);
   }
 
   .canal__etiqueta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: var(--fs-eyebrow);
     font-weight: 700;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-3);
   }
 
-  .canal__etiqueta :global(svg) {
-    color: var(--azul);
-  }
-
   .canal__numero {
     font-family: var(--font-display);
-    font-size: clamp(1.875rem, 3.6vw, 2.5rem);
-    font-weight: 700;
-    line-height: 1;
+    font-stretch: var(--wdth-display);
+    font-size: clamp(1.5rem, 3.4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
     color: var(--ink);
     text-decoration: none;
   }
@@ -172,82 +183,71 @@ const jsonLd = [
   }
 
   .canal__numero--sec {
-    font-size: clamp(1.625rem, 3vw, 2rem);
+    color: var(--azul);
   }
 
   .canal__email {
     font-size: 1.0625rem;
     font-weight: 600;
-    word-break: break-word;
+    color: var(--azul);
+    overflow-wrap: anywhere;
   }
 
-  /* Tres columnas separadas por una línea fina, sin cajas: antes eran cuatro
-     recuadros y los que tenían poco texto quedaban medio vacíos. */
+  .canal .btn {
+    margin-top: auto;
+  }
+
+  /* ---------- Datos ---------- */
+
+  /* Un tono de noche distinto al del pie, que va justo debajo: si las dos
+     bandas comparten el mismo azul casi negro, se funden en una sola mancha
+     y no se nota dónde acaba una y empieza la otra. */
+  .datos-banda {
+    background: var(--noche-2);
+  }
+
   .datos {
     display: grid;
-    gap: var(--s-5);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
   }
 
-  @media (min-width: 55rem) {
-    .datos {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--s-6);
-    }
-  }
-
-  /* Filo arriba en lugar de separadores verticales, igual que en "Por qué
-     fiarte": la misma retícula fina en todas las bandas oscuras. */
   .dato {
     display: grid;
-    gap: 0.375rem;
+    grid-template-columns: minmax(0, 1fr);
     align-content: start;
-    justify-items: start;
-    padding-top: var(--s-4);
-    border-top: 1px solid var(--noche-linea);
+    gap: var(--s-2);
   }
 
-  /* Icono suelto, sin el disco gris detrás: tres discos en fila pesaban más
-     que los datos que acompañaban. */
   .dato__icono {
-    display: block;
-    margin-bottom: var(--s-3);
-    color: var(--amarillo);
+    margin-bottom: var(--s-2);
   }
 
   .dato__titulo {
-    font-family: var(--font-base);
-    font-size: 0.75rem;
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1.125rem;
     font-weight: 700;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: -0.02em;
+    color: var(--on-oscuro);
   }
 
   .dato__fuerte {
-    font-size: 1.125rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
+    font-weight: 600;
     color: var(--on-oscuro);
   }
 
   .dato__texto {
     font-size: var(--fs-small);
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.55;
+    color: var(--sobre-noche);
+    max-width: 40ch;
   }
 
-  .dato__enlace {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4375rem;
-    margin-top: var(--s-2);
-    font-size: var(--fs-small);
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--amarillo);
-  }
-
-  .dato__enlace:hover {
-    text-decoration: underline;
+  @media (min-width: 55rem) {
+    .datos {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-7);
+    }
   }
 </style>

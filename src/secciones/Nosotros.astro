@@ -3,16 +3,16 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
-import Portada from '../components/Portada.astro';
-import Banda from '../components/Banda.astro';
-import { empresa, aniosActividad } from '../data/empresa';
+import PortadaPagina from '../components/PortadaPagina.astro';
+import Proceso from '../components/Proceso.astro';
+import { aniosActividad } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
 import { nosotros } from '../i18n/nosotros';
 import fotoPortada from '../assets/portada-nosotros.jpg';
-import fotoTecnico from '../assets/telecomunicaciones.jpg';
-import fotoCifras from '../assets/cobertura-sur.jpg';
+import fotoEquipo from '../assets/nosotros-equipo.jpg';
+import fotoTorre from '../assets/torre-instalacion.jpg';
 
 interface Props {
   lang: Idioma;
@@ -32,74 +32,85 @@ const jsonLd = [
     url: new URL(ruta(lang, '/nosotros/'), sitio).href,
     about: { '@id': new URL('/#negocio', sitio).href },
   },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: txt.nav.inicio, item: new URL(ruta(lang, '/'), sitio).href },
+      { '@type': 'ListItem', position: 2, name: txt.nav.nosotros, item: new URL(ruta(lang, '/nosotros/'), sitio).href },
+    ],
+  },
 ];
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <Portada
+  <PortadaPagina
+    lang={lang}
     titulo={n.titulo}
     texto={n.lede}
     foto={fotoPortada}
-    alt="Antenas de televisión sobre los tejados de un pueblo del sur de Tenerife"
     encuadre="centro"
+    migas={[{ texto: txt.nav.nosotros }]}
+    centrado
   />
 
-  <Banda foto={fotoCifras} encuadre="bajo" alto="apretada">
-    <ul class="tira__lista" aria-label={txt.contacto.datosEmpresa}>
-      <li>
-        <strong class="tira__dato" data-cuenta={aniosActividad}>{aniosActividad}</strong>
-        <span class="tira__texto">{n.cifras.anios}</span>
-      </li>
-      <li>
-        <strong class="tira__dato" data-cuenta="5">5</strong>
-        <span class="tira__texto">{n.cifras.areas}</span>
-      </li>
-      <li>
-        <strong class="tira__dato" data-cuenta={empresa.cobertura.length}>
-          {empresa.cobertura.length}
-        </strong>
-        <span class="tira__texto">{n.cifras.municipios}</span>
-      </li>
-    </ul>
-  </Banda>
-
-  <section class="section section--tight">
-    <div class="container">
-      <div class="cabecera">
-        <h2 class="h2">{n.historiaTitulo}</h2>
+  <section class="section historia" aria-labelledby="historia-titulo">
+    <div class="container historia__rejilla">
+      <div class="historia__texto">
+        <div class="cabecera cabecera--izq">
+          <h2 class="h2" id="historia-titulo">{n.historiaTitulo}</h2>
+        </div>
+        <div class="prosa">
+          {n.historia.map((p) => <p>{p}</p>)}
+        </div>
       </div>
 
-      <div class="historia">
-        {n.historia.map((p) => <p>{p}</p>)}
-      </div>
+      <div class="historia__fotos" data-anima>
+        <span class="forma forma--puntos historia__puntos" aria-hidden="true"></span>
 
-      <figure class="historia__foto">
-        <Image
-          src={fotoTecnico}
-          alt="Técnico revisando una instalación de telecomunicaciones"
-          widths={[800, 1200, 1800, 2400]}
-          sizes="(min-width: 62rem) 60rem, 100vw"
-          loading="lazy"
-        />
-      </figure>
+        <span class="marco historia__principal">
+          <Image
+            src={fotoEquipo}
+            alt={txt.pruebas.altSecundaria}
+            widths={[420, 640, 900]}
+            sizes="(min-width: 62rem) 26rem, 80vw"
+            loading="lazy"
+          />
+        </span>
+
+        <span class="marco historia__secundaria">
+          <Image
+            src={fotoTorre}
+            alt={n.altTorre}
+            widths={[300, 460, 640]}
+            sizes="(min-width: 62rem) 15rem, 40vw"
+            loading="lazy"
+          />
+        </span>
+
+        <p class="sello historia__sello">
+          <span class="sello__cifra" data-cuenta={aniosActividad}>{aniosActividad}</span>
+          <span class="sello__texto">{n.cifras.anios}</span>
+        </p>
+      </div>
     </div>
   </section>
 
-  <section class="section section--surface" aria-labelledby="compromisos-titulo">
+  <section class="section section--tight section--surface" aria-labelledby="compromisos-titulo">
     <div class="container">
-      <div class="cabecera">
+      <div class="cabecera" data-anima>
         <h2 class="h2" id="compromisos-titulo">{n.compromisosTitulo}</h2>
       </div>
-      <ul class="compromisos">
+      <ul class="compromisos" data-anima="hijos">
         {
           n.compromisos.map((c, i) => (
-            <li class="compromiso">
-              <span class="pastilla">
-                <Icono nombre={iconos[i]} tamano={20} />
+            <li class="tarjeta tarjeta--eleva compromiso">
+              <span class="pastilla pastilla--marca">
+                <Icono nombre={iconos[i]} tamano={22} />
               </span>
-              <span>
-                <strong class="compromiso__titulo">{c.titulo}</strong>
-                <span class="compromiso__texto">{c.texto}</span>
+              <strong class="compromiso__titulo">{c.titulo}</strong>
+              <span class="compromiso__texto">{c.texto}</span>
+              <span class="compromiso__indice" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
               </span>
             </li>
           ))
@@ -108,109 +119,141 @@ const jsonLd = [
     </div>
   </section>
 
+  <Proceso lang={lang} />
   <BloqueContacto lang={lang} />
 </Base>
 
 <style>
-  .tira__lista {
+  .historia__rejilla {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
   }
 
-  .tira__lista li {
-    display: grid;
-    gap: 0.1875rem;
-    justify-items: center;
-    text-align: center;
-    padding-inline: var(--s-3);
+  .historia__texto .prosa > * + * {
+    margin-top: var(--s-4);
   }
 
-  .tira__lista li + li {
-    border-left: 1px solid rgba(255, 255, 255, 0.18);
+  /* ---------- Composición de fotos ---------- */
+
+  .historia__fotos {
+    position: relative;
+    padding: 0 3rem 4.5rem 0;
   }
 
-  .tira__dato {
-    font-size: clamp(2rem, 3.6vw, 2.75rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    color: var(--amarillo);
+  .historia__principal {
+    display: block;
+    aspect-ratio: 5 / 4;
+    border-radius: var(--r-card);
+    box-shadow: var(--sombra-alta);
   }
 
-  .tira__texto {
-    font-size: var(--fs-small);
-    line-height: 1.35;
-    color: rgba(255, 255, 255, 0.78);
-  }
-
-  /* Texto a una columna centrada y la foto ancha debajo: antes iba a un lado
-     y la foto al otro, que es justo lo que no queremos. */
-  .historia {
-    display: grid;
-    gap: var(--s-3);
-    max-width: 58ch;
-    margin-inline: auto;
-    text-align: center;
-    text-wrap: pretty;
-  }
-
-  .historia :global(p) {
-    font-size: var(--fs-small);
-    line-height: 1.6;
-    color: var(--ink-2);
-  }
-
-  .historia__foto {
-    margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
-    overflow: hidden;
-  }
-
-  .historia__foto :global(img) {
+  .historia__principal img,
+  .historia__secundaria img {
     width: 100%;
-    aspect-ratio: 3 / 1;
+    height: 100%;
     object-fit: cover;
   }
 
-  @media (max-width: 43.99rem) {
-    .historia__foto :global(img) {
-      aspect-ratio: 2 / 1;
-    }
+  .historia__secundaria {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 44%;
+    aspect-ratio: 3 / 4;
+    border: 6px solid var(--paper);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sombra-flotante);
   }
+
+  .historia__puntos {
+    top: -1.25rem;
+    right: -1.25rem;
+    width: 7.5rem;
+    height: 7.5rem;
+    z-index: -1;
+  }
+
+  .historia__sello {
+    position: absolute;
+    left: 0;
+    bottom: 1.5rem;
+    z-index: 2;
+  }
+
+  /* ---------- Compromisos ---------- */
 
   .compromisos {
     display: grid;
-    gap: var(--s-4) var(--s-6);
+    gap: var(--s-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
   }
 
-  @media (min-width: 55rem) {
+  /* Las cuatro tarjetas en una sola fila a partir de escritorio: con
+     auto-fill a solas, a los anchos de contenedor más frecuentes cabían
+     justo tres y la cuarta caía a una segunda fila. */
+  @media (min-width: 62rem) {
     .compromisos {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
   .compromiso {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--s-3);
+    position: relative;
+    align-content: start;
+    gap: 0.5rem;
+    padding: var(--s-4);
+    overflow: hidden;
   }
 
   .compromiso .pastilla {
     width: 2.5rem;
     height: 2.5rem;
+    border-radius: var(--r-md);
   }
 
   .compromiso__titulo {
-    display: block;
-    font-size: 1rem;
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 1.0625rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--ink);
   }
 
   .compromiso__texto {
-    display: block;
     font-size: var(--fs-small);
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink-3);
-    max-width: 46ch;
+  }
+
+  /* Cifra de fondo, muy tenue: ordena la lectura de las cuatro tarjetas sin
+     añadir un elemento más que compita por la atención. */
+  .compromiso__indice {
+    position: absolute;
+    right: -0.125rem;
+    bottom: -0.875rem;
+    font-family: var(--font-display);
+    font-stretch: var(--wdth-display);
+    font-size: 3.75rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    color: var(--surface-2);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .compromiso > :not(.compromiso__indice) {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 62rem) {
+    .historia__rejilla {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
   }
 </style>

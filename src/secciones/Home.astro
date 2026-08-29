@@ -1,26 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import Faq from '../components/Faq.astro';
-import Valoracion from '../components/Valoracion.astro';
 import Marquesina from '../components/Marquesina.astro';
-import Portada from '../components/Portada.astro';
-import Banda from '../components/Banda.astro';
-import FlechasCarrusel from '../components/FlechasCarrusel.astro';
+import HeroSlider from '../components/HeroSlider.astro';
+import Ventajas from '../components/Ventajas.astro';
+import TarjetaServicio from '../components/TarjetaServicio.astro';
+import BloqueNosotros from '../components/BloqueNosotros.astro';
+import Proceso from '../components/Proceso.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
-import { fotoDeServicio } from '../data/imagenes';
+import Mapa from '../components/Mapa.astro';
 import { marcas } from '../data/marcas';
 import { FAQ } from '../data/faq';
-import { empresa, telHref, waHref } from '../data/empresa';
+import { empresa, telHref } from '../data/empresa';
 import { ruta, type Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 import { seo } from '../i18n/seo';
-
-import fotoAntena from '../assets/portada-servicios.jpg';
-import fotoBandaPruebas from '../assets/portada-nosotros.jpg';
-import fotoBandaCobertura from '../assets/portada-contacto.jpg';
 
 interface Props {
   lang: Idioma;
@@ -33,8 +29,6 @@ const faq = FAQ[lang];
 const servicios = (await getCollection('servicios'))
   .filter((s) => s.id.startsWith(`${lang}/`))
   .sort((a, b) => a.data.orden - b.data.orden);
-
-const iconosPruebas = ['documento', 'escudo', 'check', 'euro'] as const;
 
 const marcasTira = marcas.map((m) => ({ titulo: m.nombre, texto: m.para }));
 
@@ -58,514 +52,127 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <Portada
-    titulo={txt.hero.titulo}
-    texto={txt.hero.lede}
-    foto={fotoAntena}
-    alt="Antena de televisión instalada en el tejado de una vivienda del sur de Tenerife"
-    alto="alta"
-    principal
-    encuadre="alto"
-  >
-    <ul class="ventajas">
-      {
-        txt.hero.ventajas.map((v) => (
-          <li>
-            <Icono nombre="check" tamano={17} />
-            {v}
-          </li>
-        ))
-      }
-    </ul>
+  <HeroSlider lang={lang} />
+  <Ventajas lang={lang} />
 
-    <div class="acciones">
-      <a class="btn btn--principal btn--lg" href={telHref()}>
-        <Icono nombre="telefono" tamano={18} />
-        {txt.acciones.llamarA(empresa.telefono.display)}
-      </a>
-      <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
-        <Icono nombre="whatsapp" tamano={18} />
-        {txt.acciones.whatsapp}
-      </a>
-    </div>
-
-    <Valoracion lang={lang} />
-  </Portada>
-
-  <section class="section" id="servicios" aria-labelledby="servicios-titulo">
+  <section class="section servicios" id="servicios" aria-labelledby="servicios-titulo">
     <div class="container">
-      <div class="cabecera">
+      <div class="cabecera" data-anima>
         <h2 class="h2" id="servicios-titulo">{txt.servicios.titulo}</h2>
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
-    </div>
 
-    <div class="carrusel carrusel--servicios">
-      <div class="carrusel__vista">
+      <ul class="servicios__rejilla" data-anima="hijos">
         {
-          [false, true].map((copia) => (
-            <ul class="servicios carrusel__pista" aria-hidden={copia ? 'true' : undefined}>
-              {servicios.map((s) => {
-                const slug = s.id.split('/')[1];
-                return (
-                  <li class="servicio">
-                    <a
-                      class="servicio__enlace"
-                      href={ruta(lang, `/servicios/${slug}/`)}
-                      tabindex={copia ? -1 : undefined}
-                    >
-                      <span class="servicio__foto">
-                        <Image
-                          src={fotoDeServicio(s.id)}
-                          alt={copia ? '' : s.data.corto}
-                          widths={[500, 760, 1000]}
-                          sizes="(min-width: 30rem) 22rem, 74vw"
-                          loading="lazy"
-                        />
-                      </span>
-                      <span class="servicio__cuerpo">
-                        <span class="h3">{s.data.titulo}</span>
-                        <span class="servicio__resumen">{s.data.resumen}</span>
-                        <span class="enlace-flecha servicio__mas">
-                          {txt.acciones.verServicio}
-                          <Icono nombre="flecha" tamano={16} />
-                        </span>
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-
-              <li class="servicio servicio--cta">
-                <div class="servicio__cta">
-                  <span class="h3">{txt.servicios.ctaTitulo}</span>
-                  <span class="servicio__resumen">{txt.servicios.ctaTexto}</span>
-                  <a class="btn btn--principal" href={telHref()} tabindex={copia ? -1 : undefined}>
-                    <Icono nombre="telefono" tamano={17} />
-                    {txt.acciones.llamarA(empresa.telefono.display)}
-                  </a>
-                </div>
-              </li>
-            </ul>
-          ))
-        }
-      </div>
-
-      <FlechasCarrusel anterior={txt.acciones.anterior} siguiente={txt.acciones.siguiente} />
-    </div>
-  </section>
-
-  <Banda foto={fotoBandaPruebas} encuadre="centro" alto="apretada" rotulo="pruebas-titulo" clase="banda-pruebas">
-    <div class="cabecera cabecera--corta">
-      <h2 class="h2" id="pruebas-titulo">{txt.pruebas.titulo}</h2>
-    </div>
-
-    <ul class="pruebas">
-      {
-        txt.pruebas.items.map((p, i) => (
-          <li class="prueba">
-            <span class="prueba__icono">
-              <Icono nombre={iconosPruebas[i]} tamano={19} />
-            </span>
-            <strong class="prueba__titulo">{p.titulo}</strong>
-            <span class="prueba__texto">{p.texto}</span>
-          </li>
-        ))
-      }
-    </ul>
-  </Banda>
-
-  <section class="section section--tight" aria-labelledby="proceso-titulo">
-    <div class="container">
-      <div class="cabecera cabecera--corta">
-        <h2 class="h2" id="proceso-titulo">{txt.pasos.titulo}</h2>
-      </div>
-
-      <ol class="pasos">
-        {
-          txt.pasos.items.map((p, i) => (
-            <li class="paso">
-              <span class="paso__numero">{String(i + 1).padStart(2, '0')}</span>
-              <strong class="paso__titulo">{p.titulo}</strong>
-              <span class="paso__texto">{p.texto}</span>
+          servicios.map((s) => (
+            <li>
+              <TarjetaServicio
+                lang={lang}
+                id={s.id}
+                titulo={s.data.titulo}
+                resumen={s.data.resumen}
+                icono={s.data.icono}
+              />
             </li>
           ))
         }
-      </ol>
+
+        <li>
+          <div class="tarjeta servicios__cta" data-brillo>
+            <span class="pastilla pastilla--amarilla">
+              <Icono nombre="telefono" tamano={22} />
+            </span>
+            <p class="h3">{txt.servicios.ctaTitulo}</p>
+            <p class="servicios__cta-texto">{txt.servicios.ctaTexto}</p>
+            <a class="btn btn--principal btn--bloque" href={telHref()}>
+              <Icono nombre="telefono" tamano={17} />
+              {txt.acciones.llamarA(empresa.telefono.display)}
+            </a>
+            <a class="enlace-flecha" href={ruta(lang, '/servicios/')}>
+              {txt.acciones.verTodos}
+              <Icono nombre="flecha" tamano={16} />
+            </a>
+          </div>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <section class="section section--surface section--tight" id="marcas" aria-labelledby="marcas-titulo">
-    <div class="container cabecera">
+  <BloqueNosotros lang={lang} />
+  <Proceso lang={lang} />
+
+  <section class="section section--tight marcas" id="marcas" aria-labelledby="marcas-titulo">
+    <div class="container cabecera" data-anima>
       <h2 class="h2" id="marcas-titulo">{txt.marcas.titulo}</h2>
       <p class="prosa">{txt.marcas.prosa}</p>
     </div>
     <Marquesina items={marcasTira} variante="marcas" etiqueta={txt.marcas.titulo} duracion={52} />
   </section>
 
-  <Banda
-    foto={fotoBandaCobertura}
-    encuadre="centro"
-    alto="apretada"
-    id="cobertura"
-    rotulo="cobertura-titulo"
-    clase="banda-cobertura"
-  >
-    <div class="cabecera cobertura__cabecera">
-      <h2 class="h2" id="cobertura-titulo">{txt.cobertura.titulo}</h2>
-      <p class="prosa">{txt.cobertura.prosa}</p>
-    </div>
-  </Banda>
-
-  <section class="section" aria-labelledby="faq-titulo">
-    <div class="container">
-      <div class="cabecera">
+  <section class="section section--surface" aria-labelledby="faq-titulo">
+    <div class="container container--estrecho">
+      <div class="cabecera" data-anima>
         <h2 class="h2" id="faq-titulo">{txt.faq.titulo}</h2>
         <p class="prosa">{txt.faq.prosa}</p>
       </div>
-      <div class="faq-lista">
+      <div data-anima>
         <Faq items={faq} />
       </div>
     </div>
   </section>
 
   <BloqueContacto lang={lang} />
+
+  <section class="section section--surface">
+    <div class="container">
+      <Mapa lang={lang} />
+    </div>
+  </section>
 </Base>
 
 <style>
-  /* ---------- Portada ---------- */
-  /* La marca <Portada> pone la foto y el velo. Aquí solo lo que va dentro. */
-  .ventajas {
+  .servicios__rejilla {
     display: grid;
-    justify-items: start;
-    gap: 0.4375rem;
-    text-align: left;
+    gap: var(--s-5);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
   }
 
-  @media (min-width: 55rem) {
-    .ventajas {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem 1.75rem;
-    }
-  }
-
-  .ventajas li {
+  .servicios__rejilla > li {
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    gap: 0.5rem;
-    font-size: var(--fs-small);
-    font-weight: 600;
-    color: var(--ink-2);
   }
 
-  .ventajas :global(svg) {
-    margin-top: 0.15rem;
-    color: var(--amarillo-texto);
-    flex: none;
-  }
-
-  .acciones {
-    display: flex;
-    flex-wrap: wrap;
+  /* La tarjeta de llamada cierra la rejilla: con cinco servicios queda un
+     hueco en la última fila, y dejarlo vacío es lo que hace que una retícula
+     parezca a medio terminar. */
+  .servicios__cta {
+    /* .tarjeta ya es flex en columna: centrar aquí es cosa de justify-content
+       (eje principal) y align-items (eje cruzado), no de propiedades de grid,
+       que en un contenedor flex no hacen nada. */
     justify-content: center;
+    align-items: center;
+    text-align: center;
     gap: var(--s-3);
-    margin-top: var(--s-2);
-  }
-
-  @media (max-width: 54.99rem) {
-    .ventajas {
-      gap: 0.3rem;
-    }
-
-    .acciones {
-      gap: var(--s-2);
-      margin-top: 0;
-    }
-
-    .acciones .btn--lg {
-      --btn-py: 0.6875rem;
-      --btn-px: 1.125rem;
-      min-height: 2.75rem;
-      font-size: 0.875rem;
-    }
-  }
-
-  /* ---------- Servicios ---------- */
-  /* Una sola fila que desfila, en vez de la rejilla de seis tarjetas: ocupa un
-     tercio del alto y la página deja de leerse como un tablón quieto. Las
-     reglas del carrusel viven en base.css; aquí solo la cadencia. */
-  .carrusel--servicios {
-    --vuelta: 64s;
-    margin-top: calc(var(--s-2) * -1);
-  }
-
-  /* El texto va encima de la fotografía, no debajo. Con el recorte vertical y
-     el título dentro, cada servicio se lee como una pieza cerrada en vez de
-     como una foto con un pie: es el cambio que quita de en medio la sensación
-     de rejilla de tarjetas todas iguales. */
-  .servicio__enlace {
-    position: relative;
-    display: block;
-    height: 100%;
-    overflow: hidden;
-    background: var(--noche);
-    text-decoration: none;
-    color: var(--on-oscuro);
-  }
-
-  .servicio__foto {
-    display: block;
-    height: 100%;
-  }
-
-  .servicio__foto :global(img) {
-    width: 100%;
-    height: 100%;
-    /* 4/3, no un retrato muy cerrado: con un recorte más vertical la foto
-       perdía el asunto y se quedaba solo con fondo. Así se ve la cámara, el
-       telefonillo o la antena entera, no un trozo de pared. */
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  /* Velo que solo pesa abajo, donde vive el texto: la mitad superior de la
-     foto se ve limpia. */
-  .servicio__enlace::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(4, 18, 27, 0.94) 0%,
-      rgba(4, 18, 27, 0.76) 30%,
-      rgba(4, 18, 27, 0.18) 62%,
-      rgba(4, 18, 27, 0.06) 100%
-    );
-    transition: opacity var(--t-medio);
-  }
-
-  .servicio__cuerpo {
-    position: absolute;
-    z-index: 1;
-    inset: auto 0 0 0;
-    display: grid;
-    gap: 0.375rem;
-    align-content: end;
     padding: var(--s-5);
-  }
-
-  .servicio__enlace .h3 {
-    color: var(--on-oscuro);
-  }
-
-  .servicio__enlace .servicio__resumen {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .servicio__resumen {
-    font-size: var(--fs-small);
-    line-height: 1.5;
-    color: var(--ink-3);
-  }
-
-  .servicio__mas {
-    margin-top: var(--s-2);
-    color: var(--amarillo);
-  }
-
-  .servicio__enlace:hover .servicio__mas,
-  .servicio__enlace:focus-visible .servicio__mas {
-    color: var(--amarillo);
-  }
-
-  @media (hover: hover) {
-    .servicio__enlace:hover .servicio__foto :global(img) {
-      transform: scale(1.06);
-    }
-  }
-
-  /* La pieza de cierre no lleva foto: es un hueco de noche en la rejilla, con
-     los mismos anillos de señal que la portada. Rompe la repetición de seis
-     fotos y deja la llamada a la acción respirando. */
-  .servicio--cta {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
     background: var(--noche);
-  }
-
-  .servicio--cta::before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: -30%;
-    right: -30%;
-    width: 22rem;
-    height: 22rem;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(17, 146, 203, 0.32) 0%, rgba(4, 18, 27, 0) 70%);
-  }
-
-  .servicio__cta {
-    display: grid;
-    gap: var(--s-3);
-    align-content: center;
-    justify-items: start;
-    height: 100%;
-    padding: var(--s-6) var(--s-5);
-  }
-
-  .servicio--cta .h3 {
-    color: var(--on-oscuro);
-    font-size: 1.5rem;
-  }
-
-  .servicio--cta .servicio__resumen {
+    border-color: transparent;
     color: var(--sobre-noche);
   }
 
-  /* Cabecera de titular suelto, sin frase debajo: no necesita el hueco
-     completo que reserva la cabecera normal para separar del cuerpo. */
-  .cabecera.cabecera--corta {
-    margin-bottom: clamp(1.25rem, 2.5vw, 1.875rem);
-  }
-
-  /* ---------- Por qué fiarte ---------- */
-  /* Dos columnas desde el móvil más estrecho: en una sola columna las cuatro
-     pruebas se comían una pantalla entera para cuatro frases cortas. */
-  .pruebas {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--s-4) var(--s-4);
-  }
-
-  @media (min-width: 62rem) {
-    .pruebas {
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--s-5) var(--s-6);
-    }
-  }
-
-  /* Cada prueba cuelga de un filo, con el icono suelto arriba. Antes el icono
-     iba dentro de un disco gris a la izquierda: cuatro discos en fila pesaban
-     más que el texto que acompañaban, y el disco es justo la forma que se
-     quitó del resto de la web. */
-  .prueba {
-    display: grid;
-    gap: 0.375rem;
-    align-content: start;
-    padding-top: var(--s-3);
-    border-top: 1px solid var(--noche-linea);
-  }
-
-  /* En móvil todo va al eje central, igual que el titular de la sección: con
-     dos columnas estrechas el texto alineado a la izquierda dejaba banderas
-     muy irregulares. */
-  @media (max-width: 61.99rem) {
-    .prueba {
-      justify-items: center;
-      text-align: center;
-    }
-  }
-
-  .prueba__icono {
-    margin-bottom: var(--s-2);
-    color: var(--amarillo);
-  }
-
-  .prueba__titulo {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
+  .servicios__cta .h3 {
     color: var(--on-oscuro);
   }
 
-  .prueba__texto {
+  .servicios__cta-texto {
     font-size: var(--fs-small);
     line-height: 1.55;
     color: var(--sobre-noche);
   }
 
-  /* ---------- Proceso ---------- */
-  /* Dos columnas ya desde móvil ancho: cuatro pasos apilados ocupaban una
-     pantalla entera para cuatro frases cortas. */
-  .pasos {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--s-4);
+  .servicios__cta .enlace-flecha {
+    color: var(--amarillo);
   }
 
-  @media (min-width: 62rem) {
-    .pasos {
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--s-5);
-    }
-  }
-
-  /* Aquí el número sí manda: son cuatro pasos en orden, y el orden es la
-     información. Grande y en azul claro hace de mojón visual y deja el filo
-     de arriba como la línea que los enhebra. */
-  .paso {
-    display: grid;
-    align-content: start;
-    gap: 0.25rem;
-    padding-top: var(--s-3);
-    border-top: 2px solid var(--line);
-  }
-
-  .paso__numero {
-    margin-bottom: var(--s-1);
-    font-size: var(--fs-indice);
-    font-weight: 700;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    color: var(--azul-vivo);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .paso__titulo {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-  }
-
-  .paso__texto {
-    font-size: var(--fs-small);
-    line-height: 1.5;
-    color: var(--ink-3);
-  }
-
-  /* ---------- Cobertura ---------- */
-  /* Va sobre la foto de la costa del sur, así que la sección entera cabe en
-     una tira: titular, frase y los municipios en pastillas. Sin foto aparte. */
-  /* Sin el listado de municipios: con decir que es todo el sur basta, y la
-     tira baja a una sola línea de titular y frase. */
-  .cobertura__cabecera {
-    display: grid;
-    justify-items: center;
-    gap: var(--s-2);
-    text-align: center;
-  }
-
-  .cobertura__cabecera :global(.prosa) {
-    max-width: 52ch;
-  }
-
-  /* Sin el hueco de debajo del titular la tira queda centrada de verdad:
-     antes sobraba abajo el margen que la cabecera reserva para el contenido
-     que aquí no existe. */
-  .cabecera.cobertura__cabecera {
-    margin-bottom: 0;
-  }
-
-  /* ---------- Preguntas ---------- */
-  .faq-lista {
-    max-width: 52rem;
-    margin-inline: auto;
+  .marcas .cabecera {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 </style>

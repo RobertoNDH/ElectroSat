@@ -1,6 +1,15 @@
 ---
 // Sección de un edificio: una línea troncal baja desde la cabecera y alimenta
 // la toma de cada vivienda. Se dibuja al entrar en pantalla.
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang).servicio;
+
 const IZQ = 60;
 const DER = 300;
 const TECHO = 130;
@@ -18,19 +27,16 @@ const arcos = [16, 30, 44].map(
 );
 
 const etiquetas = [
-  { y: 96, texto: 'Cabecera en cubierta', desde: 172 },
-  { y: forjados[1], texto: 'El cable que ya existe', desde: TRONCAL + 8 },
-  { y: centros[3], texto: 'Una toma por vivienda', desde: TOMA + 10 },
+  { y: 96, texto: txt.diagramaRotulos[0], desde: 172 },
+  { y: forjados[1], texto: txt.diagramaRotulos[1], desde: TRONCAL + 8 },
+  { y: centros[3], texto: txt.diagramaRotulos[2], desde: TOMA + 10 },
 ];
 ---
 
 <figure class="diagrama">
   <svg viewBox="0 0 470 540" role="img" class="diagrama__svg">
-    <title>Sección de un edificio con la instalación de internet comunitario</title>
-    <desc>
-      Una cabecera situada en la cubierta alimenta una única línea vertical que
-      recorre el edificio y llega a una toma en cada una de las cuatro viviendas.
-    </desc>
+    <title>{txt.diagramaAlt}</title>
+    <desc>{txt.diagramaDesc}</desc>
 
     <g class="d-fino">
       <!-- Envolvente del edificio -->
