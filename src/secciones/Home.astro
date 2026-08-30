@@ -4,13 +4,11 @@ import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import Faq from '../components/Faq.astro';
 import Marquesina from '../components/Marquesina.astro';
-import HeroSlider from '../components/HeroSlider.astro';
-import Ventajas from '../components/Ventajas.astro';
+import Hero from '../components/Hero.astro';
 import TarjetaServicio from '../components/TarjetaServicio.astro';
-import BloqueNosotros from '../components/BloqueNosotros.astro';
+import CarruselTarjetas from '../components/CarruselTarjetas.astro';
 import Proceso from '../components/Proceso.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
-import Mapa from '../components/Mapa.astro';
 import { marcas } from '../data/marcas';
 import { FAQ } from '../data/faq';
 import { empresa, telHref } from '../data/empresa';
@@ -52,8 +50,7 @@ const jsonLd = [
 ---
 
 <Base lang={lang} titulo={meta.titulo} descripcion={meta.descripcion} jsonLd={jsonLd}>
-  <HeroSlider lang={lang} />
-  <Ventajas lang={lang} />
+  <Hero lang={lang} />
 
   <section class="section servicios" id="servicios" aria-labelledby="servicios-titulo">
     <div class="container">
@@ -62,7 +59,7 @@ const jsonLd = [
         <p class="prosa">{txt.servicios.prosa}</p>
       </div>
 
-      <ul class="servicios__rejilla" data-anima="hijos">
+      <CarruselTarjetas lang={lang} etiqueta={txt.servicios.titulo}>
         {
           servicios.map((s) => (
             <li>
@@ -79,12 +76,12 @@ const jsonLd = [
 
         <li>
           <div class="tarjeta servicios__cta" data-brillo>
-            <span class="pastilla pastilla--amarilla">
+            <span class="pastilla pastilla--oro">
               <Icono nombre="telefono" tamano={22} />
             </span>
             <p class="h3">{txt.servicios.ctaTitulo}</p>
             <p class="servicios__cta-texto">{txt.servicios.ctaTexto}</p>
-            <a class="btn btn--principal btn--bloque" href={telHref()}>
+            <a class="btn btn--azul btn--bloque" href={telHref()}>
               <Icono nombre="telefono" tamano={17} />
               {txt.acciones.llamarA(empresa.telefono.display)}
             </a>
@@ -94,11 +91,10 @@ const jsonLd = [
             </a>
           </div>
         </li>
-      </ul>
+      </CarruselTarjetas>
     </div>
   </section>
 
-  <BloqueNosotros lang={lang} />
   <Proceso lang={lang} />
 
   <section class="section section--tight marcas" id="marcas" aria-labelledby="marcas-titulo">
@@ -122,32 +118,10 @@ const jsonLd = [
   </section>
 
   <BloqueContacto lang={lang} />
-
-  <section class="section section--surface">
-    <div class="container">
-      <Mapa lang={lang} />
-    </div>
-  </section>
 </Base>
 
 <style>
-  .servicios__rejilla {
-    display: grid;
-    gap: var(--s-5);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
-  }
-
-  .servicios__rejilla > li {
-    display: grid;
-  }
-
-  /* La tarjeta de llamada cierra la rejilla: con cinco servicios queda un
-     hueco en la última fila, y dejarlo vacío es lo que hace que una retícula
-     parezca a medio terminar. */
   .servicios__cta {
-    /* .tarjeta ya es flex en columna: centrar aquí es cosa de justify-content
-       (eje principal) y align-items (eje cruzado), no de propiedades de grid,
-       que en un contenedor flex no hacen nada. */
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -156,6 +130,11 @@ const jsonLd = [
     background: var(--noche);
     border-color: transparent;
     color: var(--sobre-noche);
+  }
+
+  .servicios__cta .pastilla--oro {
+    background: var(--oro);
+    color: var(--noche);
   }
 
   .servicios__cta .h3 {
@@ -169,7 +148,7 @@ const jsonLd = [
   }
 
   .servicios__cta .enlace-flecha {
-    color: var(--amarillo);
+    color: var(--oro);
   }
 
   .marcas .cabecera {

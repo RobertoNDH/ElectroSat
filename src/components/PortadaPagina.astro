@@ -105,6 +105,9 @@ const camino: Miga[] = [{ texto: txt.nav.inicio, href: ruta(lang, '/') }, ...mig
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Mismo acabado cinematográfico que la portada de la home: da un aire
+       más premium y unifica el tono de todas las cabeceras interiores. */
+    filter: saturate(1.2) contrast(1.06) brightness(1.03);
   }
 
   .portada__foto--alto {
@@ -123,9 +126,14 @@ const camino: Miga[] = [{ texto: txt.nav.inicio, href: ruta(lang, '/') }, ...mig
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image: var(--grano), var(--velo-portada);
-    background-size: 180px 180px, cover;
-    background-repeat: repeat, no-repeat;
+    /* El viñeteado oscurece solo las esquinas: enmarca la foto como una
+       portada editorial en vez de dejarla plana de borde a borde. */
+    background-image:
+      radial-gradient(ellipse 140% 90% at 50% 40%, transparent 55%, rgba(4, 6, 10, 0.35) 100%),
+      var(--grano),
+      var(--velo-portada);
+    background-size: cover, 180px 180px, cover;
+    background-repeat: no-repeat, repeat, no-repeat;
   }
 
   .portada__contenido {
@@ -167,6 +175,14 @@ const camino: Miga[] = [{ texto: txt.nav.inicio, href: ruta(lang, '/') }, ...mig
     min-height: clamp(11rem, 26vw, 15rem);
   }
 
+  /* Más comprimida en escritorio: en Contacto, las tarjetas de llamada
+     tienen que caber bajo la cabecera fija sin desplazar. */
+  @media (min-width: 62rem) {
+    .portada--compacta {
+      min-height: clamp(8rem, 14vw, 10rem);
+    }
+  }
+
   /* ---------- Miga de pan ---------- */
 
   .migas ol {
@@ -189,7 +205,7 @@ const camino: Miga[] = [{ texto: txt.nav.inicio, href: ruta(lang, '/') }, ...mig
   }
 
   .migas a:hover {
-    color: var(--amarillo);
+    color: var(--oro);
     text-decoration: underline;
   }
 

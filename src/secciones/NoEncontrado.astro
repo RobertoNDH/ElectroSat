@@ -34,7 +34,7 @@ const servicios = (await getCollection('servicios'))
   <section class="section perdido">
     <div class="container perdido__caja">
       <div class="perdido__acciones">
-        <a class="btn btn--principal btn--lg" href={telHref()}>
+        <a class="btn btn--azul btn--lg" href={telHref()}>
           <Icono nombre="telefono" tamano={18} />
           {txt.acciones.llamarA(empresa.telefono.display)}
         </a>
@@ -106,11 +106,11 @@ const servicios = (await getCollection('servicios'))
   }
 
   .perdido__enlaces a svg {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .perdido__enlaces a:hover {
-    border-color: var(--azul);
-    background: var(--azul-tinte);
+    border-color: var(--oro-oscuro);
+    background: var(--oro-tinte);
   }
 </style>

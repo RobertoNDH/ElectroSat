@@ -1,130 +1,128 @@
 import type { Idioma } from './config';
 
-// TODO: sustituir la historia por la real de la empresa. Cuándo empezó, quién
-// la fundó y cómo llegó a hacer las cinco cosas que hace hoy.
 export const NOSOTROS = {
   es: {
-    eyebrow: 'Nosotros',
-    titulo: 'Somos de aquí y trabajamos aquí',
+    eyebrow: 'Nuestra Firma',
+    titulo: 'Excelencia técnica e integración arquitectónica',
     lede:
-      'ElectroSat TV está en Valle San Lorenzo, en Arona. Montamos y mantenemos antenas, cámaras, porteros e internet en el sur de Tenerife.',
+      'ElectroSat TV es una firma especializada en telecomunicaciones de alta gama con sede en Valle San Lorenzo, Arona. Diseñamos e implementamos sistemas de antena, circuito cerrado y redes premium en las propiedades más exclusivas del sur de Tenerife.',
     cifras: {
-      anios: 'años trabajando aquí',
-      areas: 'áreas de trabajo',
-      municipios: 'municipios del sur',
+      anios: 'años de trayectoria',
+      areas: 'divisiones técnicas',
+      municipios: 'municipios de cobertura',
     },
-    historiaTitulo: 'Conocemos estos edificios de memoria',
-    altTorre: 'Técnico subido a una torre de telecomunicaciones ajustando una antena parabólica',
+    historiaTitulo: 'Conocemos estas residencias a la perfección',
+    altTorre: 'Ingeniero técnico configurando un sistema de comunicaciones de alta gama',
     historia: [
-      'Empezamos con antenas de televisión, que es de donde viene el nombre. Con los años, los mismos edificios nos fueron pidiendo cámaras, porteros y, más tarde, internet para todas las viviendas.',
-      'Hoy hacemos las cinco cosas, porque en un portal comparten el mismo cable y el mismo cuarto. Cuando lo lleva una sola empresa, no hay dos instalaciones peleándose ni nadie a quien echarle la culpa.',
-      'Casi todos los trabajos nos llegan porque alguien nos recomienda: un administrador, un presidente de comunidad o un vecino al que ya le resolvimos algo. Por eso cuidamos tanto el remate y el papel que se entrega al final.',
+      'Nuestra trayectoria comenzó dominando los sistemas de captación satélite y televisión, origen de nuestro prestigio actual. Con el tiempo, la exigencia de las propiedades en las que interveníamos nos impulsó a integrar soluciones avanzadas de videovigilancia y redes de datos.',
+      'Hoy unificamos estas divisiones tecnológicas porque en una infraestructura de lujo comparten la misma red nerviosa. Centralizar el diseño y la ejecución en nuestra firma garantiza una armonía técnica absoluta, eliminando incompatibilidades arquitectónicas.',
+      'La práctica totalidad de nuestros proyectos proviene de recomendaciones en circuitos exclusivos: administradores de fincas premium, arquitectos y clientes satisfechos. Por ello, nuestra obsesión reside en la pulcritud del remate final y en la entrega de certificaciones oficiales impecables.',
     ],
-    compromisosTitulo: 'Cuatro cosas que no se negocian',
+    compromisosTitulo: 'Nuestros pilares corporativos',
     compromisos: [
       {
-        titulo: 'El precio se dice antes',
+        titulo: 'Transparencia absoluta',
         texto:
-          'Presupuesto detallado, con el material que lleva. Si en obra sale algo que no estaba previsto, paramos y te consultamos.',
+          'Propuestas técnicas detalladas y presupuestos cerrados. Cualquier adaptación arquitectónica requerida durante la ejecución se somete a su aprobación previa.',
       },
       {
-        titulo: 'Todo queda por escrito',
+        titulo: 'Certificación oficial',
         texto:
-          'Mediciones, certificado y garantía. En una comunidad ese papel es lo que permite al administrador justificar el gasto.',
+          'Entregamos auditorías de señal, certificaciones y garantías por escrito. Documentación indispensable para la justificación de inversiones en comunidades de alto standing.',
       },
       {
-        titulo: 'Se monta para durar',
+        titulo: 'Durabilidad extrema',
         texto:
-          'Material de marca con repuesto y cable bien rematado. Lo barato que hay que rehacer en tres años no ha ahorrado nada.',
+          'Desplegamos exclusivamente equipamiento de grado profesional con disponibilidad de repuestos a largo plazo. La verdadera exclusividad es no tener que rehacer el trabajo.',
       },
       {
-        titulo: 'Seguimos cogiendo el teléfono',
+        titulo: 'Servicio post-integración',
         texto:
-          'Después de instalar seguimos siendo los mismos. Si llamas por una incidencia, te atiende quien sabe qué se montó en tu edificio.',
+          'Nuestro compromiso trasciende la instalación. Su contacto será siempre con los mismos ingenieros y técnicos que diseñaron la infraestructura de su propiedad.',
       },
     ],
   },
 
   en: {
-    eyebrow: 'About us',
-    titulo: 'We are from here and we work here',
+    eyebrow: 'Our Firm',
+    titulo: 'Technical Excellence and Architectural Integration',
     lede:
-      'ElectroSat TV is based in Valle San Lorenzo, Arona. We install and maintain aerials, cameras, door entry systems and internet across southern Tenerife.',
+      'ElectroSat TV is a specialized high-end telecommunications firm based in Valle San Lorenzo, Arona. We design and implement premium aerial systems, CCTV, and networks in the most exclusive properties in South Tenerife.',
     cifras: {
-      anios: 'years working here',
-      areas: 'areas of work',
-      municipios: 'towns in the south',
+      anios: 'years of experience',
+      areas: 'technical divisions',
+      municipios: 'coverage municipalities',
     },
-    historiaTitulo: 'We know these buildings inside out',
-    altTorre: 'Technician up a telecommunications tower adjusting a satellite dish',
+    historiaTitulo: 'We know these residences intimately',
+    altTorre: 'Technical engineer configuring a high-end communications system',
     historia: [
-      'We started with television aerials, which is where the name comes from. Over the years the same buildings began asking us for cameras, door entry and, later on, internet for every flat.',
-      'Today we do all five, because in a building they share the same cabling and the same services room. With one company handling it, there are no two installations fighting each other and nobody to pass the blame to.',
-      'Almost all our work comes through recommendation: an administrator, a residents association president or a neighbour whose problem we solved. That is why we care so much about the finish and the paperwork we hand over.',
+      'Our journey began by mastering satellite and television reception systems, the origin of our current prestige. Over time, the demands of the properties we worked on drove us to integrate advanced video surveillance and data networking solutions.',
+      'Today, we unify these technological divisions because in a luxury infrastructure, they share the same nerve center. Centralizing design and execution within our firm guarantees absolute technical harmony, eliminating architectural incompatibilities.',
+      'Almost all our projects come from recommendations in exclusive circles: premium property managers, architects, and satisfied clients. Therefore, our obsession lies in the neatness of the final finish and the delivery of impeccable official certifications.',
     ],
-    compromisosTitulo: 'Four things we do not negotiate',
+    compromisosTitulo: 'Our Corporate Pillars',
     compromisos: [
       {
-        titulo: 'The price comes first',
+        titulo: 'Absolute Transparency',
         texto:
-          'An itemised quote, including the materials. If something unexpected turns up during the work, we stop and ask you.',
+          'Detailed technical proposals and fixed quotes. Any architectural adaptation required during execution is submitted for your prior approval.',
       },
       {
-        titulo: 'Everything in writing',
+        titulo: 'Official Certification',
         texto:
-          'Readings, certificate and guarantee. In a residential building that paperwork is what lets the administrator justify the spend.',
+          'We provide signal audits, certifications, and written guarantees. Essential documentation for justifying investments in high-standing communities.',
       },
       {
-        titulo: 'Built to last',
+        titulo: 'Extreme Durability',
         texto:
-          'Branded equipment with spares available and cabling finished properly. Something cheap that needs redoing in three years has saved nothing.',
+          'We exclusively deploy professional-grade equipment with long-term spare part availability. True exclusivity means not having to redo the work.',
       },
       {
-        titulo: 'We still answer the phone',
+        titulo: 'Post-Integration Service',
         texto:
-          'After the installation we are still the same people. If you call about a problem, you speak to someone who knows what was fitted in your building.',
+          'Our commitment goes beyond installation. Your point of contact will always be the same engineers and technicians who designed your property’s infrastructure.',
       },
     ],
   },
 
   de: {
-    eyebrow: 'Über uns',
-    titulo: 'Wir sind von hier und arbeiten hier',
+    eyebrow: 'Unsere Firma',
+    titulo: 'Technische Exzellenz und architektonische Integration',
     lede:
-      'ElectroSat TV sitzt in Valle San Lorenzo, Arona. Wir montieren und warten Antennen, Kameras, Türsprechanlagen und Internet im Süden Teneriffas.',
+      'ElectroSat TV ist ein spezialisiertes High-End-Telekommunikationsunternehmen mit Sitz in Valle San Lorenzo, Arona. Wir entwerfen und implementieren Premium-Antennensysteme, Videoüberwachung und Netzwerke in den exklusivsten Immobilien im Süden Teneriffas.',
     cifras: {
-      anios: 'Jahre hier tätig',
-      areas: 'Arbeitsbereiche',
-      municipios: 'Orte im Süden',
+      anios: 'Jahre Erfahrung',
+      areas: 'technische Geschäftsbereiche',
+      municipios: 'abgedeckte Gemeinden',
     },
-    historiaTitulo: 'Wir kennen diese Häuser in- und auswendig',
-    altTorre: 'Techniker auf einem Sendemast beim Ausrichten einer Satellitenschüssel',
+    historiaTitulo: 'Wir kennen diese Residenzen genau',
+    altTorre: 'Technischer Ingenieur konfiguriert ein High-End-Kommunikationssystem',
     historia: [
-      'Angefangen haben wir mit Fernsehantennen, daher der Name. Mit den Jahren fragten dieselben Häuser nach Kameras, Sprechanlagen und später nach Internet für alle Wohnungen.',
-      'Heute machen wir alle fünf Bereiche, denn im Haus teilen sie sich dieselbe Verkabelung und denselben Technikraum. Wenn ein Betrieb alles betreut, behindern sich zwei Anlagen nicht und niemand schiebt die Schuld weiter.',
-      'Fast alle Aufträge kommen über Empfehlung: von einem Verwalter, einem Beirat oder einem Nachbarn, dem wir schon geholfen haben. Deshalb achten wir so auf saubere Ausführung und auf die Unterlagen am Schluss.',
+      'Unsere Reise begann mit der Beherrschung von Satelliten- und Fernsehempfangssystemen, dem Ursprung unseres heutigen Prestiges. Im Laufe der Zeit veranlassten uns die Anforderungen der von uns betreuten Immobilien dazu, fortschrittliche Videoüberwachungs- und Datennetzwerklösungen zu integrieren.',
+      'Heute vereinen wir diese technologischen Bereiche, da sie in einer Luxusinfrastruktur denselben Nervenstrang teilen. Die Zentralisierung von Design und Ausführung in unserer Firma garantiert absolute technische Harmonie und beseitigt architektonische Inkompatibilitäten.',
+      'Fast alle unsere Projekte stammen aus Empfehlungen in exklusiven Kreisen: Premium-Immobilienverwalter, Architekten und zufriedene Kunden. Daher liegt unsere Obsession in der Sauberkeit des endgültigen Finishs und der Übergabe tadelloser offizieller Zertifizierungen.',
     ],
-    compromisosTitulo: 'Vier Dinge, über die wir nicht verhandeln',
+    compromisosTitulo: 'Unsere Unternehmenspfeiler',
     compromisos: [
       {
-        titulo: 'Der Preis steht vorher fest',
+        titulo: 'Absolute Transparenz',
         texto:
-          'Aufgeschlüsseltes Angebot samt Material. Taucht während der Arbeit etwas Unvorhergesehenes auf, halten wir an und fragen nach.',
+          'Detaillierte technische Vorschläge und Festpreise. Jede während der Ausführung erforderliche architektonische Anpassung wird Ihnen vorab zur Genehmigung vorgelegt.',
       },
       {
-        titulo: 'Alles schriftlich',
+        titulo: 'Offizielle Zertifizierung',
         texto:
-          'Messwerte, Abnahmeprotokoll und Garantie. In einer Wohnanlage sind das die Unterlagen, mit denen der Verwalter die Ausgabe belegt.',
+          'Wir liefern Signalaudits, Zertifizierungen und schriftliche Garantien. Unverzichtbare Dokumentation zur Rechtfertigung von Investitionen in gehobenen Wohnanlagen.',
       },
       {
-        titulo: 'Gebaut, um zu halten',
+        titulo: 'Extreme Langlebigkeit',
         texto:
-          'Markenmaterial mit Ersatzteilversorgung und sauber verlegte Leitungen. Was billig ist und nach drei Jahren erneuert werden muss, hat nichts gespart.',
+          'Wir setzen ausschließlich professionelle Ausrüstung mit langfristiger Ersatzteilverfügbarkeit ein. Wahre Exklusivität bedeutet, die Arbeit nicht noch einmal machen zu müssen.',
       },
       {
-        titulo: 'Wir gehen weiterhin ans Telefon',
+        titulo: 'Post-Integrations-Service',
         texto:
-          'Nach der Montage sind wir dieselben Leute. Wer wegen einer Störung anruft, spricht mit jemandem, der weiß, was in seinem Haus verbaut wurde.',
+          'Unser Engagement geht über die Installation hinaus. Ihr Ansprechpartner bleiben immer dieselben Ingenieure und Techniker, die die Infrastruktur Ihrer Immobilie entworfen haben.',
       },
     ],
   },

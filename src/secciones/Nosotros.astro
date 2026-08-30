@@ -48,7 +48,7 @@ const jsonLd = [
     titulo={n.titulo}
     texto={n.lede}
     foto={fotoPortada}
-    encuadre="centro"
+    encuadre="alto"
     migas={[{ texto: txt.nav.nosotros }]}
     centrado
   />
@@ -104,7 +104,7 @@ const jsonLd = [
         {
           n.compromisos.map((c, i) => (
             <li class="tarjeta tarjeta--eleva compromiso">
-              <span class="pastilla pastilla--marca">
+              <span class="pastilla pastilla--oro">
                 <Icono nombre={iconos[i]} tamano={22} />
               </span>
               <strong class="compromiso__titulo">{c.titulo}</strong>
@@ -213,12 +213,17 @@ const jsonLd = [
     border-radius: var(--r-md);
   }
 
+  .pastilla--oro {
+    background: var(--oro);
+    color: var(--noche);
+  }
+
   .compromiso__titulo {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--ink);
   }
 
@@ -235,7 +240,6 @@ const jsonLd = [
     right: -0.125rem;
     bottom: -0.875rem;
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: 3.75rem;
     font-weight: 800;
     line-height: 1;

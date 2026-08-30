@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 import Icono from '../components/Icono.astro';
 import BloqueContacto from '../components/BloqueContacto.astro';
 import PortadaPagina from '../components/PortadaPagina.astro';
+import CarruselTarjetas from '../components/CarruselTarjetas.astro';
 import Marquesina from '../components/Marquesina.astro';
 import Proceso from '../components/Proceso.astro';
 import fotoPortada from '../assets/portada-servicios.jpg';
@@ -52,7 +53,7 @@ const jsonLd = [
 
   <section class="section">
     <div class="container">
-      <ul class="lista" data-anima="hijos">
+      <CarruselTarjetas lang={lang} etiqueta={txt.servicios.titulo}>
         {
           servicios.map((s, i) => {
             const url = ruta(lang, `/servicios/${s.id.split('/')[1]}/`);
@@ -69,7 +70,7 @@ const jsonLd = [
                     />
                   </a>
 
-                  <span class="pastilla pastilla--marca ficha__icono">
+                  <span class="pastilla pastilla--oro ficha__icono">
                     <Icono nombre={s.data.icono} tamano={24} />
                   </span>
                 </span>
@@ -98,7 +99,7 @@ const jsonLd = [
             );
           })
         }
-      </ul>
+      </CarruselTarjetas>
     </div>
   </section>
 
@@ -116,14 +117,14 @@ const jsonLd = [
 </Base>
 
 <style>
-  .lista {
-    display: grid;
-    gap: var(--s-5);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  }
-
+  /* Sin altura fija: así el navegador estira la tarjeta al alto de la fila
+     (align-self: stretch, declarado en el deslizador que la contiene). Una
+     altura en porcentaje aquí desactivaría ese estirado, porque para el
+     motor de flex/grid solo cuenta como "auto" una altura sin especificar. */
   .ficha {
     position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
     overflow: hidden;
   }
 
@@ -149,11 +150,19 @@ const jsonLd = [
     box-shadow: var(--sombra);
     z-index: 1;
   }
+  
+  .pastilla--oro {
+    background: var(--oro);
+    color: var(--noche);
+  }
 
+  /* Cuatro filas declaradas: el hueco elástico va en la de las viñetas, así
+     el enlace "Ver servicio" queda pegado al fondo de todas las tarjetas
+     aunque cada ficha tenga un número distinto de puntos. */
   .ficha__cuerpo {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    align-content: start;
+    grid-template-rows: auto auto 1fr auto;
     gap: var(--s-3);
     padding: calc(var(--s-5) + 1rem) var(--s-5) var(--s-5);
     padding-right: calc(var(--s-5) + 2.5rem);
@@ -176,7 +185,7 @@ const jsonLd = [
   }
 
   .ficha:hover .ficha__titulo {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .ficha__resumen {
@@ -201,14 +210,16 @@ const jsonLd = [
   }
 
   .ficha__puntos svg {
-    color: var(--azul);
+    color: var(--oro);
     margin-top: 0.25rem;
     flex: none;
   }
 
   .ficha__enlace {
+    align-self: end;
     margin-top: var(--s-2);
     justify-self: start;
+    color: var(--oro-oscuro);
   }
 
   .ficha::after {
@@ -218,7 +229,7 @@ const jsonLd = [
     right: 100%;
     bottom: 0;
     height: 4px;
-    background: var(--amarillo);
+    background: var(--oro-oscuro);
     transition: right var(--t-medio);
     z-index: 2;
   }

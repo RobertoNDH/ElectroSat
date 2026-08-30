@@ -14,22 +14,23 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 1rem);
-  caret-color: var(--azul);
-  scrollbar-color: var(--control) var(--surface);
+  caret-color: var(--oro);
+  scrollbar-color: var(--oro-oscuro) var(--noche);
   scrollbar-width: thin;
 }
 
 body {
   min-height: 100svh;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: var(--resplandor), var(--topo), var(--textura-clara);
+  background-attachment: fixed, fixed, fixed;
   color: var(--ink-2);
   font-family: var(--font-base);
   font-size: var(--fs-body);
-  line-height: 1.65;
+  line-height: 1.7; /* Más interlineado = más aire, más premium */
   -webkit-font-smoothing: antialiased;
-  /* Ninguna sección puede sacar barra horizontal. Las formas decorativas y las
-     fotos desbordadas se recortan aquí. */
   overflow-x: clip;
+  letter-spacing: 0.01em; /* Ligero tracking para el cuerpo */
 }
 
 img,
@@ -55,30 +56,30 @@ ol {
 }
 
 a {
-  color: var(--azul);
+  color: var(--oro-oscuro);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-underline-offset: 0.25em;
+  transition: color var(--t-rapido), text-decoration-color var(--t-rapido);
+}
+
+a:hover {
+  color: var(--oro);
 }
 
 :focus-visible {
-  outline: 3px solid var(--azul-vivo);
-  outline-offset: 2px;
+  outline: 2px solid var(--oro);
+  outline-offset: 4px;
   border-radius: 2px;
 }
 
-/* Sobre fondo oscuro el azul del foco no se ve. */
-.sobre-noche :focus-visible {
-  outline-color: var(--amarillo);
-}
-
 ::selection {
-  background: var(--azul);
-  color: var(--on-oscuro);
+  background: var(--oro-claro);
+  color: var(--noche);
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -87,12 +88,11 @@ a {
 
 ::-webkit-scrollbar-thumb {
   background: var(--control);
-  border: 3px solid var(--surface);
-  border-radius: 6px;
+  border-radius: 0; /* Aspecto más recto */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-3);
+  background: var(--platino-oscuro);
 }
 
 /* ---------- Titulares ---------- */
@@ -102,55 +102,52 @@ a {
 .h2,
 .h3 {
   font-family: var(--font-display);
-  font-stretch: var(--wdth-display);
-  color: var(--ink);
+  color: var(--noche);
   text-wrap: balance;
-  /* Red de seguridad: una palabra larga nunca debe ensanchar su contenedor y
-     sacar barra horizontal. Pasa en alemán y con "telecomunicaciones". */
   min-width: 0;
   overflow-wrap: break-word;
 }
 
 .hero-titulo {
   font-size: var(--fs-hero);
-  font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  font-weight: 600; /* Serif no necesita ser tan bold */
+  line-height: 1.05;
+  letter-spacing: -0.01em;
 }
 
 .display-l {
   font-size: var(--fs-display-l);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -0.032em;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .h2 {
   font-size: var(--fs-h2);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
 }
 
 .h3 {
   font-size: var(--fs-h3);
-  font-weight: 700;
-  line-height: 1.28;
-  letter-spacing: -0.018em;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
-/* Una palabra del titular en amarillo. Se usa una sola vez por página: si se
-   repite deja de subrayar nada. */
+/* Acento para palabras clave (en oro) */
 .acento {
-  color: var(--amarillo);
+  color: var(--oro);
+  font-style: italic; /* El italic en tipografía serif premium queda muy elegante */
 }
 
 .lede {
-  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
-  line-height: 1.6;
-  color: var(--ink-2);
-  max-width: 56ch;
+  font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+  line-height: 1.65;
+  color: var(--ink-3);
+  max-width: 58ch;
   text-wrap: pretty;
+  font-weight: 300;
 }
 
 .prosa {
@@ -159,28 +156,27 @@ a {
 }
 
 .prosa > * + * {
-  margin-top: var(--s-4);
+  margin-top: var(--s-5); /* Más espacio entre párrafos */
 }
 
 .prosa strong {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 
-/* Etiqueta de grupo dentro de una lista o un panel. Nunca sobre un titular. */
 .etiqueta {
   font-family: var(--font-base);
   font-size: var(--fs-eyebrow);
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--oro-oscuro);
 }
 
 .small {
   font-size: var(--fs-small);
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink-3);
 }
 
@@ -191,7 +187,7 @@ a {
 
 .tel-num {
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.05em;
 }
 
 /* ---------- Estructura ---------- */
@@ -212,21 +208,19 @@ a {
 }
 
 .section--surface {
-  background: var(--surface);
+  background-color: var(--surface);
+  background-image: var(--resplandor-fuerte), var(--topo-fuerte);
 }
 
 .section--tight {
-  padding-block: clamp(1.75rem, 3vw, 2.75rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
 }
 
-/* Fondo azul casi negro. Sirve para dar un respiro oscuro entre dos secciones
-   de lectura sin gastar otra fotografía. */
 .section--noche {
-  background: var(--noche);
+  background-color: var(--noche);
+  background-image: var(--grano);
 }
 
-/* Todo lo que vive sobre noche hereda el color claro desde aquí, así ninguna
-   sección tiene que repetir la lista de excepciones. */
 .sobre-noche {
   color: var(--sobre-noche);
 }
@@ -246,7 +240,13 @@ a {
   color: var(--sobre-noche);
 }
 
-.sobre-noche a {
+/* Los enlaces sueltos de una banda oscura van en oro claro. Los botones no:
+   tienen su propio color y este selector, más específico, les borraba el texto
+   oscuro sobre el fondo dorado. */
+.sobre-noche a:not(.btn) {
+  color: var(--oro-claro);
+}
+.sobre-noche a:not(.btn):hover {
   color: var(--on-oscuro);
 }
 
@@ -255,12 +255,6 @@ a {
   border-top: var(--hairline);
 }
 
-/* Cabecera de sección. Por defecto centrada; con --izq se alinea a la
-   izquierda, que es lo que piden las secciones de dos columnas. */
-/* `minmax(0, 1fr)` en vez de dejar la pista implícita: una columna `auto` se
-   dimensiona a max-content, así que un párrafo largo ensancharía la rejilla por
-   encima del contenedor y sacaría barra horizontal en móvil. Es el motivo por
-   el que toda rejilla de una sola columna de este sitio declara su pista. */
 .pila,
 .cabecera {
   display: grid;
@@ -270,7 +264,7 @@ a {
 .cabecera {
   justify-items: center;
   gap: var(--s-4);
-  margin-bottom: clamp(2rem, 3.5vw, 3rem);
+  margin-bottom: clamp(3rem, 5vw, 4rem);
   text-align: center;
 }
 
@@ -280,21 +274,16 @@ a {
   margin-bottom: var(--s-6);
 }
 
-/* Ancho suficiente para que la mayoría de titulares quepan en dos líneas,
-   sin que los compuestos largos del alemán se estiren de lado a lado. */
 .cabecera .h2,
-.cabecera .display-l {
-  max-width: min(100%, 22ch);
-}
-
+.cabecera .display-l,
 .cabecera--izq .h2,
 .cabecera--izq .display-l {
-  max-width: min(100%, 22ch);
+  max-width: min(100%, 25ch);
 }
 
 .cabecera .prosa,
 .cabecera .lede {
-  max-width: 56ch;
+  max-width: 60ch;
   margin-inline: auto;
   color: var(--ink-3);
 }
@@ -304,141 +293,122 @@ a {
   margin-inline: 0;
 }
 
-/* Cabecera con el titular a la izquierda y un enlace o botón a la derecha. */
 .cabecera-fila {
   display: flex;
   flex-wrap: wrap;
   align-items: end;
   justify-content: space-between;
   gap: var(--s-5);
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(3rem, 5vw, 4rem);
 }
 
-/* ---------- Botones ---------- */
+/* ---------- Botones (Estilo Lujo Editorial) ---------- */
 
 .btn {
-  --btn-py: 0.8125rem;
-  --btn-px: 1.5rem;
+  --btn-py: 1rem;
+  --btn-px: 2rem;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 2.875rem;
+  gap: 0.75rem;
+  min-height: 3.25rem;
   padding: var(--btn-py) var(--btn-px);
   border: 1px solid transparent;
-  border-radius: var(--r-btn);
+  border-radius: var(--r-btn); /* Recto */
   font-family: var(--font-base);
-  font-size: var(--fs-small);
-  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
   line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: background var(--t-rapido), color var(--t-rapido),
-    border-color var(--t-rapido), box-shadow var(--t-rapido),
-    transform var(--t-rapido);
+  transition: all var(--t-medio);
 }
 
-/* Se levanta al pasar por encima y se hunde al pulsar: sin esto los botones
-   no dan ninguna respuesta y la página se siente muerta. */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--sombra);
   }
 }
 
 .btn:active {
   transform: translateY(0);
-  box-shadow: none;
 }
 
-/* Llamar. Amarillo del logo con tinta oscura: 9.8:1. El leve degradado y el
-   filo claro superior dan la sensación de una superficie real, no un
-   rectángulo plano. */
+/* Botón dorado premium */
 .btn--principal {
-  background: var(--grad-amarillo);
-  color: var(--ink);
-  border-color: var(--amarillo-osc);
-  box-shadow: var(--sombra-sm), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  overflow: hidden;
+  background: var(--oro);
+  color: var(--noche);
+  border-color: var(--oro);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
 .btn--principal:hover {
-  background: linear-gradient(180deg, #f0c157 0%, var(--amarillo-osc) 65%);
-  border-color: var(--amarillo-osc);
+  background: var(--oro-oscuro);
+  border-color: var(--oro-oscuro);
+  color: var(--paper);
+  box-shadow: 0 6px 20px rgba(170, 140, 44, 0.3);
 }
 
-/* Un filo de luz cruza el botón al pasar por encima. Un solo elemento, sin
-   JavaScript: una franja ancha e inclinada que vive fuera del botón por la
-   izquierda y se desplaza con transform, así que no reflow ni repinta nada
-   más que su propia capa. Solo en el botón principal, para que siga
-   leyéndose como el gesto de una sola acción y no como un tic repetido por
-   toda la página. */
-.btn--principal::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.55) 50%,
-    transparent 60%
-  );
-  transform: translateX(-130%);
-  pointer-events: none;
-}
-
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .btn--principal:hover::after {
-    transform: translateX(130%);
-    transition: transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-}
-
+/* Botón de llamada visible */
 .btn--azul {
-  background: linear-gradient(180deg, var(--azul-vivo) 0%, var(--azul) 65%);
-  color: var(--on-oscuro);
-  border-color: var(--azul-osc);
-  box-shadow: var(--sombra-sm), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  background: var(--azul-brillo);
+  color: var(--paper);
+  border-color: var(--azul-brillo);
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
 }
 
 .btn--azul:hover {
-  background: linear-gradient(180deg, var(--azul) 0%, var(--azul-osc) 65%);
-  border-color: var(--azul-osc);
+  background: var(--azul-claro);
+  border-color: var(--azul-claro);
+  color: var(--paper);
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.3);
+}
+
+/* Botón de apoyo: hereda el color del bloque donde cae, así sirve igual sobre
+   papel y sobre las bandas oscuras. Al pasar por encima se rellena de oro. */
+.btn--secundario {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+}
+
+.btn--secundario:hover {
+  background: var(--oro);
+  border-color: var(--oro);
+  color: var(--noche);
 }
 
 .btn--linea {
-  background: var(--paper);
-  color: var(--ink);
-  border-color: var(--control);
+  background: transparent;
+  color: var(--noche);
+  border-color: var(--noche);
 }
 
 .btn--linea:hover {
-  border-color: var(--ink);
-  background: var(--surface);
+  background: var(--noche);
+  color: var(--paper);
 }
 
-/* Contorneado para fondos oscuros: el borde blanco sobre la banda de contacto
-   da 8:1 largos, así que se lee sin necesidad de relleno. */
 .btn--claro {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--on-oscuro);
-  border-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(6px);
+  background: transparent;
+  color: var(--paper);
+  border-color: var(--paper);
 }
 
 .btn--claro:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--on-oscuro);
+  background: var(--paper);
+  color: var(--noche);
 }
 
 .btn--lg {
-  --btn-py: 1.0625rem;
-  --btn-px: 1.875rem;
-  min-height: 3.375rem;
-  font-size: 1rem;
+  --btn-py: 1.25rem;
+  --btn-px: 2.5rem;
+  min-height: 3.75rem;
+  font-size: 0.875rem;
 }
 
 .btn--bloque {
@@ -450,120 +420,88 @@ a {
 .enlace-flecha {
   display: inline-flex;
   align-items: center;
-  gap: 0.4375rem;
+  gap: 0.5rem;
   font-size: var(--fs-small);
-  font-weight: 700;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   text-decoration: none;
-  color: var(--azul);
+  color: var(--noche);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--oro);
 }
 
 .enlace-flecha svg {
   transition: transform var(--t-rapido);
+  color: var(--oro);
 }
 
 .enlace-flecha:hover {
-  color: var(--azul-osc);
+  color: var(--oro-oscuro);
 }
 
 .enlace-flecha:hover svg {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 .sobre-noche .enlace-flecha {
-  color: var(--amarillo);
+  color: var(--paper);
 }
 
-/* ---------- Icono en pastilla ---------- */
+/* ---------- Icono en pastilla (Rediseñado a estilo lujo) ---------- */
 
 .pastilla {
   display: grid;
   place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: var(--r-md);
-  background: var(--azul-tinte);
-  color: var(--azul);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%; /* Circular para contraste con bordes rectos */
+  background: transparent;
+  border: 1px solid var(--control);
+  color: var(--noche);
   flex: none;
 }
 
 .pastilla--marca {
-  background: var(--grad-marca);
-  color: var(--on-oscuro);
+  background: var(--noche);
+  border-color: var(--noche);
+  color: var(--oro);
 }
 
 .pastilla--amarilla {
-  background: var(--amarillo-tinte);
-  color: var(--amarillo-texto);
+  background: var(--oro-tinte);
+  border-color: var(--oro);
+  color: var(--oro-oscuro);
 }
 
 .sobre-noche .pastilla {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--amarillo);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--oro-claro);
 }
 
-/* ---------- Foco de luz sobre tarjetas oscuras ---------- */
-/* El elemento con data-brillo solo necesita position:relative y overflow
-   propios; Animaciones.astro mueve --mx/--my con el puntero y este ::before
-   pinta el resplandor. Pensado para tarjetas de fondo oscuro: sobre blanco
-   apenas se distinguiría. */
-[data-brillo] {
-  position: relative;
-  overflow: hidden;
-}
-
-[data-brillo]::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(
-    28rem circle at var(--mx, 50%) var(--my, 0%),
-    rgba(255, 255, 255, 0.08),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity var(--t-medio);
-  pointer-events: none;
-}
-
-@media (hover: hover) {
-  [data-brillo]:hover::before {
-    opacity: 1;
-  }
-}
-
-[data-brillo] > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ---------- Tarjeta ---------- */
+/* ---------- Tarjeta (Premium, rectas, sombras sutiles) ---------- */
 
 .tarjeta {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Una tarjeta no puede ensancharse por culpa de una palabra larga dentro. */
   min-width: 0;
   background: var(--paper);
-  border: var(--hairline);
+  border: 1px solid var(--line);
   border-radius: var(--r-card);
-  box-shadow: var(--sombra-sm);
-  transition: box-shadow var(--t-medio), transform var(--t-medio),
-    border-color var(--t-medio);
+  box-shadow: none; /* Aspecto más plano y limpio inicial */
+  transition: all var(--t-medio);
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .tarjeta--eleva:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     box-shadow: var(--sombra-alta);
-    border-color: transparent;
+    border-color: var(--control);
   }
 }
 
 /* ---------- Marco de foto ---------- */
-/* Cualquier foto que tenga que recortarse a una proporción va aquí dentro. El
-   zoom lento al pasar por encima es el único movimiento de las tarjetas. */
 
 .marco {
   position: relative;
@@ -576,57 +514,54 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--t-lento);
+  transition: transform var(--t-lento), filter var(--t-lento);
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .marco--zoom:hover img,
   a:hover > .marco--zoom img,
   a:hover .marco--zoom img {
-    transform: scale(1.06);
+    transform: scale(1.04);
+    filter: brightness(1.05);
   }
 }
 
 /* ---------- Sello ---------- */
-/* La pastilla de años de actividad que se monta sobre las fotos del bloque de
-   nosotros. Es la única pieza que usa el degradado de marca a tamaño grande. */
 
 .sello {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  gap: 0.125rem;
-  padding: var(--s-4) var(--s-5);
-  border-radius: var(--r-lg);
-  background: var(--grad-marca);
-  color: var(--on-oscuro);
-  box-shadow: var(--sombra-flotante);
+  gap: 0.25rem;
+  padding: var(--s-5) var(--s-6);
+  border-radius: var(--r-card); /* Recto */
+  background: var(--noche);
+  color: var(--oro-claro);
+  border: 1px solid var(--oro-oscuro);
+  box-shadow: var(--sombra-alta);
   text-align: center;
 }
 
 .sello__cifra {
   font-family: var(--font-display);
-  font-stretch: var(--wdth-display);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+  color: var(--oro);
 }
 
 .sello__texto {
-  font-size: var(--fs-mini);
-  font-weight: 600;
-  line-height: 1.3;
-  /* Suficiente para "años en el sur de la isla" en dos o tres líneas. Más
-     estrecho lo parte en cuatro y el sello se convierte en una columna. */
-  max-width: 13ch;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 18ch;
   text-wrap: balance;
 }
 
 /* ---------- Formas decorativas ---------- */
-/* Cuadrícula de puntos y arco. Van en CSS puro, no en imágenes: pesan cero y
-   se recolorean solas. Siempre decorativas y siempre detrás del contenido. */
 
 .forma {
   position: absolute;
@@ -635,18 +570,15 @@ a {
 }
 
 .forma--puntos {
-  background-image: radial-gradient(var(--azul-vivo) 1.5px, transparent 1.5px);
-  background-size: 14px 14px;
-  opacity: 0.28;
+  background-image: radial-gradient(var(--oro-oscuro) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.15;
 }
 
 .forma--marco {
-  border: 3px solid var(--amarillo);
-  border-radius: var(--r-lg);
+  border: 1px solid var(--oro);
+  border-radius: var(--r-card);
 }
-
-/* La aparición al hacer scroll vive en components/Animaciones.astro. Se pide
-   con el atributo data-anima; aquí no hay nada que declarar. */
 
 /* ---------- Accesibilidad ---------- */
 
@@ -656,19 +588,19 @@ a {
   top: 0;
   z-index: 100;
   padding: 0.75rem 1.25rem;
-  background: var(--azul);
-  color: var(--on-oscuro);
+  background: var(--noche);
+  color: var(--oro);
   font-size: var(--fs-small);
-  font-weight: 700;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   text-decoration: none;
-  border-radius: 0 0 var(--r-sm) var(--r-sm);
   transform: translateY(-110%);
   transition: transform var(--t-rapido);
 }
 
 .saltar:focus-visible {
   transform: translateY(0);
-  outline-offset: -4px;
 }
 
 .oculto-visual {
@@ -696,70 +628,3 @@ a {
   }
 }
 
-/* ---------- Marquesina ---------- */
-/* Fila única que desfila sin parar, para las marcas. La pista va duplicada
-   para que el bucle no dé el salto; la copia queda fuera del árbol de
-   accesibilidad. */
-
-.carrusel {
-  --vuelta: 60s;
-  position: relative;
-}
-
-/* El desvanecido de los extremos va aquí y no en el carrusel entero: si no,
-   la máscara se comería también las flechas, que viven justo en esa franja. */
-.carrusel__vista {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
-}
-
-.carrusel__pista {
-  display: flex;
-  flex: none;
-  align-items: stretch;
-  gap: var(--s-4);
-  padding-right: var(--s-4);
-  animation: desfilar var(--vuelta) linear infinite;
-  /* El punto del bucle en el que va la fila. Las flechas lo mueven. */
-  animation-delay: var(--desfase, 0s);
-}
-
-/* Se para al pasar por encima o al llegar con el tabulador: dentro hay
-   enlaces, y no se puede pedir que se pinche sobre algo en movimiento. */
-.carrusel:hover .carrusel__pista,
-.carrusel:focus-within .carrusel__pista {
-  animation-play-state: paused;
-}
-
-.carrusel--inverso .carrusel__pista {
-  animation-direction: reverse;
-}
-
-@keyframes desfilar {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.carrusel__pista > * {
-  flex: none;
-  width: clamp(15.5rem, 74vw, 22rem);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .carrusel__vista {
-    overflow-x: auto;
-    mask-image: none;
-    scrollbar-width: thin;
-  }
-
-  .carrusel__pista {
-    animation: none;
-  }
-
-  .carrusel__pista[aria-hidden] {
-    display: none;
-  }
-}

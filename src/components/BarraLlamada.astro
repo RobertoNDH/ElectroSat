@@ -13,10 +13,6 @@ const txt = t(lang);
 ---
 
 <div class="barra">
-  <a class="barra__accion barra__accion--llamar" href={telHref()}>
-    <Icono nombre="telefono" tamano={18} />
-    {txt.acciones.llamarAhora}
-  </a>
   <a
     class="barra__accion barra__accion--wa"
     href={waHref(lang)}
@@ -25,6 +21,10 @@ const txt = t(lang);
   >
     <Icono nombre="whatsapp" tamano={18} />
     {txt.acciones.whatsapp}
+  </a>
+  <a class="barra__accion barra__accion--llamar" href={telHref()}>
+    <Icono nombre="telefono" tamano={18} />
+    {txt.acciones.llamarAhora}
   </a>
   <a
     class="barra__accion barra__accion--mail"
@@ -44,9 +44,8 @@ const txt = t(lang);
     z-index: 30;
     display: grid;
     grid-template-columns: 1fr 1fr 4rem;
-    background: var(--paper);
-    border-top: var(--hairline);
-    box-shadow: 0 -4px 16px rgba(20, 32, 46, 0.1);
+    background: var(--noche);
+    border-top: 1px solid var(--oro-oscuro);
     padding-bottom: env(safe-area-inset-bottom);
   }
 
@@ -57,23 +56,29 @@ const txt = t(lang);
     gap: 0.5rem;
     min-height: var(--barra-h);
     font-size: var(--fs-small);
-    font-weight: 700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     text-decoration: none;
+    transition: background-color var(--t-rapido), color var(--t-rapido);
   }
 
   .barra__accion--llamar {
-    background: var(--amarillo);
-    color: var(--ink);
+    background: var(--azul-brillo);
+    color: var(--paper);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .barra__accion--wa {
-    background: var(--azul);
-    color: var(--on-oscuro);
+    background: var(--oro);
+    color: var(--ink);
   }
 
   .barra__accion--mail {
-    background: var(--surface-2);
-    color: var(--azul);
+    background: var(--noche-2);
+    color: var(--oro);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   @media (min-width: 62rem) {

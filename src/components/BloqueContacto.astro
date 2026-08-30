@@ -47,7 +47,7 @@ const entradilla = texto ?? txt.contacto.texto;
     </a>
 
     <div class="cta__acciones">
-      <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+      <a class="btn btn--principal btn--lg" href={waHref(lang)} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={18} />
         {txt.acciones.escribirWhatsapp}
       </a>
@@ -95,7 +95,7 @@ const entradilla = texto ?? txt.contacto.texto;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
-    gap: var(--s-4);
+    gap: var(--s-3);
   }
 
   .cta__contenido .h2 {
@@ -113,9 +113,8 @@ const entradilla = texto ?? txt.contacto.texto;
     display: inline-flex;
     align-items: center;
     gap: var(--s-4);
-    margin-top: var(--s-4);
+    margin-top: var(--s-2);
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: clamp(1.75rem, 5vw, 3.25rem);
     font-weight: 800;
     line-height: 1;
@@ -126,7 +125,7 @@ const entradilla = texto ?? txt.contacto.texto;
   }
 
   .cta__tel:hover {
-    color: var(--amarillo) !important;
+    color: var(--oro) !important;
   }
 
   .cta__tel-icono {
@@ -136,9 +135,9 @@ const entradilla = texto ?? txt.contacto.texto;
     height: 3.25rem;
     flex: none;
     border-radius: var(--r-pill);
-    background: var(--amarillo);
-    color: var(--ink);
-    box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.55);
+    background: var(--oro);
+    color: var(--noche);
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.55);
     animation: latido 2.6s ease-out infinite;
   }
 
@@ -146,13 +145,13 @@ const entradilla = texto ?? txt.contacto.texto;
      se mueve solo, y por eso funciona: si hubiera dos, no llamaría ninguno. */
   @keyframes latido {
     0% {
-      box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.5);
+      box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5);
     }
     70% {
-      box-shadow: 0 0 0 18px rgba(242, 193, 78, 0);
+      box-shadow: 0 0 0 18px rgba(212, 175, 55, 0);
     }
     100% {
-      box-shadow: 0 0 0 0 rgba(242, 193, 78, 0);
+      box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
     }
   }
 
@@ -161,11 +160,11 @@ const entradilla = texto ?? txt.contacto.texto;
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--s-3);
-    margin-top: var(--s-5);
+    margin-top: var(--s-4);
   }
 
   .cta__horario {
-    margin-top: var(--s-4);
+    margin-top: var(--s-3);
   }
 
   @media (prefers-reduced-motion: reduce) {

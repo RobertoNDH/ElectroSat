@@ -40,48 +40,11 @@ export const TEXTOS = {
       correoCopiado: (correo: string) => `Correo copiado: ${correo}`,
     },
     hero: {
-      carrusel: 'Carrusel',
-      carruselEtiqueta: 'Lo que hacemos',
-      diapositiva: 'Diapositiva',
-      deTotal: (n: number, total: number) => `${n} de ${total}`,
-      irA: (n: number) => `Ir a la diapositiva ${n}`,
-      slides: [
-        {
-          titulo: 'Especialistas en telecomunicaciones en el sur de Tenerife',
-          texto:
-            'Antenas, cámaras, porteros e internet para tu casa, tu comunidad o tu negocio. Una sola empresa para todo.',
-          alt: 'Vista aérea de la costa del sur de Tenerife',
-        },
-        {
-          antetitulo: 'Antenas y satélite',
-          titulo: 'Señal perfecta en toda tu comunidad',
-          texto:
-            'Montamos, orientamos y certificamos antenas de TDT y parabólicas en viviendas, comunidades y hoteles del sur de Tenerife.',
-          alt: 'Antenas de televisión en la azotea de un edificio del sur de Tenerife',
-        },
-        {
-          antetitulo: 'Videovigilancia',
-          titulo: 'Cámaras que de verdad se ven',
-          texto:
-            'Grabación con imagen útil también de noche y acceso desde el móvil, montada conforme a la ley de protección de datos.',
-          alt: 'Cámara de seguridad tipo domo instalada en la fachada de un edificio',
-        },
-        {
-          antetitulo: 'Internet y redes',
-          titulo: 'Internet estable hasta el último piso',
-          texto:
-            'Llevamos cobertura a portales, sótanos y garajes con cableado, fibra y wifi bien repartido por todo el edificio.',
-          alt: 'Cableado de red y fibra óptica conectado en un armario de comunicaciones',
-        },
-      ],
+      titulo: 'Especialistas en telecomunicaciones en Tenerife Sur',
+      texto:
+        'Antenas, cámaras, porteros e internet para tu casa, tu comunidad o tu negocio. Una sola empresa para todo.',
+      alt: 'Antenas de televisión instaladas en la azotea de un edificio del sur de Tenerife',
     },
-    confianzaTitulo: 'Por qué llamarnos',
-    confianza: [
-      { dato: 'Sin coste', texto: 'La visita y el presupuesto no se cobran' },
-      { dato: 'Precio cerrado', texto: 'Lo que te decimos es lo que pagas' },
-      { dato: 'Con garantía', texto: 'Por escrito, en material y mano de obra' },
-      { dato: 'Somos de aquí', texto: 'Estamos en Valle San Lorenzo, Arona' },
-    ],
     servicio: {
       incluye: 'Qué incluye el trabajo',
       publico: 'Según tu caso',
@@ -249,48 +212,11 @@ export const TEXTOS = {
       correoCopiado: (correo: string) => `Email copied: ${correo}`,
     },
     hero: {
-      carrusel: 'Carousel',
-      carruselEtiqueta: 'What we do',
-      diapositiva: 'Slide',
-      deTotal: (n: number, total: number) => `${n} of ${total}`,
-      irA: (n: number) => `Go to slide ${n}`,
-      slides: [
-        {
-          titulo: 'Telecommunications specialists in southern Tenerife',
-          texto:
-            'Aerials, cameras, door entry and internet for your home, your building or your business. One company for everything.',
-          alt: 'Aerial view of the southern coast of Tenerife',
-        },
-        {
-          antetitulo: 'Aerials and satellite',
-          titulo: 'Perfect signal across your whole building',
-          texto:
-            'We fit, align and certify TV aerials and satellite dishes for homes, apartment blocks and hotels across southern Tenerife.',
-          alt: 'Television aerials on the roof of a building in southern Tenerife',
-        },
-        {
-          antetitulo: 'CCTV',
-          titulo: 'Cameras you can actually see with',
-          texto:
-            'Recording that stays usable at night, viewable from your phone, and installed in line with data protection law.',
-          alt: 'Dome security camera fitted to the outside wall of a building',
-        },
-        {
-          antetitulo: 'Internet and networks',
-          titulo: 'Stable internet on every floor',
-          texto:
-            'We bring coverage to entrance halls, basements and garages with cabling, fibre and wifi spread properly through the building.',
-          alt: 'Network and fibre optic cabling connected inside a communications cabinet',
-        },
-      ],
+      titulo: 'Telecommunications specialists in Tenerife South',
+      texto:
+        'Aerials, cameras, door entry and internet for your home, your building or your business. One company for everything.',
+      alt: 'Television aerials installed on the roof of a building in southern Tenerife',
     },
-    confianzaTitulo: 'Why call us',
-    confianza: [
-      { dato: 'No charge', texto: 'The visit and the quote are free' },
-      { dato: 'Fixed price', texto: 'What we quote is what you pay' },
-      { dato: 'Guaranteed', texto: 'In writing, parts and labour' },
-      { dato: "We're local", texto: 'Based in Valle San Lorenzo, Arona' },
-    ],
     servicio: {
       incluye: 'What the job includes',
       publico: 'Depending on your case',
@@ -459,48 +385,11 @@ export const TEXTOS = {
       correoCopiado: (correo: string) => `E-Mail kopiert: ${correo}`,
     },
     hero: {
-      carrusel: 'Karussell',
-      carruselEtiqueta: 'Was wir machen',
-      diapositiva: 'Folie',
-      deTotal: (n: number, total: number) => `${n} von ${total}`,
-      irA: (n: number) => `Zu Folie ${n}`,
-      slides: [
-        {
-          titulo: 'Fachbetrieb für Telekommunikation im Süden Teneriffas',
-          texto:
-            'Antennen, Kameras, Türsprechanlagen und Internet für Ihre Wohnung, Ihre Wohnanlage oder Ihren Betrieb. Ein Betrieb für alles.',
-          alt: 'Luftaufnahme der Südküste Teneriffas',
-        },
-        {
-          antetitulo: 'Antennen und Satellit',
-          titulo: 'Klares Bild im ganzen Haus',
-          texto:
-            'Wir montieren, richten aus und messen TV- und Satellitenanlagen für Wohnungen, Wohnanlagen und Hotels im Süden Teneriffas.',
-          alt: 'Fernsehantennen auf dem Dach eines Gebäudes im Süden Teneriffas',
-        },
-        {
-          antetitulo: 'Videoüberwachung',
-          titulo: 'Kameras, auf denen man etwas erkennt',
-          texto:
-            'Aufzeichnung, die auch nachts brauchbar bleibt, Zugriff vom Handy und Einbau nach den Regeln des Datenschutzes.',
-          alt: 'Dome-Überwachungskamera an der Außenwand eines Gebäudes',
-        },
-        {
-          antetitulo: 'Internet und Netzwerke',
-          titulo: 'Stabiles Internet bis in die oberste Etage',
-          texto:
-            'Wir bringen Empfang in Eingangsbereiche, Keller und Garagen, mit Verkabelung, Glasfaser und sauber verteiltem WLAN.',
-          alt: 'Netzwerk- und Glasfaserkabel in einem Kommunikationsschrank',
-        },
-      ],
+      titulo: 'Fachbetrieb für Telekommunikation im Süden Teneriffas',
+      texto:
+        'Antennen, Kameras, Türsprechanlagen und Internet für Ihre Wohnung, Ihre Wohnanlage oder Ihren Betrieb. Ein Betrieb für alles.',
+      alt: 'Fernsehantennen auf dem Dach eines Gebäudes im Süden Teneriffas',
     },
-    confianzaTitulo: 'Warum Sie uns anrufen sollten',
-    confianza: [
-      { dato: 'Kostenlos', texto: 'Besichtigung und Angebot berechnen wir nicht' },
-      { dato: 'Festpreis', texto: 'Was wir nennen, zahlen Sie' },
-      { dato: 'Mit Garantie', texto: 'Schriftlich, auf Material und Arbeit' },
-      { dato: 'Aus der Gegend', texto: 'Wir sitzen in Valle San Lorenzo, Arona' },
-    ],
     servicio: {
       incluye: 'Was die Arbeit umfasst',
       publico: 'Je nach Fall',

@@ -24,10 +24,6 @@ const servicios = (await getCollection('servicios'))
 
 const anio = new Date().getFullYear();
 
-// Los textos legales solo existen en español: es la versión con validez legal
-// en España. Desde inglés y alemán se enlazan igualmente, con una nota.
-// Van siempre en español, así que se piden con 'es' pero pasando por ruta()
-// para que lleven delante la carpeta desde la que se sirve el sitio.
 const legales = [
   { href: ruta('es', '/aviso-legal/'), texto: txt.pie.avisoLegal },
   { href: ruta('es', '/politica-de-privacidad/'), texto: txt.pie.privacidad },
@@ -35,7 +31,7 @@ const legales = [
 ];
 ---
 
-<footer class="pie sobre-noche">
+<footer class="pie">
   <div class="container pie__rejilla">
     <div class="pie__marca">
       <span class="pie__logo"><Logotipo /></span>
@@ -93,7 +89,7 @@ const legales = [
           <span>{txt.datos.horario}</span>
         </li>
       </ul>
-      <a class="btn btn--azul" href={waHref(lang)} rel="noopener noreferrer">
+      <a class="btn btn--principal" href={waHref(lang)} rel="noopener noreferrer">
         <Icono nombre="whatsapp" tamano={17} />
         {txt.acciones.escribirWhatsapp}
       </a>
@@ -116,22 +112,18 @@ const legales = [
 </footer>
 
 <style>
-  /* Pie en azul noche. Cierra la página con el mismo fondo que la banda de
-     llamada que va justo encima, así el final del sitio es un solo bloque
-     oscuro y no dos franjas pegadas de colores distintos. */
   .pie {
-    background: var(--noche);
-    border-top: 3px solid var(--amarillo);
+    background-color: var(--surface-2);
+    background-image: var(--resplandor-fuerte), var(--topo-fuerte);
+    border-top: 1px solid var(--oro-oscuro);
+    color: var(--ink-2);
   }
 
-  /* En móvil, Servicios y Empresa van en paralelo porque son listas cortas;
-     la marca y el bloque de contacto ocupan el ancho entero. Así el pie deja
-     de ser una columna interminable. */
   .pie__rejilla {
     display: grid;
     gap: var(--s-5) var(--s-4);
     grid-template-columns: repeat(2, 1fr);
-    padding-block: clamp(2.25rem, 4vw, 3.25rem);
+    padding-block: clamp(3rem, 5vw, 4.5rem);
   }
 
   .pie__marca,
@@ -162,19 +154,19 @@ const legales = [
     align-content: start;
   }
 
-  /* El logotipo lleva bloques de color propios, así que sobre el fondo oscuro
-     necesita una base clara para no quedar flotando sobre la nada. */
   .pie__logo {
     display: inline-block;
     justify-self: start;
     padding: 0.5rem 0.75rem;
     background: var(--paper);
-    border-radius: var(--r-md);
+    border: var(--hairline);
+    border-radius: var(--r-sm);
   }
 
   .pie__marca .small {
     max-width: 30ch;
-    color: var(--sobre-noche);
+    color: var(--ink-3);
+    line-height: 1.6;
   }
 
   .pie__registro {
@@ -183,12 +175,14 @@ const legales = [
     gap: 0.5rem;
     font-size: var(--fs-mini);
     font-weight: 600;
-    color: var(--amarillo);
+    color: var(--oro-oscuro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   .pie__col {
     display: grid;
-    gap: var(--s-3);
+    gap: var(--s-4);
     align-content: start;
   }
 
@@ -196,25 +190,25 @@ const legales = [
     font-family: var(--font-base);
     font-size: 0.8125rem;
     font-weight: 700;
-    letter-spacing: 0.11em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--on-oscuro);
+    color: var(--oro-oscuro);
   }
 
   .pie__col ul {
     display: grid;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 
   .pie__col a:not(.btn) {
     font-size: var(--fs-small);
     text-decoration: none;
-    color: var(--sobre-noche);
+    color: var(--ink-2);
     transition: color var(--t-rapido);
   }
 
   .pie__col a:not(.btn):hover {
-    color: var(--amarillo);
+    color: var(--oro);
   }
 
   .pie__tel {
@@ -222,50 +216,48 @@ const legales = [
     align-items: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
-    font-size: 1.5rem !important;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--on-oscuro) !important;
+    font-size: 1.75rem !important;
+    font-weight: 600;
+    color: var(--ink) !important;
     text-decoration: none;
   }
 
   .pie__tel:hover {
-    color: var(--amarillo) !important;
+    color: var(--oro-oscuro) !important;
   }
 
   .pie__tel svg {
-    color: var(--amarillo);
+    color: var(--oro);
   }
 
   .pie__datos {
     display: grid;
-    gap: 0.5rem !important;
+    gap: 0.6rem !important;
+    margin-bottom: var(--s-2);
   }
 
   .pie__datos li {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.75rem;
     font-size: var(--fs-small);
-    line-height: 1.45;
-    color: var(--sobre-noche);
+    line-height: 1.5;
+    color: var(--ink-2);
   }
 
   .pie__datos svg {
-    color: var(--amarillo);
+    color: var(--oro-oscuro);
     margin-top: 0.1875rem;
     flex: none;
   }
 
   .pie__col .btn {
     justify-self: start;
-    margin-top: var(--s-1);
   }
 
   .pie__legal {
-    border-top: 1px solid var(--noche-linea);
-    background: rgba(0, 0, 0, 0.24);
+    border-top: 1px solid var(--line);
+    background: var(--surface);
   }
 
   .pie__legal-fila {
@@ -284,22 +276,25 @@ const legales = [
   }
 
   .pie__legal-enlaces a {
-    font-size: var(--fs-small);
-    color: rgba(255, 255, 255, 0.68);
+    font-size: var(--fs-mini);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-3);
     text-decoration: none;
   }
 
   .pie__legal-enlaces a:hover {
-    color: var(--amarillo);
-    text-decoration: underline;
+    color: var(--oro);
   }
 
   .pie__legal .small {
-    color: rgba(255, 255, 255, 0.68);
+    color: var(--ink-3);
+    font-size: var(--fs-mini);
   }
 
   .pie__nota {
     padding-bottom: var(--s-4);
     max-width: 78ch;
+    color: var(--ink-3);
   }
 </style>

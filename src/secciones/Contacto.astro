@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import PortadaPagina from '../components/PortadaPagina.astro';
 import Icono from '../components/Icono.astro';
 import EstadoHorario from '../components/EstadoHorario.astro';
-import Mapa from '../components/Mapa.astro';
 import fotoPortada from '../assets/portada-contacto.jpg';
 import {
   empresa,
@@ -51,41 +50,41 @@ const jsonLd = [
     titulo={txt.contacto.titulo}
     texto={txt.contacto.texto}
     foto={fotoPortada}
-    encuadre="centro"
+    encuadre="alto"
     migas={[{ texto: txt.nav.contacto }]}
     compacta
   />
 
-  <section class="section section--tight" aria-label={txt.nav.contacto}>
+  <section class="section section--tight canales-seccion" aria-label={txt.nav.contacto}>
     <div class="container canales" data-anima="hijos">
       <div class="tarjeta canal">
-        <span class="pastilla pastilla--amarilla">
+        <span class="pastilla pastilla--oro">
           <Icono nombre="telefono" tamano={22} />
         </span>
         <p class="canal__etiqueta">{txt.acciones.llamanos}</p>
         <a class="canal__numero tel-num" href={telHref()}>{empresa.telefono.display}</a>
-        <a class="btn btn--principal btn--lg btn--bloque" href={telHref()}>
+        <a class="btn btn--azul btn--lg btn--bloque" href={telHref()}>
           <Icono nombre="telefono" tamano={18} />
           {txt.acciones.llamarAhora}
         </a>
       </div>
 
       <div class="tarjeta canal">
-        <span class="pastilla pastilla--marca">
+        <span class="pastilla pastilla--oro">
           <Icono nombre="whatsapp" tamano={22} />
         </span>
         <p class="canal__etiqueta">{txt.contacto.movil}</p>
         <a class="canal__numero canal__numero--sec tel-num" href={telHref(empresa.movil)}>
           {empresa.movil.display}
         </a>
-        <a class="btn btn--azul btn--lg btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
+        <a class="btn btn--principal btn--lg btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
           <Icono nombre="whatsapp" tamano={18} />
           {txt.acciones.escribirWhatsapp}
         </a>
       </div>
 
       <div class="tarjeta canal">
-        <span class="pastilla pastilla--marca">
+        <span class="pastilla pastilla--oro">
           <Icono nombre="email" tamano={22} />
         </span>
         <p class="canal__etiqueta">{txt.contacto.correo}</p>
@@ -98,18 +97,18 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section datos-banda sobre-noche" aria-label={txt.contacto.datosEmpresa}>
+  <section class="section datos-banda" aria-label={txt.contacto.datosEmpresa}>
     <div class="container">
       <ul class="datos" data-anima="hijos">
         <li class="dato">
-          <span class="pastilla dato__icono"><Icono nombre="reloj" tamano={20} /></span>
+          <span class="pastilla pastilla--oro dato__icono"><Icono nombre="reloj" tamano={20} /></span>
           <h2 class="dato__titulo">{txt.contacto.horario}</h2>
           <p class="dato__fuerte">{txt.datos.horario}</p>
           <EstadoHorario lang={lang} />
         </li>
 
         <li class="dato">
-          <span class="pastilla dato__icono"><Icono nombre="mapa" tamano={20} /></span>
+          <span class="pastilla pastilla--oro dato__icono"><Icono nombre="mapa" tamano={20} /></span>
           <h2 class="dato__titulo">{txt.contacto.donde}</h2>
           <p class="dato__fuerte">{empresa.razonSocial}</p>
           <p class="dato__texto">{direccionUnaLinea}</p>
@@ -120,18 +119,12 @@ const jsonLd = [
         </li>
 
         <li class="dato">
-          <span class="pastilla dato__icono"><Icono nombre="check" tamano={20} /></span>
+          <span class="pastilla pastilla--oro dato__icono"><Icono nombre="check" tamano={20} /></span>
           <h2 class="dato__titulo">{txt.contacto.zona}</h2>
           <p class="dato__fuerte">{txt.datos.zona}</p>
           <p class="dato__texto">{empresa.cobertura.join(' · ')}</p>
         </li>
       </ul>
-    </div>
-  </section>
-
-  <section slot="tras-pie" class="section section--surface">
-    <div class="container">
-      <Mapa lang={lang} />
     </div>
   </section>
 </Base>
@@ -159,6 +152,11 @@ const jsonLd = [
     border-radius: var(--r-pill);
   }
 
+  .pastilla--oro {
+    background: var(--oro);
+    color: var(--noche);
+  }
+
   .canal__etiqueta {
     font-size: var(--fs-eyebrow);
     font-weight: 700;
@@ -169,41 +167,78 @@ const jsonLd = [
 
   .canal__numero {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: clamp(1.5rem, 3.4vw, 2rem);
     font-weight: 800;
     line-height: 1.05;
-    letter-spacing: -0.03em;
+    letter-spacing: 0.02em;
     color: var(--ink);
     text-decoration: none;
+    transition: color var(--t-rapido);
   }
 
   .canal__numero:hover {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .canal__numero--sec {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .canal__email {
     font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--azul);
+    color: var(--oro-oscuro);
     overflow-wrap: anywhere;
+    transition: color var(--t-rapido);
+  }
+
+  .canal__email:hover {
+    color: var(--ink);
   }
 
   .canal .btn {
     margin-top: auto;
   }
 
+  /* En escritorio, que los tres botones de contacto se vean sin desplazar:
+     la portada y la banda de canales se comprimen para caber bajo la
+     cabecera fija. */
+  @media (min-width: 62rem) {
+    .canales-seccion {
+      padding-block: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .canales {
+      gap: var(--s-4);
+    }
+
+    .canal {
+      padding: var(--s-4);
+      gap: var(--s-2);
+    }
+
+    .canal .pastilla {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
   /* ---------- Datos ---------- */
 
-  /* Un tono de noche distinto al del pie, que va justo debajo: si las dos
-     bandas comparten el mismo azul casi negro, se funden en una sola mancha
-     y no se nota dónde acaba una y empieza la otra. */
   .datos-banda {
-    background: var(--noche-2);
+    background-color: var(--surface);
+    background-image: var(--resplandor-fuerte), var(--topo-fuerte);
+  }
+
+  /* EstadoHorario nace pensado para bandas oscuras (texto en blanco): aquí el
+     fondo es claro, así que se reescribe su color en vez de tocar el
+     componente y romper el resto de páginas donde sí va sobre oscuro. */
+  .datos-banda :global(.estado) {
+    color: var(--ink-3);
+  }
+
+  .datos-banda :global(.estado.is-abierto) {
+    color: var(--oro-oscuro);
   }
 
   .datos {
@@ -216,32 +251,55 @@ const jsonLd = [
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
+    justify-items: center;
+    text-align: center;
     gap: var(--s-2);
+  }
+
+  .dato__texto {
+    margin-inline: auto;
+  }
+
+  @media (min-width: 55rem) {
+    .dato {
+      justify-items: start;
+      text-align: left;
+    }
+
+    .dato__texto {
+      margin-inline: 0;
+    }
   }
 
   .dato__icono {
     margin-bottom: var(--s-2);
+    width: 2.75rem;
+    height: 2.75rem;
   }
 
   .dato__titulo {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: 1.125rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--on-oscuro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
   }
 
   .dato__fuerte {
     font-weight: 600;
-    color: var(--on-oscuro);
+    color: var(--ink);
   }
 
   .dato__texto {
     font-size: var(--fs-small);
     line-height: 1.55;
-    color: var(--sobre-noche);
+    color: var(--ink-3);
     max-width: 40ch;
+  }
+
+  .enlace-flecha {
+    color: var(--oro);
   }
 
   @media (min-width: 55rem) {

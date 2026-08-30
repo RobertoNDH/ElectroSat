@@ -1,0 +1,143 @@
+---
+// Fila de tarjetas en una sola línea, con scroll horizontal y flechas.
+//
+// Sin librería ni control de índice en JS: el scroll-snap nativo ya trae
+// teclado, gesto táctil y rueda del ratón. Las flechas solo desplazan ese
+// scroll; si el script no llega a ejecutarse, la fila se sigue recorriendo
+// arrastrando o con el trackpad.
+//
+// Nombres propios (deslizador, no carrusel): base.css ya tiene un
+// `.carrusel` global para la tira de marcas que gira sola, con su propia
+// animación de translateX. Compartir el nombre de clase con este componente
+// hacía que las dos reglas chocaran y la fila temblara sin parar.
+import Icono from './Icono.astro';
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+interface Props {
+  lang: Idioma;
+  etiqueta: string;
+}
+const { lang, etiqueta } = Astro.props;
+const txt = t(lang);
+---
+
+<div class="deslizador" data-deslizador>
+  <ul class="deslizador__pista" data-anima="hijos" aria-label={etiqueta}>
+    <slot />
+  </ul>
+
+  <div class="deslizador__mandos">
+    <button type="button" class="deslizador__flecha" data-anterior aria-label={txt.acciones.anterior}>
+      <Icono nombre="flecha" tamano={20} />
+    </button>
+    <button type="button" class="deslizador__flecha" data-siguiente aria-label={txt.acciones.siguiente}>
+      <Icono nombre="flecha" tamano={20} />
+    </button>
+  </div>
+</div>
+
+<script>
+  for (const deslizador of document.querySelectorAll<HTMLElement>('[data-deslizador]')) {
+    const pista = deslizador.querySelector<HTMLElement>('.deslizador__pista');
+    if (!pista) continue;
+
+    const paso = () => pista.clientWidth * 0.9;
+
+    deslizador.querySelector('[data-anterior]')?.addEventListener('click', () => {
+      pista.scrollBy({ left: -paso(), behavior: 'smooth' });
+    });
+    deslizador.querySelector('[data-siguiente]')?.addEventListener('click', () => {
+      pista.scrollBy({ left: paso(), behavior: 'smooth' });
+    });
+  }
+</script>
+
+<style>
+  .deslizador {
+    position: relative;
+  }
+
+  .deslizador__pista {
+    display: flex;
+    align-items: stretch;
+    gap: var(--s-5);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--s-2);
+    scrollbar-width: none;
+  }
+
+  .deslizador__pista::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* El ancho de cada tarjeta es una fracción exacta de la fila, no un valor
+     suelto: así siempre se ve un número entero de tarjetas completas y nunca
+     queda la última asomando a medias en el borde. */
+  .deslizador__pista > :global(li) {
+    flex: 0 0 100%;
+    /* `align-self: auto` debería heredar el stretch del contenedor, pero con
+       una tarjeta que es a la vez un grid interno no siempre lo hace: se deja
+       explícito para que las cuatro midan siempre lo mismo que la más alta. */
+    align-self: stretch;
+    scroll-snap-align: start;
+    display: grid;
+  }
+
+  @media (min-width: 40rem) {
+    .deslizador__pista > :global(li) {
+      flex-basis: calc((100% - var(--s-5)) / 2);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .deslizador__pista > :global(li) {
+      flex-basis: calc((100% - 2 * var(--s-5)) / 3);
+    }
+  }
+
+  @media (min-width: 78rem) {
+    .deslizador__pista > :global(li) {
+      flex-basis: calc((100% - 3 * var(--s-5)) / 4);
+    }
+  }
+
+  .deslizador__mandos {
+    display: none;
+    justify-content: flex-end;
+    gap: var(--s-3);
+    margin-top: var(--s-5);
+  }
+
+  .deslizador__flecha {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    background: var(--paper);
+    border: var(--hairline);
+    border-radius: var(--r-pill);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: background var(--t-rapido), color var(--t-rapido);
+  }
+
+  .deslizador__flecha:hover {
+    background: var(--oro);
+    border-color: var(--oro);
+    color: var(--noche);
+  }
+
+  .deslizador__flecha:first-child :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 40rem) {
+    .deslizador__mandos {
+      display: flex;
+    }
+  }
+</style>

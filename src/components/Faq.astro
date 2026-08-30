@@ -35,7 +35,7 @@ const { items } = Astro.props;
 
   .faq__item:hover,
   .faq__item[open] {
-    border-color: var(--azul);
+    border-color: var(--oro-oscuro);
     box-shadow: var(--sombra-sm);
   }
 
@@ -45,7 +45,8 @@ const { items } = Astro.props;
     justify-content: space-between;
     gap: var(--s-4);
     padding: 1.125rem var(--s-5);
-    font-size: 1.0625rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
     font-weight: 600;
     line-height: 1.4;
     color: var(--ink);
@@ -65,7 +66,7 @@ const { items } = Astro.props;
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
-    background: var(--azul-tinte);
+    background: var(--oro-tinte);
   }
 
   .faq__signo::before,
@@ -75,7 +76,7 @@ const { items } = Astro.props;
     width: 0.75rem;
     height: 2px;
     border-radius: 1px;
-    background: var(--azul);
+    background: var(--oro-oscuro);
     transition: transform var(--t-rapido);
   }
 
@@ -84,12 +85,12 @@ const { items } = Astro.props;
   }
 
   .faq__item[open] .faq__signo {
-    background: var(--azul);
+    background: var(--oro-oscuro);
   }
 
   .faq__item[open] .faq__signo::before,
   .faq__item[open] .faq__signo::after {
-    background: var(--on-oscuro);
+    background: var(--noche);
   }
 
   .faq__item[open] .faq__signo::after {

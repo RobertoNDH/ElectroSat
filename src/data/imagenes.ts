@@ -5,7 +5,7 @@
 // basta con sustituir el archivo en src/assets/ manteniendo el nombre.
 import type { ImageMetadata } from 'astro';
 
-import tdt from '../assets/tdt-y-satelite.jpg';
+import tdt from '../assets/hero-1-antenas.jpg';
 import videovigilancia from '../assets/videovigilancia.jpg';
 import porteros from '../assets/porteros-y-videoporteros.jpg';
 import internet from '../assets/internet-comunitario.jpg';

@@ -1,44 +1,32 @@
 ---
-// Logotipo original de la empresa, con el fondo blanco recortado.
-// LÍMITE CONOCIDO: el archivo de partida que dio el cliente es un JPEG de unos
-// 179x48 px, así que la nitidez tiene techo por más que se procese. Se sirve
-// pequeño y a doble densidad, que es donde mejor aguanta.
-// Para verlo nítido a cualquier tamaño hace falta el original vectorial
-// (SVG, AI, EPS o PDF) de quien diseñó la marca.
+// Logotipo real de la marca, en pequeño: a tamaño grande se ve pixelado
+// porque el archivo de origen no tiene mucha resolución.
 import { Image } from 'astro:assets';
-import logo from '../assets/logo-electrosat.png';
+import logo from '../assets/logo-electrosat-transparente.png';
 
 interface Props {
   class?: string;
-  /** El tamaño va por clase: la CSP no admite atributos style. */
-  tamano?: 'md' | 'sm';
+  tamano?: 'sm' | 'md';
 }
 const { class: clase, tamano = 'md' } = Astro.props;
 ---
 
 <Image
-  class:list={['logo', `logo--${tamano}`, clase]}
   src={logo}
   alt="ElectroSat TV"
-  widths={[128, 256, 360]}
-  sizes="128px"
-  format="png"
-  loading="eager"
+  width={360}
+  height={59}
+  class:list={['logo', tamano === 'sm' && 'logo--sm', clase]}
 />
 
 <style>
   .logo {
     display: block;
     width: auto;
-  }
-
-  /* A 21px de alto el ancho sale sobre 128px: con densidad doble se piden 256px
-     y el archivo tiene 360px, así que reduce en vez de ampliar y no se empasta. */
-  .logo--md {
-    height: 1.3125rem;
+    height: 1.5rem;
   }
 
   .logo--sm {
-    height: 1.1875rem;
+    height: 1.125rem;
   }
 </style>

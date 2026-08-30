@@ -10,20 +10,21 @@ hay que tocar ningún componente. Astro genera solo los tamaños y los formatos.
 
 | Archivo | Dónde se usa | Origen |
 |---|---|---|
-| `hero-1-antenas.jpg` | Portada, diapositiva 1 | pexels.com/photo/38845407 |
-| `hero-2-camaras.jpg` | Portada, diapositiva 2 | pexels.com/photo/5966513 |
-| `hero-3-internet.jpg` | Portada, diapositiva 3 | pexels.com/photo/4508748 |
-| `tdt-y-satelite.jpg` | Servicio TDT y satélite | pexels.com/photo/12898227 |
+| `cobertura-sur.jpg` | Sin usar (antigua portada de la home, luego banda de los cuatro pasos) | pexels.com |
+| `hero-1-antenas.jpg` | Servicio TDT y satélite (antigua portada de la home) | pexels.com/photo/38845407 |
+| `hero-2-camaras.jpg` | Sin usar | pexels.com |
+| `hero-3-internet.jpg` | Sin usar (antigua banda de los cuatro pasos) | pexels.com |
+| `torre-instalacion.jpg` | Página Nosotros | pexels.com |
+| `tdt-y-satelite.jpg` | Portada de la home (antiguo servicio TDT y satélite) | pexels.com/photo/12898227 |
 | `videovigilancia.jpg` | Servicio videovigilancia | pexels.com/photo/37591155 |
 | `porteros-y-videoporteros.jpg` | Servicio porteros | pexels.com/photo/16674223 |
 | `internet-comunitario.jpg` | Servicio internet comunitario | pexels.com/photo/32698507 |
 | `telecomunicaciones.jpg` | Servicio telecomunicaciones | pexels.com/photo/6466143 |
-| `nosotros-trabajo.jpg` | Bloque "Esto lo puedes comprobar" | pexels.com/photo/11903308 |
-| `nosotros-equipo.jpg` | Bloque de nosotros y página Nosotros | pexels.com/photo/13821194 |
+| `nosotros-trabajo.jpg` | Sin usar | pexels.com/photo/11903308 |
+| `nosotros-equipo.jpg` | Página Nosotros (antigua banda de los cuatro pasos) | pexels.com/photo/13821194 |
 | `edificio.jpg` | Página Nosotros, foto secundaria | pexels.com/photo/29947889 |
 | `banda-proceso.jpg` | Banda oscura de los cuatro pasos | pexels.com/photo/35480841 |
 | `banda-cta.jpg` | Banda final de contacto | pexels.com/photo/35696041 |
-| `cobertura-sur.jpg` | Sección de zona de trabajo | pexels.com/photo/34260041 |
 | `portada-servicios.jpg` | Cabecera de Servicios | pexels.com/photo/5504455 |
 | `portada-nosotros.jpg` | Cabecera de Nosotros | pexels.com/photo/15964928 |
 | `portada-contacto.jpg` | Cabecera de Contacto | pexels.com/photo/32303168 |

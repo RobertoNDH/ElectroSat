@@ -1,85 +1,82 @@
 import type { Idioma } from '../i18n/config';
 
-// Preguntas frecuentes de la home. Alimenta el bloque visible y el JSON-LD
-// de tipo FAQPage.
-// TODO: ajustar plazos, garantía y desplazamiento a lo que ofrece la empresa.
 export const FAQ = {
   es: [
     {
-      p: '¿Cuánto cuesta que vengan a verlo?',
-      r: 'Nada. Vamos, lo miramos y te damos precio sin compromiso en todo el sur de la isla. Solo se cobra si aceptas el presupuesto y se hace el trabajo.',
+      p: '¿Cuál es el coste de una evaluación técnica inicial?',
+      r: 'La visita y auditoría técnica inicial se realizan sin coste y sin compromiso. Solo se emiten cargos una vez aprobado el proyecto.',
     },
     {
-      p: '¿Trabajan con comunidades de vecinos?',
-      r: 'Sí, es buena parte de lo que hacemos. Preparamos el presupuesto en el formato que necesita el administrador para llevarlo a la junta, con el reparto por vivienda cuando hace falta.',
+      p: '¿Prestan servicios a comunidades de alto standing?',
+      r: 'Sí. Diseñamos propuestas técnicas con el formato oficial requerido por los administradores de fincas, facilitando la toma de decisiones en junta.',
     },
     {
-      p: '¿Se puede llevar internet a todo el edificio sin obra?',
-      r: 'Casi siempre sí. Se aprovecha el cable que el edificio ya tiene, así que no hay que picar paredes ni pasar canaletas nuevas por la escalera.',
+      p: '¿Es posible integrar red de datos sin impacto arquitectónico?',
+      r: 'Generalmente, sí. Aprovechamos la infraestructura de canalización existente del edificio para distribuir la señal, preservando intacta la estética de la propiedad.',
     },
     {
-      p: '¿Qué garantía tiene el trabajo?',
-      r: 'Garantía por escrito en el material y en la mano de obra. Al terminar te entregamos el certificado de la instalación.',
+      p: '¿Qué nivel de garantía ofrecen sus intervenciones?',
+      r: 'Proporcionamos garantías integrales por escrito tanto para el equipamiento de grado profesional como para la integración, acompañadas del certificado oficial.',
     },
     {
-      p: '¿Cuánto tardan en venir si se cae la señal?',
-      r: 'Damos prioridad a las averías que dejan sin servicio a un edificio entero. Llama y en esa misma llamada te decimos cuándo podemos pasar.',
+      p: '¿Cuentan con servicio de asistencia urgente?',
+      r: 'Sí. Priorizamos incidencias críticas que afecten a la operatividad completa de complejos o comunidades, acudiendo a la mayor brevedad posible.',
     },
     {
-      p: '¿Las cámaras cumplen la normativa?',
-      r: 'Sí. Las colocamos con los ángulos permitidos, ponemos el cartel informativo obligatorio y configuramos el tiempo que se guardan las imágenes. En comunidades es algo que revisamos siempre.',
+      p: '¿Sus sistemas CCTV cumplen las normativas de privacidad?',
+      r: 'Absolutamente. Todas nuestras instalaciones de videovigilancia se configuran y auditan en estricto cumplimiento con la normativa vigente de protección de datos.',
     },
   ],
   en: [
     {
-      p: 'How much does it cost for you to come and look?',
-      r: 'Nothing. We come, check it and give you a price with no obligation anywhere in the south of the island. You only pay if you accept the quote and the work goes ahead.',
+      p: 'What is the cost of an initial technical assessment?',
+      r: 'The initial visit and technical audit are conducted completely free of charge and without obligation. Charges apply only after project approval.',
     },
     {
-      p: 'Do you work with residents associations?',
-      r: 'Yes, it is a large part of what we do. We prepare the quote in the format the administrator needs for the owners meeting, broken down per flat where required.',
+      p: 'Do you provide services for high-standing communities?',
+      r: 'Yes. We design technical proposals in the official format required by property managers, facilitating decision-making at board meetings.',
     },
     {
-      p: 'Can internet reach the whole building without building work?',
-      r: 'Almost always, yes. We use the cabling the building already has, so there is no need to chase walls or run new trunking up the stairwell.',
+      p: 'Is it possible to integrate a data network without architectural impact?',
+      r: 'Generally, yes. We utilize the building’s existing conduit infrastructure to distribute the signal, preserving the pristine aesthetics of the property.',
     },
     {
-      p: 'What guarantee does the work carry?',
-      r: 'A written guarantee on parts and labour. When we finish you get the installation certificate.',
+      p: 'What level of warranty do your interventions offer?',
+      r: 'We provide comprehensive written guarantees for both professional-grade equipment and integration, accompanied by the official installation certificate.',
     },
     {
-      p: 'How quickly do you come out if the signal drops?',
-      r: 'Faults that leave a whole building without service come first. Call us and we will tell you on that same call when we can come.',
+      p: 'Do you offer an urgent assistance service?',
+      r: 'Yes. We prioritize critical incidents affecting the complete operability of complexes or communities, deploying assistance as swiftly as possible.',
     },
     {
-      p: 'Do the cameras comply with the regulations?',
-      r: 'Yes. We fit them within the permitted angles, put up the required notice and set how long the footage is kept. In residential buildings we always check this.',
+      p: 'Do your CCTV systems comply with privacy regulations?',
+      r: 'Absolutely. All our video surveillance installations are configured and audited in strict compliance with current data protection regulations.',
     },
   ],
   de: [
     {
-      p: 'Was kostet es, wenn Sie sich das ansehen?',
-      r: 'Nichts. Wir kommen, sehen nach und nennen Ihnen unverbindlich einen Preis, im gesamten Süden der Insel. Bezahlt wird nur, wenn Sie das Angebot annehmen und die Arbeit ausgeführt wird.',
+      p: 'Was kostet eine anfängliche technische Bewertung?',
+      r: 'Der erste Besuch und das technische Audit werden völlig kostenlos und unverbindlich durchgeführt. Gebühren fallen erst nach Projektfreigabe an.',
     },
     {
-      p: 'Arbeiten Sie mit Eigentümergemeinschaften?',
-      r: 'Ja, das ist ein großer Teil unserer Arbeit. Wir erstellen das Angebot in der Form, die der Verwalter für die Eigentümerversammlung braucht, bei Bedarf mit Aufteilung je Wohnung.',
+      p: 'Bieten Sie Dienstleistungen für gehobene Wohnanlagen an?',
+      r: 'Ja. Wir erstellen technische Vorschläge im von Immobilienverwaltern geforderten offiziellen Format, was die Entscheidungsfindung in Eigentümerversammlungen erleichtert.',
     },
     {
-      p: 'Lässt sich Internet ohne Bauarbeiten ins ganze Haus bringen?',
-      r: 'Fast immer ja. Wir nutzen die Leitungen, die im Haus bereits liegen. Es müssen also keine Wände aufgestemmt oder neue Kanäle im Treppenhaus verlegt werden.',
+      p: 'Ist es möglich, ein Datennetzwerk ohne architektonische Auswirkungen zu integrieren?',
+      r: 'In der Regel ja. Wir nutzen die vorhandene Leitungsinfrastruktur des Gebäudes zur Signalverteilung und bewahren so die makellose Ästhetik der Immobilie.',
     },
     {
-      p: 'Welche Garantie gibt es auf die Arbeit?',
-      r: 'Schriftliche Garantie auf Material und Arbeitsleistung. Zum Abschluss erhalten Sie das Abnahmeprotokoll der Anlage.',
+      p: 'Welche Garantien bieten Ihre Interventionen?',
+      r: 'Wir bieten umfassende schriftliche Garantien sowohl für professionelle Ausrüstung als auch für die Integration, zusammen mit dem offiziellen Installationszertifikat.',
     },
     {
-      p: 'Wie schnell kommen Sie, wenn das Signal ausfällt?',
-      r: 'Störungen, bei denen ein ganzes Haus ohne Versorgung ist, haben Vorrang. Rufen Sie an, und wir sagen Ihnen noch im selben Gespräch, wann wir kommen können.',
+      p: 'Bieten Sie einen Notdienst an?',
+      r: 'Ja. Wir priorisieren kritische Vorfälle, die die vollständige Betriebsfähigkeit von Komplexen oder Wohnanlagen beeinträchtigen, und leisten so schnell wie möglich Hilfe.',
     },
     {
-      p: 'Erfüllen die Kameras die Vorschriften?',
-      r: 'Ja. Wir montieren sie in den zulässigen Blickwinkeln, bringen den vorgeschriebenen Hinweis an und stellen die Speicherdauer der Aufnahmen ein. In Wohnanlagen prüfen wir das immer.',
+      p: 'Entsprechen Ihre CCTV-Systeme den Datenschutzbestimmungen?',
+      r: 'Absolut. Alle unsere Videoüberwachungsinstallationen werden in strikter Übereinstimmung mit den geltenden Datenschutzbestimmungen konfiguriert und geprüft.',
     },
   ],
 } as const;

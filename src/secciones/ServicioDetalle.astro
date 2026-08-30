@@ -161,16 +161,16 @@ const jsonLd = [
         }
 
         <div class="lateral__ayuda" data-brillo>
-          <span class="pastilla pastilla--amarilla">
+          <span class="pastilla pastilla--oro">
             <Icono nombre="telefono" tamano={22} />
           </span>
           <p class="h3 lateral__ayuda-titulo">{txt.servicio.ayudaTitulo}</p>
           <p class="lateral__ayuda-texto">{txt.servicio.ayudaTexto}</p>
-          <a class="btn btn--principal btn--bloque" href={telHref()}>
+          <a class="btn btn--azul btn--bloque" href={telHref()}>
             <Icono nombre="telefono" tamano={17} />
             <span class="tel-num">{empresa.telefono.display}</span>
           </a>
-          <a class="btn btn--azul btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
+          <a class="btn btn--principal btn--bloque" href={waHref(lang)} rel="noopener noreferrer">
             <Icono nombre="whatsapp" tamano={17} />
             {txt.acciones.whatsapp}
           </a>
@@ -219,7 +219,7 @@ const jsonLd = [
      más manido que existe en este tipo de bloque. */
   .incluye {
     padding: var(--s-6) var(--s-5);
-    background: var(--azul-tinte);
+    background: var(--oro-tinte);
     border-radius: var(--r-card);
   }
 
@@ -250,7 +250,7 @@ const jsonLd = [
     height: 1.375rem;
     margin-top: 0.0625rem;
     border-radius: var(--r-pill);
-    background: var(--azul);
+    background: var(--oro-oscuro);
     color: var(--on-oscuro);
   }
 
@@ -308,10 +308,10 @@ const jsonLd = [
 
   .caso__tipo {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: 1rem;
     font-weight: 700;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--ink);
   }
 
@@ -368,7 +368,7 @@ const jsonLd = [
   }
 
   .otros a svg {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .otros__flecha {
@@ -378,7 +378,7 @@ const jsonLd = [
   }
 
   .otros a:hover {
-    color: var(--azul);
+    color: var(--oro-oscuro);
   }
 
   .otros a:hover .otros__flecha {
@@ -420,6 +420,11 @@ const jsonLd = [
     width: 3rem;
     height: 3rem;
     border-radius: var(--r-pill);
+  }
+
+  .pastilla--oro {
+    background: var(--oro);
+    color: var(--noche);
   }
 
   .lateral__ayuda-titulo {

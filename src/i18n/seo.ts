@@ -1,83 +1,83 @@
 import type { Idioma } from './config';
 
-/** Título y descripción de cada página fija, por idioma. */
+/** Título y descripción de cada página fija, por idioma. Tono Premium. */
 export const SEO = {
   es: {
     home: {
-      titulo: 'ElectroSat TV | Antenas, cámaras y porteros en el sur de Tenerife',
+      titulo: 'ElectroSat TV | Excelencia en Telecomunicaciones y Conectividad',
       descripcion:
-        'ElectroSat TV instala y repara antenas de TDT y satélite, cámaras de seguridad, porteros automáticos e internet en Arona, Adeje, Granadilla y todo el sur de Tenerife. Presupuesto gratis.',
+        'ElectroSat TV diseña e integra sistemas premium de antena, circuito cerrado de televisión y conectividad avanzada para residencias exclusivas y complejos en el sur de Tenerife.',
     },
     servicios: {
-      titulo: 'Servicios | ElectroSat TV, instalador en el sur de Tenerife',
+      titulo: 'Nuestras Divisiones | Instalaciones de Alta Gama en Tenerife Sur',
       descripcion:
-        'Antenas de TDT y satélite, videovigilancia, porteros y videoporteros, internet comunitario e instalaciones de telecomunicaciones en el sur de Tenerife.',
+        'Soluciones a medida en televisión vía satélite, videovigilancia de alta resolución y redes de conectividad integral para propiedades exclusivas.',
     },
     nosotros: {
-      titulo: 'Sobre ElectroSat TV | Instalador registrado en Arona',
+      titulo: 'Nuestra Firma | Ingeniería y Telecomunicaciones en Arona',
       descripcion:
-        'Quiénes somos y cómo trabajamos en ElectroSat TV, empresa instaladora de telecomunicaciones con sede en Valle San Lorenzo, Arona.',
+        'Descubra el prestigio y la metodología de ElectroSat TV, firma certificada especialista en integraciones tecnológicas con sede en Valle San Lorenzo.',
     },
     contacto: {
-      titulo: 'Contacto | ElectroSat TV en Valle San Lorenzo, Arona',
+      titulo: 'Contacto Exclusivo | ElectroSat TV, Valle San Lorenzo',
       descripcion:
-        'Teléfono, WhatsApp, correo, horario y dirección de ElectroSat TV. Atendemos Arona, Adeje, Granadilla y todo el sur de Tenerife.',
+        'Asesoría técnica y contacto corporativo. Prestamos nuestros servicios en Arona, Adeje, Granadilla y las áreas más exclusivas del sur de Tenerife.',
     },
     error404: {
-      titulo: 'Página no encontrada | ElectroSat TV',
-      descripcion: 'La página que buscas no existe o ha cambiado de dirección.',
+      titulo: 'Ruta no encontrada | ElectroSat TV',
+      descripcion: 'El contenido que busca no se encuentra disponible. Contacte con nuestra firma para recibir asistencia.',
     },
   },
   en: {
     home: {
-      titulo: 'ElectroSat TV | TV aerials, cameras and door entry in south Tenerife',
+      titulo: 'ElectroSat TV | Excellence in Telecommunications & Connectivity',
       descripcion:
-        'ElectroSat TV installs and repairs TV aerials, satellite dishes, security cameras, door entry systems and internet in Arona, Adeje, Granadilla and all of southern Tenerife. Free quote.',
+        'ElectroSat TV designs and integrates premium aerial systems, CCTV, and advanced connectivity for exclusive residences and complexes in South Tenerife.',
     },
     servicios: {
-      titulo: 'Services | ElectroSat TV, installer in south Tenerife',
+      titulo: 'Our Divisions | High-End Installations in South Tenerife',
       descripcion:
-        'TV aerials and satellite, CCTV, door entry and video entry systems, building-wide internet and telecom installations across southern Tenerife.',
+        'Bespoke solutions in satellite television, high-resolution CCTV, and comprehensive networking for exclusive properties.',
     },
     nosotros: {
-      titulo: 'About ElectroSat TV | Registered installer in Arona',
+      titulo: 'Our Firm | Engineering and Telecommunications in Arona',
       descripcion:
-        'Who we are and how we work at ElectroSat TV, a registered telecommunications installer based in Valle San Lorenzo, Arona.',
+        'Discover the prestige and methodology of ElectroSat TV, a certified firm specializing in technological integrations based in Valle San Lorenzo.',
     },
     contacto: {
-      titulo: 'Contact | ElectroSat TV in Valle San Lorenzo, Arona',
+      titulo: 'Exclusive Contact | ElectroSat TV, Valle San Lorenzo',
       descripcion:
-        'Phone, WhatsApp, email, opening hours and address for ElectroSat TV. We cover Arona, Adeje, Granadilla and all of southern Tenerife.',
+        'Technical consultancy and corporate contact. We serve Arona, Adeje, Granadilla, and the most exclusive areas of South Tenerife.',
     },
     error404: {
-      titulo: 'Page not found | ElectroSat TV',
-      descripcion: 'The page you are looking for does not exist or has moved.',
+      titulo: 'Route Not Found | ElectroSat TV',
+      descripcion: 'The requested content is not available. Please contact our firm for assistance.',
     },
   },
   de: {
     home: {
-      titulo: 'ElectroSat TV | Antennen, Kameras und Türsprechanlagen im Süden Teneriffas',
+      titulo: 'ElectroSat TV | Exzellenz in Telekommunikation & Konnektivität',
       descripcion:
-        'ElectroSat TV installiert und repariert Antennen, Satellitenschüsseln, Überwachungskameras, Türsprechanlagen und Internet in Arona, Adeje, Granadilla und im gesamten Süden Teneriffas. Kostenloses Angebot.',
+        'ElectroSat TV entwickelt und integriert Premium-Antennensysteme, Videoüberwachung und fortschrittliche Konnektivität für exklusive Residenzen im Süden Teneriffas.',
     },
     servicios: {
-      titulo: 'Leistungen | ElectroSat TV, Installateur im Süden Teneriffas',
+      titulo: 'Unsere Geschäftsbereiche | High-End-Installationen im Süden Teneriffas',
       descripcion:
-        'Antennen und Satellit, Videoüberwachung, Tür- und Videosprechanlagen, Internet für ganze Gebäude und Telekommunikationsanlagen im Süden Teneriffas.',
+        'Maßgeschneiderte Lösungen für Satellitenfernsehen, hochauflösende Videoüberwachung und umfassende Netzwerke für exklusive Immobilien.',
     },
     nosotros: {
-      titulo: 'Über ElectroSat TV | Eingetragener Installateur in Arona',
+      titulo: 'Unsere Firma | Ingenieurwesen und Telekommunikation in Arona',
       descripcion:
-        'Wer wir sind und wie wir arbeiten. ElectroSat TV ist ein eingetragener Telekommunikationsbetrieb mit Sitz in Valle San Lorenzo, Arona.',
+        'Entdecken Sie das Prestige und die Methodik von ElectroSat TV, einem zertifizierten Fachbetrieb für technologische Integrationen mit Sitz in Valle San Lorenzo.',
     },
     contacto: {
-      titulo: 'Kontakt | ElectroSat TV in Valle San Lorenzo, Arona',
+      titulo: 'Exklusiver Kontakt | ElectroSat TV, Valle San Lorenzo',
       descripcion:
-        'Telefon, WhatsApp, E-Mail, Öffnungszeiten und Adresse von ElectroSat TV. Wir sind in Arona, Adeje, Granadilla und im ganzen Süden Teneriffas unterwegs.',
+        'Technische Beratung und Unternehmenskontakt. Wir betreuen Arona, Adeje, Granadilla und die exklusivsten Gebiete im Süden Teneriffas.',
     },
     error404: {
-      titulo: 'Seite nicht gefunden | ElectroSat TV',
-      descripcion: 'Die gesuchte Seite gibt es nicht oder sie wurde verschoben.',
+      titulo: 'Route nicht gefunden | ElectroSat TV',
+      descripcion: 'Der gesuchte Inhalt ist nicht verfügbar. Bitte kontaktieren Sie unsere Firma für Unterstützung.',
     },
   },
 } as const;

@@ -66,11 +66,11 @@ const txt = t(lang);
   </nav>
 
   <div class="menu__pie">
-    <a class="btn btn--principal btn--lg" href={telHref()}>
+    <a class="btn btn--azul btn--lg" href={telHref()}>
       <Icono nombre="telefono" tamano={18} />
       {txt.acciones.llamarA(empresa.telefono.display)}
     </a>
-    <a class="btn btn--azul btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+    <a class="btn btn--principal btn--lg" href={waHref(lang)} rel="noopener noreferrer">
       <Icono nombre="whatsapp" tamano={18} />
       {txt.acciones.escribirWhatsapp}
     </a>
@@ -111,7 +111,8 @@ const txt = t(lang);
   }
 
   .menu::backdrop {
-    background: rgba(20, 32, 46, 0.45);
+    background: rgba(18, 19, 22, 0.65);
+    backdrop-filter: blur(4px);
   }
 
   .menu__barra {
@@ -139,14 +140,26 @@ const txt = t(lang);
     border-radius: var(--r-sm);
     color: var(--ink);
     cursor: pointer;
+    transition: background var(--t-rapido), border-color var(--t-rapido);
+  }
+
+  .menu__cerrar:hover {
+    background: var(--surface-2);
+    border-color: var(--ink-3);
   }
 
   .menu__cuerpo {
     padding: var(--s-5) var(--gutter);
   }
 
+  .menu__cuerpo .etiqueta {
+    color: var(--oro-oscuro);
+    letter-spacing: 0.1em;
+  }
+
   .menu__cuerpo .rule {
     margin-block: var(--s-4);
+    border-color: var(--line);
   }
 
   .menu__lista {
@@ -162,13 +175,20 @@ const txt = t(lang);
     padding-block: 0.875rem;
     border-bottom: var(--hairline);
     font-size: 1.125rem;
-    font-weight: 600;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     text-decoration: none;
     color: var(--ink);
+    transition: color var(--t-rapido);
+  }
+
+  .menu__lista a:hover {
+    color: var(--oro-oscuro);
   }
 
   .menu__lista a svg {
-    color: var(--azul);
+    color: var(--oro);
   }
 
   .menu__idioma {

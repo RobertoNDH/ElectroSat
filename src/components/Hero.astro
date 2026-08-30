@@ -1,0 +1,144 @@
+---
+// Portada de la home: una foto a sangre con el titular de marca.
+//
+// Sin carrusel ni script: una sola imagen, el <h1> que Google indexa y los dos
+// botones de contacto. La portada nunca queda en blanco ni depende de JS.
+import { Image } from 'astro:assets';
+import Icono from './Icono.astro';
+import Valoracion from './Valoracion.astro';
+import { empresa, telHref, waHref } from '../data/empresa';
+import type { Idioma } from '../i18n/config';
+import { t } from '../i18n/textos';
+
+import foto from '../assets/tdt-y-satelite.jpg';
+
+interface Props {
+  lang: Idioma;
+}
+const { lang } = Astro.props;
+const txt = t(lang);
+---
+
+<section class="hero sobre-noche">
+  <div class="hero__pila">
+    <Image
+      class="hero__foto"
+      src={foto}
+      alt={txt.hero.alt}
+      widths={[760, 1200, 1800, 2400]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero__velo"></div>
+  </div>
+
+  <div class="container hero__contenido">
+    <div class="hero__texto">
+      <h1 class="hero-titulo">{txt.hero.titulo}</h1>
+      <p class="lede hero__lede">{txt.hero.texto}</p>
+    </div>
+
+    <div class="hero__acciones">
+      <a class="btn btn--azul btn--lg" href={telHref()}>
+        <Icono nombre="telefono" tamano={18} class="mono" />
+        {txt.acciones.llamarA(empresa.telefono.display)}
+      </a>
+      <a class="btn btn--principal btn--lg" href={waHref(lang)} rel="noopener noreferrer">
+        <Icono nombre="whatsapp" tamano={18} />
+        {txt.acciones.escribirWhatsapp}
+      </a>
+    </div>
+
+    <div class="hero__prueba">
+      <Valoracion lang={lang} variante="oscuro" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: var(--hero-h);
+    background: var(--noche);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* ---------- Foto ---------- */
+
+  .hero__pila {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  /* Antenas y platos parabólicos de un tejado real contra el cielo, sin
+     edificios de fondo ni gente: solo la instalación. */
+  .hero__foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% 55%;
+    filter: saturate(1.15) contrast(1.05) brightness(1.02);
+  }
+
+  .hero__velo {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grano), var(--velo-hero);
+    background-size: 180px 180px, cover;
+    background-repeat: repeat, no-repeat;
+  }
+
+  /* ---------- Texto ---------- */
+
+  .hero__contenido {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    /* Pista declarada, no implícita: una columna `auto` se dimensionaría al
+       max-content de la entradilla y desbordaría el ancho en móvil. */
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+    padding-block: clamp(2rem, 5vw, 4rem);
+  }
+
+  .hero__texto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--s-3);
+    width: 100%;
+    max-width: 46rem;
+  }
+
+  .hero-titulo {
+    max-width: 19ch;
+    /* La sombra hace el trabajo que en otras webs hace subir la opacidad del
+       velo: el titular se lee sobre cualquier zona clara de la foto y la foto
+       sigue viéndose. */
+    text-shadow: 0 2px 28px rgba(4, 18, 27, 0.66);
+  }
+
+  .hero__lede {
+    color: rgba(255, 255, 255, 0.86);
+    max-width: 52ch;
+    text-shadow: 0 1px 12px rgba(4, 18, 27, 0.6);
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+
+  .hero__prueba {
+    margin-top: var(--s-3);
+  }
+</style>

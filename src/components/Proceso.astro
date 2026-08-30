@@ -49,7 +49,7 @@ const txt = t(lang);
     </ol>
 
     <p class="proceso__pie">
-      <a class="btn btn--principal btn--lg" href={telHref()}>
+      <a class="btn btn--azul btn--lg proceso__llamar" href={telHref()}>
         <Icono nombre="telefono" tamano={18} />
         {txt.acciones.llamarA(empresa.telefono.display)}
       </a>
@@ -73,16 +73,17 @@ const txt = t(lang);
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 40%;
+    object-position: 62% 55%;
+    filter: brightness(0.85) saturate(1.05) contrast(1.05);
   }
 
   .proceso__velo {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image: var(--grano), var(--velo-noche);
-    background-size: 180px 180px, cover;
-    background-repeat: repeat, no-repeat;
+    background-image: linear-gradient(180deg, rgba(4, 6, 10, 0.2), rgba(4, 6, 10, 0.42)), var(--grano), var(--velo-noche);
+    background-size: cover, 180px 180px, cover;
+    background-repeat: no-repeat, repeat, no-repeat;
   }
 
   .proceso__contenido {
@@ -94,39 +95,52 @@ const txt = t(lang);
   .pasos {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-5);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-6) var(--s-4);
     margin-top: var(--s-2);
   }
 
   .paso {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    justify-items: start;
+    justify-items: center;
+    text-align: center;
     gap: var(--s-2);
+  }
+
+  .paso__texto {
+    margin-inline: auto;
+  }
+
+  @media (min-width: 48rem) {
+    .paso {
+      justify-items: start;
+      text-align: left;
+    }
+
+    .paso__texto {
+      margin-inline: 0;
+    }
   }
 
   .paso__numero {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
-    /* Cifra hueca: pesa lo justo para ordenar la lectura sin competir con el
-       titular de la sección, que es lo que pasa si va en amarillo macizo. */
     color: transparent;
-    -webkit-text-stroke: 1.5px var(--amarillo);
+    -webkit-text-stroke: 1.5px var(--oro);
     margin-bottom: 0.125rem;
   }
 
   .paso__titulo {
     font-family: var(--font-display);
-    font-stretch: var(--wdth-display);
     font-size: 1.1875rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--on-oscuro);
   }
 
@@ -143,9 +157,34 @@ const txt = t(lang);
     margin-top: clamp(1.5rem, 2.5vw, 2rem);
   }
 
+  /* Es el único botón de la banda oscura: el halo azul lo separa del fondo
+     y deja claro que ahí se llama. El latido es lento y solo el halo se mueve,
+     así que no arrastra el resto de la página. */
+  .proceso__llamar {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55);
+    animation: latido-azul 2.6s ease-out infinite;
+  }
+
+  @keyframes latido-azul {
+    0% {
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 18px rgba(37, 99, 235, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proceso__llamar {
+      animation: none;
+    }
+  }
+
   @media (min-width: 48rem) {
     .pasos {
-      grid-template-columns: repeat(2, 1fr);
       gap: var(--s-7) var(--s-6);
     }
   }
@@ -167,8 +206,8 @@ const txt = t(lang);
       background: linear-gradient(
         90deg,
         transparent,
-        var(--amarillo) 12%,
-        var(--amarillo) 88%,
+        var(--oro) 12%,
+        var(--oro) 88%,
         transparent
       );
       opacity: 0.45;
