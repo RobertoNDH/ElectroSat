@@ -102,6 +102,14 @@ const entradilla = texto ?? txt.contacto.texto;
     max-width: 20ch;
   }
 
+  @media (min-width: 48rem) {
+    .cta__contenido .h2 {
+      max-width: none;
+      white-space: nowrap;
+      font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    }
+  }
+
   .cta__lede {
     color: rgba(255, 255, 255, 0.84);
     max-width: 52ch;
@@ -125,7 +133,7 @@ const entradilla = texto ?? txt.contacto.texto;
   }
 
   .cta__tel:hover {
-    color: var(--oro) !important;
+    color: var(--azul-brillo) !important;
   }
 
   .cta__tel-icono {
@@ -135,9 +143,9 @@ const entradilla = texto ?? txt.contacto.texto;
     height: 3.25rem;
     flex: none;
     border-radius: var(--r-pill);
-    background: var(--oro);
-    color: var(--noche);
-    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.55);
+    background: var(--azul-brillo);
+    color: var(--paper);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55);
     animation: latido 2.6s ease-out infinite;
   }
 
@@ -145,13 +153,13 @@ const entradilla = texto ?? txt.contacto.texto;
      se mueve solo, y por eso funciona: si hubiera dos, no llamaría ninguno. */
   @keyframes latido {
     0% {
-      box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5);
     }
     70% {
-      box-shadow: 0 0 0 18px rgba(212, 175, 55, 0);
+      box-shadow: 0 0 0 18px rgba(37, 99, 235, 0);
     }
     100% {
-      box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
     }
   }
 

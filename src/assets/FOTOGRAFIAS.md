@@ -23,7 +23,8 @@ hay que tocar ningún componente. Astro genera solo los tamaños y los formatos.
 | `nosotros-trabajo.jpg` | Sin usar | pexels.com/photo/11903308 |
 | `nosotros-equipo.jpg` | Página Nosotros (antigua banda de los cuatro pasos) | pexels.com/photo/13821194 |
 | `edificio.jpg` | Página Nosotros, foto secundaria | pexels.com/photo/29947889 |
-| `banda-proceso.jpg` | Banda oscura de los cuatro pasos | pexels.com/photo/35480841 |
+| `banda-proceso.jpg` | Sin usar (antigua banda de los cuatro pasos) | pexels.com/photo/35480841 |
+| `banda-proceso-antenas.jpg` | Banda oscura de los cuatro pasos | pexels.com/photo/34656261 |
 | `banda-cta.jpg` | Banda final de contacto | pexels.com/photo/35696041 |
 | `portada-servicios.jpg` | Cabecera de Servicios | pexels.com/photo/5504455 |
 | `portada-nosotros.jpg` | Cabecera de Nosotros | pexels.com/photo/15964928 |

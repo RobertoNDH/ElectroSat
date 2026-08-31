@@ -10,7 +10,7 @@ import { empresa, telHref } from '../data/empresa';
 import type { Idioma } from '../i18n/config';
 import { t } from '../i18n/textos';
 
-import foto from '../assets/banda-proceso.jpg';
+import foto from '../assets/banda-proceso-antenas.jpg';
 
 interface Props {
   lang: Idioma;
@@ -73,15 +73,15 @@ const txt = t(lang);
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 62% 55%;
-    filter: brightness(0.85) saturate(1.05) contrast(1.05);
+    object-position: 55% 40%;
+    filter: brightness(1) saturate(1.05) contrast(1.05);
   }
 
   .proceso__velo {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image: linear-gradient(180deg, rgba(4, 6, 10, 0.2), rgba(4, 6, 10, 0.42)), var(--grano), var(--velo-noche);
+    background-image: linear-gradient(180deg, rgba(4, 6, 10, 0.12), rgba(4, 6, 10, 0.3)), var(--grano), var(--velo-noche);
     background-size: cover, 180px 180px, cover;
     background-repeat: no-repeat, repeat, no-repeat;
   }
