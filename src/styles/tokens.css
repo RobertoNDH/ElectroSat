@@ -87,15 +87,15 @@
     radial-gradient(ellipse 60% 45% at 12% -6%, rgba(212, 175, 55, 0.1), transparent 65%),
     radial-gradient(ellipse 55% 45% at 100% 105%, rgba(37, 99, 235, 0.07), transparent 65%);
 
-  /* Mismos dos efectos, más marcados: sobre gris (--surface, --surface-2) el
-     tono oro casi se funde con el fondo y apenas se ve. Aquí las líneas pasan
-     a tinta y el resplandor sube de intensidad para que se noten igual. */
+  /* Mismos efectos, adaptados al gris (--surface, --surface-2): las líneas
+     pasan a tinta y solo queda el resplandor azul de la esquina inferior. El
+     de oro se quitó: sobre gris se leía como una mancha sucia en la esquina
+     superior izquierda. */
   --topo-fuerte:
     repeating-radial-gradient(circle at 12% 18%, rgba(58, 58, 66, 0.09) 0, rgba(58, 58, 66, 0.09) 1px, transparent 1px, transparent 46px),
     repeating-radial-gradient(circle at 88% 82%, rgba(170, 140, 44, 0.09) 0, rgba(170, 140, 44, 0.09) 1px, transparent 1px, transparent 38px);
   --resplandor-fuerte:
-    radial-gradient(ellipse 60% 45% at 12% -6%, rgba(212, 175, 55, 0.18), transparent 65%),
-    radial-gradient(ellipse 55% 45% at 100% 105%, rgba(37, 99, 235, 0.14), transparent 65%);
+    radial-gradient(ellipse 55% 45% at 100% 105%, rgba(37, 99, 235, 0.12), transparent 65%);
 
   /* Familias Tipográficas Premium */
   --font-display: 'Cormorant Garamond', Georgia, serif;

@@ -207,6 +207,13 @@ a:hover {
   padding-block: var(--section-y);
 }
 
+/* Filo dorado entre dos secciones claras seguidas, el mismo remate que lleva
+   el pie. Solo entre claras: las bandas con foto (.sobre-noche) ya se separan
+   solas y ahi la linea sobraria. */
+.section:not(.sobre-noche) + .section:not(.sobre-noche) {
+  border-top: 1px solid var(--oro);
+}
+
 .section--surface {
   background-color: var(--surface);
   background-image: var(--resplandor-fuerte), var(--topo-fuerte);
